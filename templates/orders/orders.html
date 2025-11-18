@@ -1,0 +1,128 @@
+{% extends 'basis/basis_admin.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="/static/css/orders.css">
+{% endblock %}
+
+{% block main %}
+<main>
+    <h1 class="title">Заказы</h1>
+    <div class="orders-btn">
+        <button class="new-orders" onclick="showOrders('tbody', this)">Новые заказы <span
+                class="inProgressStatus"></span></button>
+        <button class="completed-orders" onclick="showOrders('tbody-completed', this)">Успешные заказы</button>
+        <button class="cancelled-orders" onclick="showOrders('tbody-cancelled', this)">Отменённые заказы</button>
+    </div>
+    <table class="order-table">
+        <thead>
+            <tr class="nav-bar">
+                <th class="order_number">Номер заказа</th>
+                <th class="created_at">Информация</th>
+                <th class="order_details">Детали заказа, дата</th>
+                <th class="total_amount">Общая сумма</th>
+                <th class="payment_status">Статус оплаты</th>
+                <th class="status">Статус заказа</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+
+        <tbody id="tbody-completed" style="display: none;">
+            {% for order in orders %}
+            {% if order.status == 'completed' %}
+            <tr class="order">
+                <td class="order-number-container">
+                    <p class="order-number">{{order.order_number}}</p>
+                </td>
+                <td class="created-at-container">
+                    <p class="user-name"><span>Имя:</span> {{order.order_user_name}}</p>
+                    <p class="tel-number"><span>Тел:</span> {{order.order_tel_number}}</p>
+                    <p class="adress"><span>Адрес:</span> {{order.order_adsress}}</p>
+                </td>
+                <td class="order-details-container">
+                    <ol id="myList-{{order.id}}" class="order-details-list">
+                        {% for line in order.order_details.splitlines %}
+                            <li>{{ line }}</li>
+                        {% endfor %}
+                    </ol>
+                    <p class="created-at">Дата: {{order.created_at}}</p>
+                </td>
+                <td class="total-amount-container">
+                    <p class="total-amount">{{order.total_amount}} сом</p>
+                </td>
+                <td class="payment">
+                    {% if order.order_payment_status == 'Онлайн' %}
+                    <div class="payment-online">
+                        <p>Оплачено онлайн</p>
+                        <button onclick="viewReceipt('{{order.order_bank_check}}')">Посмотреть чек</button>`
+                    </div>
+                    {% else %}
+                    <p>Оплата при доставке</p>
+                    {% endif %}
+                </td>
+                <td class="order-status">
+                    <p class="order-completed">Успешно</p>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+
+
+        <tbody id="tbody-cancelled" style="display: none;">
+            {% for order in orders %}
+            {% if order.status == 'cancelled' %}
+            <tr class="order">
+                <td class="order-number-container">
+                    <p class="order-number">{{order.order_number}}</p>
+                </td>
+                <td class="created-at-container">
+                    <p class="user-name"><span>Имя:</span> {{order.order_user_name}}</p>
+                    <p class="tel-number"><span>Тел:</span> {{order.order_tel_number}}</p>
+                    <p class="adress"><span>Адрес:</span> {{order.order_adsress}}</p>
+                </td>
+                <td class="order-details-container">
+                    <ol id="myList-{{order.id}}" class="order-details-list">
+                        {% for line in order.order_details.splitlines %}
+                            <li>{{ line }}</li>
+                        {% endfor %}
+                    </ol>
+                    <p class="created-at">Дата: {{order.created_at}}</p>
+                </td>
+                <td class="total-amount-container">
+                    <p class="total-amount">{{order.total_amount}} сом</p>
+                </td>
+                <td class="payment">
+                    {% if order.order_payment_status == 'Онлайн' %}
+                    <div class="payment-online">
+                        <p>Оплачено онлайн</p>
+                        <button onclick="viewReceipt('{{order.order_bank_check}}')">Посмотреть чек</button>`
+                    </div>
+                    {% else %}
+                    <p>Оплата при доставке</p>
+                    {% endif %}
+                </td>
+                <td class="order-status">
+                    <p class="order-cancelled">Неудачно</p>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <events name="ondownevent" ondown="playbackgroundsound()" />
+    <button id="enable-sound" style="display:none;">Enable Sound</button>
+    <audio id="notification-sound" src="/static/media/notification.mp3" preload="auto"></audio>
+</main>
+{% endblock %}
+
+{% block script %}
+
+<script src="/static/script/jquery-3.7.1.js"></script>
+<script src="/static/script/async.js"></script>
+<script src="/static/script/orders-btn.js"></script>
+<script>
+</script>
+{% endblock %}

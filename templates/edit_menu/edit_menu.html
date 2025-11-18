@@ -1,0 +1,72 @@
+{% extends 'basis/basis_admin.html' %}
+
+{% block link %}
+    <link rel="stylesheet" href="/static/css/edit_menu.css">
+{% endblock %}
+
+{% block main %}
+        <main>
+            <h1 class="title">Редактировать меню</h1>
+
+            <div class="edit-menu">
+                {% for category, items in categories %}
+                <details class="category-details">
+                    <summary>{{ category }}</summary>
+                
+                    <div class="food-items">
+                        {% for item in items %}
+                            <div class="food-item">
+                                <form action="{% url 'edit_food' item.id %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="image-container" id="image-container-{{ item.id }}" style="background-image: url('{{ item.imageOne.url }}');">
+                                        <input type="file" id="file-input-{{ item.id }}" name="imageOne" class="custom-file-input" style="display: none;" onchange="updateImagePreview(event, '{{ item.id }}')">
+                                        <button type="button" class="change-image-button" onclick="document.getElementById('file-input-{{ item.id }}').click();">Изменить</button>
+                                    </div>
+                                    <div class="container">
+                                        <div class="food-name">
+                                            <p>Название:</p>
+                                            <input name="food_name" type="text" value="{{ item.name }}">
+                                        </div>
+                                        <div class="food-description">
+                                            <p>Описание:</p>
+                                            <input name="description" type="text" value="{{ item.description }}">
+                                        </div>
+                                        <div class="food-price">
+                                            <p>Цена:</p>
+                                            <input type="number" name="price" value="{{ item.price }}" step="1">
+                                        </div>
+                                        <div class="food-status">
+                                            <p>Статус:</p>
+                                            <select name="food_status">
+                                                <option value="True" {% if item.food_status == 'True' %}selected{% endif %}>В наличии</option>
+                                                <option value="False" {% if item.food_status == 'False' %}selected{% endif %}>Отсутствует</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit">Сохранить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </details>
+            {% endfor %}
+            </div>
+        </main>
+{% endblock %}
+    
+{% block script %}
+    <script>
+        function updateImagePreview(event, itemId) {
+            const file = event.target.files[0];
+            const imageContainer = document.getElementById('image-container-' + itemId);
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageContainer.style.backgroundImage = 'url(' + e.target.result + ')';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+{% endblock %}

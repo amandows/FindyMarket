@@ -1,0 +1,80 @@
+{% extends 'basis/basis.html' %}
+
+{% block linkcss %}
+<link rel="stylesheet" href="/static/css/index.css">{% endblock %}
+
+{% block title %}Главная{% endblock %}
+
+
+{% block main %}
+
+
+
+<div class="bigLogo">
+    <h2>Findy Market</h2>
+    <p>Вопрос доставки решён!<br>Закажи доставку</p>
+    <button>Подробнее</button>
+    <img src="/static/media/bghome.jpg" alt="">
+</div>
+
+<div class="basis-links">
+    <a href="https://api.dengi.o.kg/#00020101021132680012p2p.dengi.kg01048580111243975313085710129967020926961202111302123410%D0%90%D0%9C%D0%90%D0%9D%D0%A2%D0%A3%D0%A0%20%D0%A2.520473995303417540105906O%21Bank630451A5" class="delivery">
+        <img src="/static/media/delivery.jpg" alt="" class="bg">
+        <p class="title">Доставка</p>
+    </a>
+    <a href="{% url 'user_list' 'Food' %}" class="food">
+        <img src="/static/media/food.jpg" alt="" class="bg">
+        <p class="title">Еда</p>
+    </a>
+    <a href="{% url 'user_list' 'Vegetables' %}" class="vegetables">
+        <img src="/static/media/vegetables.jpg" alt="" class="bg">
+        <p class="title">Овощи, фрукты</p>
+    </a>
+    <a href="{% url 'user_list' 'Shop' %}" class="shops">
+        <img src="/static/media/shoping.jpg" alt="" class="bg">
+        <p class="title">Магазины</p>
+    </a>
+</div>
+<div class="taxi">
+    <a href="{% url 'taxi' %}" class="go_taxi">
+        <img src="/static/media/taxo.jpg" alt="" class="bg">
+        <p class="title">ТАКСИ</p>
+    </a>
+</div>
+
+<h2 class="cafe-title">
+</h2>
+
+
+<div class="popular-products">
+    <a href="" class="title">Часто заказывают</a>
+    <div class="popular-products-gallery">
+        {% for food in foods %}
+        <div class="popular-product">
+            <div class="img-container">
+                <h3 class="product-title">{{ food.name }}</h3>
+                <p class="shop-name">{{ food.user.user_name }}</p>
+                <div class="gradient"></div>
+                <div class="heart"></div>
+                <img src="{{ food.imageOne.url }}" alt="{{ food.name }}">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+</script>
+
+{% endblock %}

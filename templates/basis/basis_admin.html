@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/basis_admin.css">
+    <meta name="csrf-token" content="{% csrf_token %}">
+    {% block link %}
+    {% endblock %}
+    {% block metascript %}
+    {% endblock %}
+    <title>Администрация</title>
+    <script src="https://cdn.jsdelivr.net/gh/IonDen/ion.sound@3.0.7/js/ion.sound.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="sub-header">
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="{% url 'orders' %}"><span class="orders"></span> Заказы <p class="inProgressStatus">
+                            </p></a></li>
+                    <li><a href="{% url 'orders_chart' %}"><span class="orders_chart"></span> Статистика</a></li>
+                    <li><a href="{% url 'add_food' %}"><span class="add_food"></span> Добавить товар</a></li>
+                    <li><a href="{% url 'edit_menu' %}"><span class="edit-menu"></span> Изменить товар</a></li>
+                    <li><a href="{% url 'profile' %}"><span class="profile"></span> Профиль</a></li>
+                    {% if user.get_user_status_display == 'Онлайн' %}
+                    <p class="online">Открыто</p>
+                    <div class="cheked">
+                        <div class="toggle">
+                            <input type="checkbox" class="check" checked>
+                            <b class="b switch"></b>
+                            <b class="b track"></b>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="offline">Закрыто</p>
+                    <div class="cheked">
+                        <div class="toggle">
+                            <input type="checkbox" class="check">
+                            <b class="b switch"></b>
+                            <b class="b track"></b>
+                        </div>
+                    </div>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    {% block main %}
+    {% endblock %}
+    <script src="/static/script/jquery-3.7.1.js"></script>
+    <script src="/static/script/async.js"></script>
+
+    <script>
+        document.querySelectorAll('.check').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                // Отправляем POST-запрос для смены статуса пользователя
+                fetch("{% url 'toggle_user_status' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',  // CSRF-токен
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})  // Пустой объект, если не нужно ничего отправлять
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Ошибка сети');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 400);
+                    })
+                    .catch(error => console.error('Ошибка:', error));
+
+            });
+        });
+    </script>
+
+    {% block script %}
+    {% endblock %}
+</body>
+
+</html>

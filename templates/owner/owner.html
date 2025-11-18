@@ -1,0 +1,21 @@
+{% extends 'basis/basis.html' %}
+
+
+{% block main %}
+    <div class="orders" id="order-list">
+        {% for i in orders %}
+        <p>{{ i.order_number }}</p>
+        {% endfor %}
+    </div>
+    <events name="ondownevent" ondown="playbackgroundsound()" />
+    <audio id="notification-sound" autoplay="true" src="/static/media/notification.mp3" preload="auto"></audio>
+    <script src="/static/script/jquery-3.7.1.js"></script>
+    <button id="enable-sound" style="display:none;">Enable Sound</button>
+{% endblock %}
+
+{% block script %}
+
+    <script src="/static/script/jquery-3.7.1.js"></script>
+    <script src="/static/script/async.js"></script>
+
+{% endblock %}

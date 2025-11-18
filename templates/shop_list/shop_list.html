@@ -1,0 +1,108 @@
+{% extends 'basis/basis.html' %}
+
+{% block linkcss %}
+<link rel="stylesheet" href="/static/css/shop_list.css">{% endblock %}
+
+{% block title %}Список{% endblock %}
+
+
+{% block search %}
+{% endblock %}
+
+{% block main %}
+<div class="category-institution-slider">
+    <div class="buttons">
+        <button class="all active">
+            Все
+        </button>
+        <button class="often-ordered">
+            Лидеры заказов
+        </button>
+        <button class="high-marks">
+            Высокие оценки
+        </button>
+        <button class="new">
+            Новые
+        </button>
+    </div>
+</div>
+
+
+<div class="institution-container">
+    <div class="institutions" id="cafeContainer">
+        {% for user in users %}
+        <a href="{% url 'account_menu' user.id %}" class="institution" data-city="{{ user.city }}">
+            <div class="logo-container">
+                <img data-src="{{ user.user_logo.url }}" src="/static/icons/10px.png" alt="">
+                <div class="gradient"></div>
+            </div>
+            <div class="description-container">
+                <h2 class="name">{{ user.user_name }}</h2>
+                <p class="menu">{{ user.menu_count }}</p>
+                <div class="star-rating">
+                    <!-- <div class="stars" style="--rating: 4.3;" aria-label="Rating of 0 out of 5">
+                        ★★★★★
+                    </div> -->
+                    <p class="raiting-title">Оценка</p>
+                    <p class="raiting-number" data-rating="{{ user.user_raiting|stringformat:" g" }}">
+                        {{ user.user_raiting|stringformat:"g" }}
+                    </p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cityModal = document.getElementById('cityModal');
+        const selectCityButton = document.getElementById('selectCityButton');
+        const citySelect = document.getElementById('citySelect');
+        const cafeContainer = document.getElementById('cafeContainer');
+        var cafeTitle = document.querySelector('.cafe-title');
+
+        // Проверяем, есть ли выбранный город в localStorage
+        const selectedCity = localStorage.getItem('selectedCity');
+
+        if (!selectedCity) {
+            // Если города нет в localStorage, показываем модальное окно
+            cityModal.style.display = 'block';
+        } else {
+            // Если город есть, фильтруем заведения
+            filterCafesByCity(selectedCity);
+            cafeTitle.textContent = 'Заведения, вашем городе'
+        }
+
+        // Обработка выбора города и сохранение в localStorage
+        selectCityButton.addEventListener('click', function () {
+            const city = citySelect.value;
+            if (city) {
+                localStorage.setItem('selectedCity', city);
+                cityModal.style.display = 'none';
+                filterCafesByCity(city);
+            } else {
+                alert('Пожалуйста, выберите город!');
+            }
+        });
+
+        // Функция для фильтрации заведений по городу
+        function filterCafesByCity(city) {
+            const cafes = cafeContainer.querySelectorAll('.institution');
+            cafes.forEach(cafe => {
+                const cafeCity = cafe.getAttribute('data-city');
+                if (cafeCity === city) {
+                    cafe.style.display = 'block';
+                } else {
+                    cafe.style.display = 'none';
+                }
+            });
+        }
+    });
+
+</script>
+
+{% endblock %}

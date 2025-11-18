@@ -1,0 +1,251 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+header {
+  width: 100%;
+  height: 50px;
+  background-color: #0c0c0c;
+  position: fixed;
+  top: 0;
+  z-index: 3;
+}
+header .sub-header {
+  max-width: 1280px;
+  height: 100%;
+  margin: 0 auto;
+}
+header .sub-header .header-nav {
+  width: 100%;
+  height: 100%;
+}
+header .sub-header .header-nav ul {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+header .sub-header .header-nav ul p {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translate(0%, -50%);
+  font-family: "Montserrat";
+  font-size: 13px;
+  transition: all 0.3s ease 0s;
+  font-weight: 600;
+  z-index: 5;
+}
+header .sub-header .header-nav ul .online {
+  color: #4bd863;
+}
+header .sub-header .header-nav ul .offline {
+  color: #ff0000;
+}
+header .sub-header .header-nav ul .cheked .b {
+  display: block;
+}
+header .sub-header .header-nav ul .cheked .toggle {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-100%, 25%);
+  width: 50px;
+  height: 25px;
+  background-color: #ddd;
+  margin: -20px -40px;
+  overflow: hidden;
+  box-shadow: inset 0 0 2px 1px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+}
+header .sub-header .header-nav ul .cheked .check {
+  position: absolute;
+  display: block;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 6;
+}
+header .sub-header .header-nav ul .cheked .check:checked ~ .track {
+  box-shadow: inset 0 0 0 20px #4bd863;
+}
+header .sub-header .header-nav ul .cheked .check:checked ~ .switch {
+  right: 2px;
+  left: 25px;
+  transition: 0.35s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  transition-property: left, right;
+  transition-delay: 0.05s, 0s;
+}
+header .sub-header .header-nav ul .cheked .switch {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  bottom: 2px;
+  right: 25px;
+  background-color: #fff;
+  z-index: 1;
+  transition: 0.35s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  transition-property: left, right;
+  transition-delay: 0s, 0.05s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+header .sub-header .header-nav ul .cheked .track {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.35s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+}
+header .sub-header .header-nav ul li a {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  font-family: "Nunito";
+  font-size: 14px;
+  transition: all 0.3s ease 0s;
+  font-weight: 600;
+}
+header .sub-header .header-nav ul li a:hover {
+  color: rgb(0, 182, 182);
+}
+header .sub-header .header-nav ul li a span {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-130%, -50%);
+  width: 15px;
+  height: 15px;
+}
+header .sub-header .header-nav ul li a .home {
+  background: url("/static/icons/home-agreement.png") center/13px no-repeat;
+}
+header .sub-header .header-nav ul li a .orders {
+  background: url("/static/icons/orders.svg") center/cover no-repeat;
+}
+header .sub-header .header-nav ul li a .orders_chart {
+  background: url("/static/icons/order-info.svg") center/cover no-repeat;
+}
+header .sub-header .header-nav ul li a .add_food {
+  background: url("/static/icons/add-button.png") center/cover no-repeat;
+}
+header .sub-header .header-nav ul li a .edit-menu {
+  background: url("/static/icons/edit-tools.png") center/cover no-repeat;
+}
+header .sub-header .header-nav ul li a .profile {
+  background: url("/static/icons/profile.svg") center/cover no-repeat;
+}
+header .sub-header .header-nav ul li a .inProgressStatus {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translate(30%, -50%);
+  font-size: 10px;
+  background-color: #fded07;
+  color: #000;
+  text-align: center;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}/*# sourceMappingURL=basis_admin.css.map */

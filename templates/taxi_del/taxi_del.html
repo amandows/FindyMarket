@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Такси, Доставка</title>
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="findy market" />
+    <link rel="manifest" href="/static/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="/static/css/taxi_del.css">
+</head>
+<style>
+    #reset {
+        padding: 4px 10px;
+        background: #00a81f;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px 0 rgba(38, 38, 38, 0.5);
+        border: none;
+        color: #fff;
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+    #reset:disabled {
+        background: #f2f2f2;
+        color: #6e6d6d;
+        cursor: default;
+    }
+</style>
+
+<body>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <div class="taxi_container">
+        <div class="maps" id="map_container">
+            <div class="start_marker" style="opacity: 0%;">
+                <div class="content">
+                    <div class="img_container">
+                        <img class="start_marker_img" src="/static/icons/passenger3.png" alt="" style="display: none;">
+                        <img class="finish_marker_img" src="/static/icons/finish.png" alt="" style="display: none;">
+                    </div>
+                    <div class="start_text_content">
+                        <p class="text_price">Цена от</p>
+                        <p class="start_price">180 сом</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </div>
+            <!-- <div class="marker">
+                <div class="location_marker" style="opacity: 0%;"></div>
+            </div> -->
+            <!-- <div class="search-wave"></div> -->
+        </div>
+        <div class="destination">
+            <button class="back_btn2" id="back_btn2"  type="button">
+                <img src="/static/icons/right-arrow.png" alt="">
+            </button>
+            <div class="destination_container">
+                <h2>Точка прибытия</h2>
+                <div class="line"></div>
+                <div class="text_container">
+                    <div class="img_container">
+                        <img src="/static/icons/points.png" alt="">
+                    </div>
+                    <p class="destination_text">Выберите место</p>
+                    <input type="number" class="destination_lat" style="display: none;">
+                    <input type="number" class="destination_lon" style="display: none;">
+                    <input type="text" class="destination_point" style="display: none;">
+                    <div class="img_container">
+                        <img src="/static/icons/right-arrow.png" alt="" class="right_arrow">
+                    </div>
+                </div>
+                <button class="ok_destination">Готово</button>
+            </div>
+        </div>
+        <div class="order_taxi">
+            <button class="slider_btn">
+            </button>
+            <p id="status"></p>
+            <button class="my_location_btn" id="my_location_btn">
+                <img src="/static/icons/navigation.png" alt="">
+            </button>
+            <div class="end_point">
+                <div class="location_points" style="display: none;">
+                    <div class="point_a">
+                        <div class="icon">
+                            <img src="/static/icons/passenger3.png" alt="">
+                        </div>
+                        <input type="search" class="search_location1" placeholder="Откуда поедем?">
+                        <button class="map_1">Карта</button>
+                    </div>
+                    <div class="line"></div>
+                    <div class="point_b">
+                        <div class="icon">
+                            <img src="/static/icons/finish.png" alt="">
+                        </div>
+                        <input type="search" class="search_location2" placeholder="Куда поедем?">
+                        <button class="map_2">Карта</button>
+                    </div>
+                </div>
+
+                <button class="geolocation_a" style="display: none;" id="geolocation_a">
+                    <p class="text">
+                        Ваше местоположение
+                    </p>
+                    <div class="icon">
+                        <img src="/static/icons/navigation.png" alt="">
+                    </div>
+                </button>
+
+
+
+                <div class="logo_container">
+                    <div class="logo_img">
+                        <img src="/static/icons/taxi_ico.png" alt="">
+                    </div>
+                    <p class="logo_text">Такси</p>
+                </div>
+                <button class="end_point_btn">
+                    <p class="text">
+                        Куда поедем?
+                    </p>
+                    <div class="icon">
+                        <img src="/static/icons/right-arrow_blue.png" alt="">
+                    </div>
+                </button>
+                <div class="old_point">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="taxi_go">
+            <button class="back_btn" id="back_btn" type="button">
+                <img src="/static/icons/right-arrow.png" alt="">
+            </button>
+            <div class="point_go">
+                <div class="point_a_go">
+                    <div class="icon">
+                        <img src="/static/icons/passenger3.png" alt="">
+                    </div>
+                    <input type="search" class="location_one_go" placeholder="Откуда поедем?" value="" readonly>
+                </div>
+                <div class="line"></div>
+                <div class="point_b_go">
+                    <div class="icon">
+                        <img src="/static/icons/finish.png" alt="">
+                    </div>
+                    <input type="search" class="location_two_go" placeholder="Куда поедем?" value="" readonly>
+                </div>
+            </div>
+            <div class="taxi_setup">
+                <div class="buttons">
+                    <button class="taxi_delivery active" id="type_taxi">
+                        Такси
+                    </button>
+                    <button class="taxi_delivery" id="type_delivery">
+                        Доставка
+                    </button>
+                    <p class="duration"></p>
+                    <p class="distance"></p>
+                </div>
+                <div class="taxi_category_setup">
+                    <div class="taxi_category_setup_gallery">
+                        <div class="taxi_category active" id="econom">
+                            <div class="img-container">
+                                <h3 class="category_name">Эконом</h3>
+                                <p class="price" id="price_econom">150 с</p>
+                                <img src="/static/icons/econom.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="taxi_category" id="comfort">
+                            <div class="img-container">
+                                <h3 class="category_name">Комфорт</h3>
+                                <p class="price" id="price_comfort">185 c</p>
+                                <img src="/static/icons/comfort.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="taxi_category" id="comfort_plus">
+                            <div class="img-container">
+                                <h3 class="category_name">Комфорт+</h3>
+                                <p class="price" id="price_comfort_plus">200 c</p>
+                                <img src="/static/icons/comfort plus.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="taxi_category"id="bussiness">
+                            <div class="img-container">
+                                <h3 class="category_name">Бизнес</h3>
+                                <p class="price" id="price_bussiness">300 c</p>
+                                <img src="/static/icons/bussines.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="delivery_category active" id="econom">
+                            <div class="img-container">
+                                <h3 class="category_name">Быстро</h3>
+                                <p class="price" id="price_scooter">150 с</p>
+                                <img src="/static/icons/scooter.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="delivery_category" id="comfort">
+                            <div class="img-container">
+                                <h3 class="category_name">До 1тонн</h3>
+                                <p class="price" id="price_one_tonn">185 c</p>
+                                <img src="/static/icons/mini_wagon.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="delivery_category" id="comfort_plus">
+                            <div class="img-container">
+                                <h3 class="category_name">до 2тонн</h3>
+                                <p class="price" id="price_two_tonn">200 c</p>
+                                <img src="/static/icons/porter.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="order_taxi_go">Заказать</button>
+            <!-- <button id="open2GisButton">Открыть маршрут в 2ГИС</button> -->
+        </div>
+    </div>
+    <script src="https://mapgl.2gis.com/api/js/v1"></script>
+    <script src="https://unpkg.com/@2gis/mapgl-directions@^2/dist/directions.js"></script>
+    <script src="/static/script/2_gis.js"></script>
+    <script>
+        // document.getElementById("open2GisButton").addEventListener("click", function () {
+        //     // Попробуем открыть 2ГИС через deeplink
+        //     window.location.href = "dgis://routeSearch/rsType/car/from/-/to/72.6716521,41.63121534";
+            
+        //     // Таймаут для обработки случая, если deeplink не сработал
+        //     setTimeout(() => {
+        //         window.location.href = "https://2gis.ru/routeSearch/rsType/car/from/-/to/72.6716521,41.63121534";
+        //     }, 1500);
+        // });
+    </script>
+    <script src="/static/script/taxi.js"></script>
+
+</body>
+
+</html>

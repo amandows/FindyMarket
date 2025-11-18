@@ -1,0 +1,171 @@
+{% extends 'basis/basis.html' %}
+{% load humanize %}
+
+
+{% block linkcss %}
+<link rel="stylesheet" href="/static/css/account_menu.css">
+{% endblock %}
+
+{% block title %}Меню{% endblock %}
+
+
+{% block main %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('foodInfoModal');
+        const modalImg = document.getElementById('foodInfoImg');
+        const modalName = document.getElementById('foodInfoName');
+        const modalPrice = document.getElementById('foodInfoPrice');
+        const modalDesc = document.getElementById('foodInfoDesc');
+        const modalUserName = document.getElementById('foodInfoUserName');
+        const modalUserAvatar = document.getElementById('foodInfoUserAvatar');
+        const closeBtn = document.querySelector('.food_info-close');
+
+        document.querySelectorAll('.img-container img').forEach(img => {
+            img.addEventListener('click', () => {
+                const foodCard = img.closest('.food');
+                const name = foodCard.querySelector('.food_name').textContent;
+                const price = foodCard.querySelector('.price__view').textContent;
+                const desc = foodCard.querySelector('.food_description').textContent.trim() || 'Описание отсутствует';
+                const userName = foodCard.querySelector('.user-name').textContent;
+                const userAvatar = foodCard.querySelector('.user-avatar').src;
+                const userLink = foodCard.querySelector('.user-name').getAttribute('href');
+
+                modalImg.src = img.dataset.src || img.src;
+                modalName.textContent = name;
+                modalPrice.textContent = `Цена: ${price} сом`;
+                modalDesc.textContent = desc;
+                modalUserName.textContent = userName;
+                modalUserName.href = userLink;
+                modalUserAvatar.src = userAvatar;
+
+                modal.classList.add('active');
+            });
+        });
+
+        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', e => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+    });
+</script>
+
+
+<!-- Модальное окно -->
+<div class="food_info" id="foodInfoModal">
+    <div class="food_info-content">
+        <span class="food_info-close">&times;</span>
+        <div class="food_info-img">
+            <img id="foodInfoImg" src="" alt="food image">
+        </div>
+        <div class="food_info-text">
+            <h2 id="foodInfoName"></h2>
+            <p id="foodInfoPrice"></p>
+            <p id="foodInfoDesc"></p>
+            <div class="food_info-user">
+                <img id="foodInfoUserAvatar" src="" alt="user avatar">
+                <a id="foodInfoUserName" href="#"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="search__container">
+    <button class="search__btn-active"></button>
+    <input type="text" id="searchInput" class="search-input search-input-active" placeholder="Поиск товаров..."
+        autocomplete="off">
+</div>
+
+<div class="profile-parallax">
+    {% if user.category_of_education == 'Food' %}
+    <h2 class="user__category">Еда</h2>
+    {% endif %}
+    {% if user.category_of_education == 'Shop' %}
+    <h2 class="user__category">Магазин</h2>
+    {% endif %}
+    {% if user.category_of_education == 'Vegetables' %}
+    <h2 class="user__category">Овощи</h2>
+    {% endif %}
+    <h2 class="user__name">
+        {{ user.user_name}}
+    </h2>
+    <h3 class="user__info">
+        {{ user.user_description|linebreaksbr }}
+    </h3>
+    <img src="{{ user.user_logo.url }}" class="profile-img" alt="">
+    <div class="background">
+
+    </div>
+</div>
+
+<p class="mbank_link" style="display: none;">{{ user.user_mbank_link }}</p>
+<p class="obank_link" style="display: none;">{{ user.user_obank_link }}</p>
+<p class="rsk24_link" style="display: none;">{{ user.user_rsk_link }}</p>
+<p class="abank_link" style="display: none;">{{ user.user_abank_link }}</p>
+
+
+<div class="user-products">
+    {% for food in food_items %}
+    {% if food.food_status == 'True' %}
+    <div class="food" id="{{ food.id }}" data-category="{{ food.category.id }}">
+        {% else %}
+        <div class="food noactive" id="{{ food.id }}" data-category="{{ food.category.id }}">
+            {% endif %}
+            <div class="img-container">
+                <div class="loader"></div>
+                <img data-src="{{ food.adscreenimg.url }}" src="/static/icons/10px.png" alt="{{ food.name }}">
+            </div>
+            <div class="descrition-container">
+                <div class="price-container">
+                    <p class="price__view">{{ food.price|intcomma }}</p>
+                    <input style="display: none;" type="number" name="price" class="price" id="price"
+                        value="{{ food.price }}" oninput="updateWidth(this)" readonly>
+                    <div class="user">
+                        <a class="user-name" href="/account/{{ food.user.id }}/">{{ food.user.user_name }}</a>
+                        <!-- <p class="user-name">{{ food.user.user_name }}</p> -->
+                        <img src="{{ food.user.user_logo_mini.url }}" alt="" class="user-avatar">
+                    </div>
+                </div>
+                <p class="food_name">{{ food.name }}</p>
+                <p class="food_description" style="display: none;">{{ food.description}} </p>
+                <div class="coll-food">
+                    <button class="minus">-</button>
+                    <input type="number" class="coll input-disabled" value="1"><span>штук</span>
+                    <button class="plus">+</button>
+                    <p class="coll__p"></p>
+                    {% if food.food_status == 'True' %}
+                    <button class="button box" data-food-id="{{ food.id }}"></button>
+                    {% else %}
+                    <p class="none">Отсутствует</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="category-institution-slider">
+        <div class="buttons">
+            <button class="category-button active" data-id="all">
+                Все
+            </button>
+            {% for category in categories %}
+            <button class="category-button" data-id="{{ category.id }}">
+                {{ category.name }}
+            </button>
+            {% empty %}
+            <p>Категории пока не созданы</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block script %}
+
+    <script>
+
+    </script>
+
+    {% endblock %}

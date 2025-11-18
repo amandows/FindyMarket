@@ -1,0 +1,23 @@
+<ul>
+    <p>Результат поиска "{{ query }}"</p>
+    {% for item in results %}
+        <a href="/account/{{ item.id }}/">
+            <div class="img-container">
+                <img src="{{ item.user_logo_mini.url }}" alt="">
+            </div>
+            <div class="description">
+                <p class="name">{{ item.user_name }}</p>
+                <p class="category">
+                    {{ item.get_category_of_education_display }}
+                    {% if item.sub_category_of_education %}
+                        <span>- {{ item.get_sub_category_of_education_display }}</span>
+                    {% endif %}
+                </p>
+            </div>
+            <span class="ico">
+            </span>
+        </a>
+    {% empty %}
+        <li>Ничего не найдено</li>
+    {% endfor %}
+</ul>

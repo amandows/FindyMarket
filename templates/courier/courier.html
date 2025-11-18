@@ -1,0 +1,82 @@
+{% extends 'basis/basis_courier.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="/static/css/courier.css">
+{% endblock %}
+
+
+
+{% block basis %}
+<div id="courier-info" class="courier-info" style="display: block;">
+    <div class="courier-info-container">
+        <h1>КУРЬЕРСКАЯ СЛУЖБА</h1>
+        <p>Имя: <span id="first-name"></span></p>
+        <p>Фамилия: <span id="last-name"></span></p>
+        <p>Номер телефона: <span id="tel-number"></span></p>
+        <p>Модель машины: <span id="car-model"></span></p>
+        <p>Номер машины: <span id="car-number"></span></p>
+    </div>
+</div>
+
+<!-- Модальное окно -->
+<div id="auth-modal" style="display: none;">
+    <div id="links">
+        <a href="#" id="login-link">Войти</a> |
+        <a href="#" id="register-link">Зарегистрироваться</a>
+    </div>
+
+    <!-- Форма входа -->
+    <form id="login-form" style="display: none;">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <input class="login" type="text" name="login" placeholder="Логин" required />
+        <input  class="password" type="password" name="password" placeholder="Пароль" required />
+        <button type="submit">Войти</button>
+    </form>
+
+    <!-- Форма регистрации -->
+    <form id="register-form" style="display: none;">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <input class="login" type="text" name="login" placeholder="Логин" required />
+        <input class="password" type="password" name="password" placeholder="Пароль" required autocomplete="current-password">
+        <input class="first_name" type="text" name="first_name" placeholder="Имя" required />
+        <input class="last_name" type="text" name="last_name" placeholder="Фамилия" required />
+        <input class="tel_number" type="tel" name="tel_number" placeholder="Телефон" required />
+        <input class="car" type="text" name="car" placeholder="Модель машины" required />
+        <input class="car_number" type="text" name="car_number" placeholder="Номер машины" required />
+        <label for="city">Город:</label>
+        <select class="courier-city" name="courier-city" id="courier-city" required>
+            <option value="" selected disabled>Выберите город</option>
+            {% for city in CITY %}
+            <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+</div>
+{% endblock %}
+
+
+{% block main %}
+<div class="title">
+    <h1 class="new-title">Новые заказы</h1>
+    <p>КУРЬЕРСКАЯ СЛУЖБА</p>
+</div>
+<div class="courier-orders">
+</div>
+<div class="my-courier-orders">
+</div>
+<footer>
+    <div class="new-orders">
+        <p>Новые заказы</p><p class="res">3</p>
+    </div>
+    <div class="my-orders">
+        <p>Мои заказы</p><p class="res">2</p>
+    </div>
+</footer>
+{% endblock %}
+
+
+{% block script %}
+    <script src="/static/script/courier.js"></script>
+{% endblock %}
+    

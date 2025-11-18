@@ -1,0 +1,94 @@
+{% extends 'basis/basis.html' %}
+{% load humanize %}
+
+
+{% block linkcss %}
+<link rel="stylesheet" href="/static/css/my_orders.css">
+{% endblock %}
+
+{% block main %}
+<h2 class="order-title">Мои заказы</h2>
+<div class="orders-page">
+
+    {% if orders %}
+    {% for order in orders %}
+
+
+    <div class="order_accordion">
+        <div class="order_accordion-item {% if order.delivery_result == 'success' %}order-success{% elif order.delivery_result == 'failed' %}order-failed{% else %}{% if order.status == 'in_progress' %}order-progress{% elif order.status == 'completed' %}order-onway{% elif order.status == 'cancelled' %}order-cancelled{% endif %}{% endif %}" data-order-id="{{ order.id }}">
+            <input type="checkbox" id="order{{ forloop.counter }}">
+            <label class="order_accordion-header" for="order{{ forloop.counter }}">
+                <h3 class="order_accordion_date">{{ order.created_at|date:"d.m.Y H:i" }}</h3>
+                <h3 class="order_accordion_title">
+                    {% if order.delivery_result == "success" %}
+                    Завершен
+                    {% elif order.delivery_result == "failed" %}
+                    Заказ не приехал
+                    {% else %}
+                    {% if order.status == "in_progress" %}
+                    В обработке
+                    {% elif order.status == "completed" %}
+                    Заказ в пути
+                    {% elif order.status == "cancelled" %}
+                    Отменен отправителем
+                    {% endif %}
+                    {% endif %}
+                </h3>
+                <svg class="arrow" viewBox="0 0 24 24">
+                    <path d="M8 10l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </label>
+            <div class="order_accordion-content">
+                <div class="details">
+                    <h2>Номер заказа: <span> {{ order.order_number }}</span></h2>
+                    <p>Дата: <span>{{ order.created_at|date:"d.m.Y H:i" }}</span></p>
+                    <!-- <p>{{ order.order_details }}</p> -->
+                    <p>Общая сумма: <span>{{ order.total_amount }} сом</span></p>
+                    <p>Оплата: <span>{{ order.order_payment_status }}</span></p>
+                    <p>Отправитель: <span>{{ order.user_name }}</span></p>
+                    {% if order.delivery_result == "none" %}
+                    <div class="order-actions">
+                        <a href="{% url 'update_order_result_ajax' order.id 'success' %}"
+                            class="btn btn-success">Получил заказ</a>
+                        <a href="{% url 'update_order_result_ajax' order.id 'failed' %}" class="btn btn-failed">Не
+                            приехал</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>У вас пока нет заказов.</p>
+    {% endif %}
+</div>
+
+<!-- <table class="order-details-table">
+                        <thead>
+                            <tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.order_details.splitlines %}
+                            {% if item %}
+                            <tr>
+                                <td class="table_detail">{{ item }}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table> -->
+
+
+{% block script %}
+
+<script src="/static/script/my_orders.js"></script>
+
+
+
+{% endblock %}
+
+
+{% endblock %}

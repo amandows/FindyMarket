@@ -1,0 +1,180 @@
+@charset "UTF-8";
+main {
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: 60px;
+}
+main .title {
+  font-family: "Open Sans";
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: left;
+  border-bottom: 1px solid #141414;
+}
+main .title::after {
+  display: block;
+  content: "";
+  width: 20px;
+  height: 15px;
+  background: url("/static/icons/orders.svg") center/cover no-repeat;
+}
+main .edit-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 10px;
+}
+main .edit-menu details {
+  width: 95%;
+  text-align: center;
+}
+main .edit-menu details summary {
+  background-color: #d6d6d6;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  font-family: "Nunito";
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 0;
+  border-radius: 10px;
+}
+main .edit-menu details summary::before {
+  position: absolute;
+  content: "";
+  left: -3%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: #1302ff;
+  border-radius: 50%;
+}
+main .edit-menu details .food-items {
+  padding: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+main .edit-menu details .food-items .food-item {
+  width: 49%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5215686275);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 15px;
+}
+main .edit-menu details .food-items .food-item form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+main .edit-menu details .food-items .food-item form .image-container {
+  width: 20%;
+  padding: 0 0 20% 0;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  z-index: 2;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3019607843);
+}
+main .edit-menu details .food-items .food-item form .image-container .change-image-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 7px 15px;
+  border-radius: 8px;
+  font-family: "Nunito";
+  font-size: 13px;
+  font-weight: 700;
+  background-color: rgba(0, 0, 0, 0.7333333333);
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 3; /* Обеспечим, что кнопка будет поверх фона */
+}
+main .edit-menu details .food-items .food-item form .image-container .change-image-button:hover {
+  background-color: #0e0ee0; /* Цвет при наведении */
+}
+main .edit-menu details .food-items .food-item form .image-container img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  -o-object-fit: cover;
+     object-fit: cover;
+  z-index: 1;
+}
+main .edit-menu details .food-items .food-item form .container {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+}
+main .edit-menu details .food-items .food-item form .container button {
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  position: absolute;
+  background-color: #108d00;
+  padding: 8px 15px;
+  bottom: 0px;
+  right: 15px;
+  border-radius: 10px;
+  transition: all 0.3s ease 0s;
+}
+main .edit-menu details .food-items .food-item form .container button:hover {
+  background-color: #0d6801;
+}
+main .edit-menu details .food-items .food-item form .container .food-name, main .edit-menu details .food-items .food-item form .container .food-description, main .edit-menu details .food-items .food-item form .container .food-price, main .edit-menu details .food-items .food-item form .container .food-status, main .edit-menu details .food-items .food-item form .container .food-new-img {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+main .edit-menu details .food-items .food-item form .container .food-name p, main .edit-menu details .food-items .food-item form .container .food-description p, main .edit-menu details .food-items .food-item form .container .food-price p, main .edit-menu details .food-items .food-item form .container .food-status p, main .edit-menu details .food-items .food-item form .container .food-new-img p {
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.3882352941);
+  position: relative;
+}
+main .edit-menu details .food-items .food-item form .container .food-name p::before, main .edit-menu details .food-items .food-item form .container .food-description p::before, main .edit-menu details .food-items .food-item form .container .food-price p::before, main .edit-menu details .food-items .food-item form .container .food-status p::before, main .edit-menu details .food-items .food-item form .container .food-new-img p::before {
+  position: absolute;
+  content: "";
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  background: #0f0f0f;
+  border-radius: 50%;
+}
+main .edit-menu details .food-items .food-item form .container .food-name input, main .edit-menu details .food-items .food-item form .container .food-name select, main .edit-menu details .food-items .food-item form .container .food-description input, main .edit-menu details .food-items .food-item form .container .food-description select, main .edit-menu details .food-items .food-item form .container .food-price input, main .edit-menu details .food-items .food-item form .container .food-price select, main .edit-menu details .food-items .food-item form .container .food-status input, main .edit-menu details .food-items .food-item form .container .food-status select, main .edit-menu details .food-items .food-item form .container .food-new-img input, main .edit-menu details .food-items .food-item form .container .food-new-img select {
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: 600;
+  color: #0e0e0e;
+  margin-left: 2px;
+  padding: 5px 7px;
+}
+main .edit-menu details .food-items .food-item form .container .food-name input[type=text], main .edit-menu details .food-items .food-item form .container .food-description input[type=text], main .edit-menu details .food-items .food-item form .container .food-price input[type=text], main .edit-menu details .food-items .food-item form .container .food-status input[type=text], main .edit-menu details .food-items .food-item form .container .food-new-img input[type=text] {
+  width: 100%;
+}
+main .edit-menu details .food-items .food-item form .container .food-name input[type=number], main .edit-menu details .food-items .food-item form .container .food-description input[type=number], main .edit-menu details .food-items .food-item form .container .food-price input[type=number], main .edit-menu details .food-items .food-item form .container .food-status input[type=number], main .edit-menu details .food-items .food-item form .container .food-new-img input[type=number] {
+  width: 20%;
+}
+main .edit-menu details .food-items .food-item form .container .food-name select, main .edit-menu details .food-items .food-item form .container .food-description select, main .edit-menu details .food-items .food-item form .container .food-price select, main .edit-menu details .food-items .food-item form .container .food-status select, main .edit-menu details .food-items .food-item form .container .food-new-img select {
+  width: 30%;
+}/*# sourceMappingURL=edit_menu.css.map */

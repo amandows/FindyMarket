@@ -1,0 +1,390 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+table {
+  max-width: 1280px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid rgb(184, 184, 184);
+  padding: 20px 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+main {
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-top: 60px;
+}
+main .title {
+  font-family: "Open Sans";
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: left;
+  border-bottom: 1px solid #141414;
+}
+main .title::after {
+  display: block;
+  content: "";
+  width: 20px;
+  height: 15px;
+  background: url("/static/icons/orders.svg") center/cover no-repeat;
+}
+main .sub-title {
+  margin: 20px 0px;
+}
+main .orders-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+main .orders-btn .active {
+  background-color: #0f0f0f;
+  color: #dadada;
+}
+main .orders-btn .new-orders {
+  border-top: 1px solid #131313;
+  border-bottom: 1px solid #131313;
+  border-left: 1px solid #131313;
+  border-radius: 10px 0px 0px 10px;
+}
+main .orders-btn .new-orders span {
+  font-family: "Nunito";
+  font-size: 14px;
+  padding: 0px 6px;
+  background-color: #eeff00;
+  color: #131313;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+main .orders-btn .completed-orders {
+  border: 1px solid #131313;
+}
+main .orders-btn .cancelled-orders {
+  border-top: 1px solid #131313;
+  border-bottom: 1px solid #131313;
+  border-right: 1px solid #131313;
+  border-radius: 0px 10px 10px 0px;
+}
+main .orders-btn button {
+  width: 34%;
+  height: auto;
+  padding: 10px 15px;
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 700;
+  color: #141414;
+  transition: all 0.3s ease 0s;
+}
+main .orders-btn button:hover {
+  background-color: #353535;
+  color: #dadada;
+}
+main .order-table {
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+main .order-table thead .nav-bar {
+  height: 45px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+main .order-table thead .nav-bar th {
+  background-color: #000144;
+  text-align: center;
+  color: #ebebeb;
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+}
+main .order-table tbody {
+  width: 100%;
+}
+main .order-table tbody .order {
+  width: 100%;
+}
+main .order-table tbody .order:hover {
+  background-color: #d6d6d6;
+  transition: all 0.1s ease 0s;
+  cursor: pointer;
+}
+main .order-table tbody .order .order-number-container {
+  width: 12%;
+}
+main .order-table tbody .order .order-number-container p {
+  color: #252525;
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+}
+main .order-table tbody .order .created-at-container {
+  width: 18%;
+  text-align: left;
+}
+main .order-table tbody .order .created-at-container p {
+  text-align: left;
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+}
+main .order-table tbody .order .created-at-container p span {
+  text-align: left;
+  font-family: "Open Sans";
+  font-size: 12px;
+  color: rgba(14, 14, 14, 0.6039215686);
+}
+main .order-table tbody .order .order-details-container {
+  width: 35%;
+}
+main .order-table tbody .order .order-details-container ol {
+  width: 100%;
+  margin-bottom: 5px;
+  margin-left: 15px;
+}
+main .order-table tbody .order .order-details-container ol li {
+  text-align: left;
+  color: #0e0e0e;
+  font-family: "Nunito";
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5; /* Укажите конкретное значение */
+  cursor: pointer;
+}
+main .order-table tbody .order .order-details-container .created-at {
+  text-align: left;
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 700;
+}
+main .order-table tbody .order .order-details-container .created-at .courier-notification {
+  padding: 4px 10px;
+  margin-left: 15px;
+  background-color: rgba(0, 89, 255, 0.9098039216);
+  font-family: "Nunito";
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 7px;
+  transition: all 0.3s ease 0s;
+}
+main .order-table tbody .order .order-details-container .created-at .courier-notification:hover {
+  background-color: #0300a5;
+  color: #fcfcfc;
+}
+main .order-table tbody .order .order-details-container .created-at span {
+  padding: 5px 10px;
+  margin-left: 15px;
+  font-family: "Nunito";
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 7px;
+  transition: all 0.3s ease 0s;
+}
+main .order-table tbody .order .order-details-container .created-at .courier-called {
+  background-color: #ffd000;
+  color: #131313;
+}
+main .order-table tbody .order .order-details-container .created-at .courier-pick-up {
+  background-color: #0059ff;
+  color: #ffffff;
+}
+main .order-table tbody .order .order-details-container .created-at .courier-ontheway {
+  background-color: #ff0095;
+  color: #ffffff;
+}
+main .order-table tbody .order .order-details-container .created-at .courier-delivered {
+  background-color: #08e200;
+  color: #131313;
+}
+main .order-table tbody .order .total-amount-container {
+  width: 11%;
+}
+main .order-table tbody .order .total-amount-container p {
+  font-weight: 700;
+  font-size: 17px;
+  color: #252525;
+  font-family: "Nunito";
+  font-size: 15px;
+  font-weight: 800;
+  text-align: left;
+}
+main .order-table tbody .order .payment {
+  width: 13%;
+  font-family: "Nunito";
+  font-size: 14px;
+}
+main .order-table tbody .order .payment .payment-online button {
+  color: #252525;
+  transition: all 0.3s ease 0s;
+  font-weight: 600;
+  text-align: left;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background-color: #868686;
+  color: #fff;
+}
+main .order-table tbody .order .payment .payment-online button:hover {
+  background-color: #3d3d3d;
+  color: #fff;
+}
+main .order-table tbody .order .payment .payment-online {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 10px 0;
+}
+main .order-table tbody .order .payment .payment-online p {
+  color: #252525;
+  transition: all 0.3s ease 0s;
+  font-weight: 600;
+  text-align: center;
+}
+main .order-table tbody .order .order-status {
+  width: 11%;
+}
+main .order-table tbody .order .order-status form {
+  width: 100%;
+}
+main .order-table tbody .order .order-status form select {
+  color: #e9e9e9;
+  width: 100%;
+  font-family: "Nunito";
+  font-size: 14px;
+  transition: all 0.3s ease 0s;
+  font-weight: 600;
+  text-align: center;
+  background: #0050fc;
+  padding: 8px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+main .order-table tbody .order .order-status .order-completed {
+  width: 100%;
+  color: #252525;
+  font-family: "Open Sans";
+  font-size: 14px;
+  transition: all 0.3s ease 0s;
+  font-weight: 600;
+  text-align: center;
+  background: #00e71f;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+main .order-table tbody .order .order-status .order-cancelled {
+  width: 100%;
+  color: #dadada;
+  font-family: "Open Sans";
+  font-size: 14px;
+  transition: all 0.3s ease 0s;
+  font-weight: 600;
+  text-align: center;
+  background: #e72e00;
+  padding: 10px 15px;
+  border-radius: 5px;
+}/*# sourceMappingURL=orders.css.map */

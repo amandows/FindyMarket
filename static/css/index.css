@@ -1,0 +1,329 @@
+@charset "UTF-8";
+.bigLogo {
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 15px;
+  position: relative;
+  height: clamp(40px, 50vw, 400px);
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(5px, 2.5vw, 45px);
+}
+.bigLogo h2,
+.bigLogo p {
+  position: relative;
+  z-index: 5;
+  margin-left: 5%;
+  color: #e6e6e6;
+  font-weight: 500;
+}
+.bigLogo h2 {
+  font-size: clamp(12px, 6vw, 45px);
+  font-weight: 700;
+  font-family: "Bai Jamjuree";
+}
+.bigLogo p {
+  font-size: clamp(12px, 3.7vw, 45px);
+  font-weight: 500;
+  line-height: clamp(12px, 4.2vw, 45px);
+  font-family: "Open Sans";
+}
+.bigLogo button {
+  position: absolute;
+  z-index: 5;
+  width: clamp(30px, 30vw, 200px);
+  height: clamp(30px, 8vw, 150px);
+  background-color: #2a65d1;
+  font-family: "Open Sans";
+  color: #e6e6e6;
+  font-weight: 700;
+  right: 5%;
+  bottom: 15%;
+  border-radius: 5px;
+  font-size: clamp(12px, 3.5vw, 20px);
+}
+.bigLogo img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  z-index: 4;
+}
+
+.basis-links {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.8%;
+}
+.basis-links a {
+  display: inline-block;
+  width: 48.2%;
+  padding: 0 0 22% 0;
+  position: relative;
+  margin-top: 4.5%;
+}
+.basis-links a .bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 15px;
+}
+.basis-links a p {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Nunito";
+  font-size: clamp(12px, -0.125rem + 3.89vw, 19px);
+  font-weight: 700;
+  color: #080808;
+  padding: 8px 15px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.taxi {
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 3.8vw;
+}
+.taxi a {
+  display: inline-block;
+  width: 100%;
+  padding: 0 0 30% 0;
+  position: relative;
+}
+.taxi a .bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 15px;
+}
+.taxi a p {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Nunito";
+  font-size: clamp(12px, -0.125rem + 3.89vw, 19px);
+  font-weight: 700;
+  color: #080808;
+  padding: 8px 15px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.basis-links a,
+.taxi a {
+  perspective: 1000px; /* глубина */
+}
+
+.basis-links a .bg,
+.taxi a .bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 15px;
+  backface-visibility: hidden;
+}
+
+/* запускаем анимацию только по классу flip */
+.basis-links a.flip .bg,
+.taxi a.flip .bg {
+  animation: flipAnimation 1.2s ease-in-out forwards;
+}
+
+@keyframes flipAnimation {
+  0% {
+    transform: translate(-50%, -50%) rotateY(0deg) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotateY(180deg) scale(1.05);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotateY(360deg) scale(1);
+  }
+}
+.cafe-title {
+  font-family: "Raleway";
+  font-size: clamp(5px, 4.3vw, 45px);
+  font-weight: 700;
+  color: #0c0c0c;
+  margin: 10px 0 5px 2.5%;
+}
+
+.popular-products {
+  margin-top: 5px;
+}
+.popular-products .title {
+  font-family: "Noto Sans";
+  font-size: clamp(10px, 4vw, 20px);
+  color: #080808;
+  border-radius: 5px;
+  padding: 5px 7px;
+  margin: 0 0 12px 2.5%;
+  display: inline-block;
+  font-weight: 400;
+}
+.popular-products .title::after {
+  content: "";
+  font-family: "Noto Sans";
+  font-size: clamp(10px, 3vw, 16px);
+  font-weight: 600;
+  margin-left: 5px;
+  color: fff;
+}
+.popular-products .popular-products-gallery {
+  height: clamp(60px, 30vw, 180px);
+  display: flex;
+  gap: 12px;
+  overflow: scroll;
+  scroll-snap-type: x mandatory;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+.popular-products .popular-products-gallery::-webkit-scrollbar {
+  width: 0;
+}
+.popular-products .popular-products-gallery .popular-product {
+  min-width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+.popular-products .popular-products-gallery .popular-product .img-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 5;
+}
+.popular-products .popular-products-gallery .popular-product .img-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  z-index: 1;
+  transition: all 0.3s ease 0s;
+  z-index: 6;
+}
+.popular-products .popular-products-gallery .popular-product .img-container .product-title {
+  position: relative;
+  font-family: "Noto Sans";
+  font-size: clamp(10px, 3vw, 16px);
+  font-weight: 600;
+  display: inline-block;
+  z-index: 3;
+  padding-left: 10px;
+  margin-bottom: 5px;
+  color: #fff;
+  z-index: 8;
+}
+.popular-products .popular-products-gallery .popular-product .img-container .shop-name {
+  position: relative;
+  font-family: "Noto Sans";
+  font-size: clamp(10px, 3vw, 16px);
+  font-weight: 600;
+  display: block;
+  z-index: 3;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  color: #fff;
+  color: rgb(0, 255, 255);
+  z-index: 8;
+}
+.popular-products .popular-products-gallery .popular-product .img-container .gradient {
+  opacity: 80%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(215, 226, 0, 0) 0%, rgba(0, 0, 0, 0.8701855742) 61%, rgb(0, 0, 0) 100%);
+  z-index: 7;
+}
+
+.category-container {
+  width: 100%;
+  margin-top: 10px;
+}
+.category-container .title {
+  font-family: "Noto Sans";
+  font-size: clamp(10px, 4vw, 20px);
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+}
+.category-container .category {
+  width: 100%;
+  margin-top: clamp(10px, 5vw, 25px);
+}
+.category-container .category ul {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #818181;
+}
+.category-container .category ul li {
+  width: 100%;
+  border-bottom: 1px solid #818181;
+  padding: 0 0 0 15px;
+  position: relative;
+}
+.category-container .category ul li a {
+  display: inline-block;
+  padding: 15px 0;
+  color: #fff;
+  font-family: "Open Sans";
+  font-size: clamp(10px, 3.5vw, 25px);
+  font-weight: 300;
+  width: 100%;
+}
+.category-container .category ul li span {
+  display: block;
+  width: 15px;
+  height: 15px;
+  left: 100%;
+  top: 50%;
+  transform: translate(-150%, -50%);
+  position: absolute;
+  transform: translate();
+  background: url("/static/icons/right.svg") center/cover no-repeat;
+}/*# sourceMappingURL=index.css.map */

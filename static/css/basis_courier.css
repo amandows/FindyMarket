@@ -1,0 +1,146 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #0084ff;
+  height: clamp(20px, 15vw, 80px);
+  z-index: 1000;
+}
+header .sub-header {
+  width: 90%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .sub-header nav ul {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+header .sub-header nav ul li a {
+  display: inline-block;
+  text-decoration: none;
+  width: clamp(15px, 4.5vw, 50px);
+  height: clamp(15px, 4.5vw, 50px);
+}
+header .sub-header nav ul li .call {
+  background: url("/static/icons/phone-call.png") center/cover no-repeat;
+}
+header .sub-header nav ul li .whatsapp {
+  background: url("/static/icons/whatsapp1.png") center/cover no-repeat;
+}
+header .sub-header nav ul li .instagram {
+  background: url("/static/icons/instagram1.png") center/cover no-repeat;
+}
+header .sub-header nav ul li .telegram {
+  background: url("/static/icons/telegram.png") center/cover no-repeat;
+}
+header .sub-header button {
+  display: block;
+  width: clamp(15px, 8vw, 50px);
+  height: clamp(15px, 5vw, 50px);
+  background: url("/static/icons/more.png") center/cover no-repeat;
+}
+
+main {
+  width: 95%;
+  margin: 0 auto;
+  margin-top: clamp(30px, 20vw, 80px);
+  padding-bottom: clamp(30px, 15vw, 80px);
+}/*# sourceMappingURL=basis_courier.css.map */

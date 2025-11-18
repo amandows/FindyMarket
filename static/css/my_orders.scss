@@ -1,0 +1,169 @@
+.order-title {
+    font-family: "Nunito";
+    font-size: clamp(12px, 4.8vw, 22px);
+    margin: 15px 0px 15px 5%;
+}
+
+.orders-page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .order_accordion {
+        width: 95%;
+        margin: 0 auto;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+
+        // Убираем синий клик-эффект на всех устройствах
+        * {
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+
+        .order-success {
+            background: linear-gradient(90deg,rgba(48, 155, 42, 0.3) 0%, rgba(48, 155, 42, 0.2) 50%, rgba(48, 155, 42, 0) 100%); /* зелёный */
+        }
+
+        .order-failed,
+        .order-cancelled {
+            background: linear-gradient(90deg,rgba(155, 42, 42, 0.3) 0%, rgba(155, 42, 42, 0.2) 50%, rgba(155, 42, 42, 0) 100%); /* красный */
+        }
+
+        .order-progress {
+            background: linear-gradient(90deg,rgba(42, 151, 155, 0.3) 0%, rgba(42, 151, 155, 0.2) 50%, rgba(42, 151, 155, 0) 100%); /* синий/голубой */
+        }
+
+        .order-onway {
+            background: linear-gradient(90deg,rgba(155, 115, 42, 0.3) 0%, rgba(155, 115, 42, 0.2) 50%, rgba(155, 115, 42, 0) 100%); /* оранжевый */
+        }
+
+        .order_accordion-item {
+            border-bottom: 1px solid #eee;
+            position: relative;
+            width: 100%;
+            // background: #f9f9f9;
+            &:hover {
+                background: #f2f2f2;
+            }
+
+            input {
+                position: absolute;
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .order_accordion-header {
+                display: flex;
+                justify-content: space-between;
+                width: 90%;
+                align-items: center;
+                padding: 1.2em 1.5em 1.2em 1.5em;
+                cursor: pointer;
+                transition: background 0.3s ease;
+                user-select: none;
+                position: relative;
+
+                h3 {
+                    font-family: "Nunito";
+                    font-size: clamp(10px, 3.4vw, 18px);
+                    font-weight: 600;
+                    text-align: left;
+                    color: #333;
+                    font-weight: 500;
+                }
+
+                .arrow {
+                    position: absolute;
+                    left: 100%;
+                    width: 22px;
+                    height: 22px;
+                    color: #007aff;
+                    transition: transform 0.3s ease;
+                }
+            }
+
+            .order_accordion-content {
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                background: #fff;
+                transition:
+                    max-height 0.4s ease,
+                    padding 0.3s ease;
+                padding: 0 0;
+                .details {
+                    margin: 15px 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 1.1rem;
+                    padding: 0 0 0 5%;
+                    tbody {
+                        width: 100%;
+                        tr {
+                            display: flex;
+                            align-items: flex-start;
+                            justify-content: flex-start;
+                            font-family: "Inter";
+                            font-size: clamp(10px, 3.4vw, 16px);
+                            .table_detail {
+                                color: #000000;
+                                line-height: 1.1rem;
+                                margin-top: 5px;
+                            }
+                        }
+                    }
+                    h2,
+                    p {
+                        font-family: "Inter";
+                        font-size: clamp(10px, 3.4vw, 16px);
+                        color: #3d3d3d;
+                        span {
+                            color: #020202;
+                        }
+                    }
+                    .order-actions {
+                        width: 100%;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        .btn {
+                            font-family: "Inter";
+                            font-size: clamp(10px, 3.4vw, 16px);
+                            padding: 5px 10px;
+                            color: #eee;
+                            border-radius: 5px;
+                        }
+                        .btn-success {
+                            background-color: #21bb43;
+                        }
+                        .btn-failed {
+                            background-color: #be2020;
+                            margin-left: 15px;
+                        }
+                    }
+                }
+            }
+
+            // // Анимации при открытии
+            // input:checked ~ .order_accordion-header .arrow {
+            //     transform: rotate(180deg);
+            // }
+
+            // input:checked ~ .order_accordion-content {
+            //     max-height: clamp(60px, 100vw, 800px);
+            //     padding: 0 0;
+            // }
+        }
+    }
+
+    .order_accordion label:focus,
+    .order_accordion input:focus,
+    .order_accordion button:focus {
+        outline: none;
+        box-shadow: none;
+    }
+}

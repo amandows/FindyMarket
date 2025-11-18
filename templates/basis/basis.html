@@ -1,0 +1,514 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous">
+        </script>
+    <script src="https://unpkg.com/htmx.org@2.0.4"
+        integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+        crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="FindyGo" />
+    <link rel="manifest" href="/static/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="/static/css/basis.css">
+    {% block linkcss %}
+    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+    {% block style %}
+    {% endblock %}
+</head>
+
+<body>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <div id="preloader1">
+        <div class="loader"></div>
+    </div>
+
+    <div id="preloader_order">
+        <div class="order-loader">
+            <div class="dots">
+                <span></span><span></span><span></span>
+            </div>
+            <p>Оформляем ваш заказ…</p>
+        </div>
+    </div>
+
+
+    <!-- Модальное окно ошибки -->
+    <div id="errorModal" class="error-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Ошибка</h2>
+            <p id="modalMessage">Текст ошибки или предупреждения</p>
+        </div>
+    </div>
+
+
+    <!-- Модальное окно -->
+    <div id="image-modal" class="modal-image">
+        <div class="modal-content">
+            <img id="modal-image" src="" alt="Загруженное изображение">
+            <span class="close-image">&times;</span>
+        </div>
+    </div>
+
+    <!-- Модальное окно Оценки -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="checkmark">
+                ✓
+            </div>
+            <h2>Заказ успешно оформлен!</h2>
+            <div class="rating-container">
+                <p>Оцените пожалуйста:</p>
+                <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+                <div class="stars" id="ratingStars">
+                    <span data-value="1">★</span>
+                    <span data-value="2">★</span>
+                    <span data-value="3">★</span>
+                    <span data-value="4">★</span>
+                    <span data-value="5">★</span>
+                </div>
+            </div>
+            <button class="close-btn">OK</button>
+        </div>
+    </div>
+
+    <div class="body-container">
+        <header>
+            <div class="header-top">
+                <div class="menu-btn">
+                    <button class="aside-btn"></button>
+                </div>
+                <a href="{% url 'home' %}" class="logo">
+                    <p>Findy</p>
+                </a>
+                {% if request.user.is_authenticated %}
+                <p class="user_name">{{ request.user.username }}</p>
+                {% else %}
+                <!-- <a href="{% url 'registration_sms' %}" class="login">
+                    <p>Гость</p>
+                </a> -->
+                <a href="https://2gis.ru/routeSearch/rsType/car/from/-/to/72.73369215,41.64324689" class="login">
+                    <p>Гость</p>
+                </a>
+                {% endif %}
+                <div class="aside-menu">
+                    <div class="administrator">
+                        <div class="text-content">
+                            <h2 class="name">Amantur Toktosunov</h2>
+                            <p class="info">Developer / Admin</p>
+                        </div>
+                        <div class="image-contaiener">
+                            <img src="/static/icons/free-icon-man-avatar-17932535.png" alt="">
+                        </div>
+                    </div>
+
+                    <div class="aside-content">
+                        <nav>
+                            <ul class="content-ul">
+                                <li class="home"><span></span><a href="/">Главная</a></li>
+                                <li class="contact"><span></span><a href="">Контакты</a></li>
+                                <li class="services"><span></span><a href="">Услуги</a></li>
+                                <li class="help"><span></span><a href="">Помощь</a></li>
+                                <li class="about"><span></span><a href="">О нас</a></li>
+                            </ul>
+                            <ul class="other-projects">
+                                <p>Другие:</p>
+                                <li class="findy"><span></span><a href="/">Обьявление в городе</a></li>
+                                <li class="findy"><span></span><a href="/">Курс валют</a></li>
+                                <li class="findy"><span></span><a href="/">Погода</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="footer">
+                        <div class="soccial">
+                            <a href="" class="facebook"></a>
+                            <a href="" class="instagram"></a>
+                            <a href="" class="twitter"></a>
+                            <a href="" class="youtube"></a>
+                        </div>
+                        <div class="footer-text">
+                            <p>ⓒ 2025 FindyMarket</p>
+                            <p>Все права защищены</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="carts">
+            {% if request.user.is_authenticated %}
+            <h2>Оформление заказа</h2>
+            <div class="cart-products">
+            </div>
+            <div class="all-price">
+                <p></p>
+            </div>
+            <div class="form-container">
+                <form id="app-cover">
+
+                    <input type="text" id="delivery" name="delivery" style="display: none;">
+                    <h3 class="delivery_title">Способ доставки:</h3>
+                    <div class="delivery_select">
+                        <div class="delivery_buttons type_courier">
+                            <p>Курьер</p>
+                            <img src="/static/icons/delivery.png" alt="">
+                        </div>
+                        <div class="delivery_buttons type_pickup">
+                            <p>Самовывоз</p>
+                            <img src="/static/icons/delivery-man.png" alt="">
+                        </div>
+                    </div>
+                    <div class="form__group field adress_input" id="adress_input">
+                        <input type="input" id="address" class="form__field" placeholder="Ваш адрес" name="name"
+                            required />
+                        <button id="get-address-btn">
+                            <img src="/static/icons/navigation.png" alt="">
+                        </button>
+                        <p class="user_adress-ico"><img src="/static/icons/marker.png" alt=""></p>
+                    </div>
+
+                    <div class="form__group field">
+                        {% if request.user.user_name %}
+                        <input type="input" id="user-name" class="form__field" placeholder="Name" name="name"
+                            value="{{ request.user.user_name }}" required />
+                        <p class="user_name-icon"><img src="/static/icons/user_type.png" alt=""></p>
+                        {% else %}
+                        <input type="input" id="user-name" class="form__field" placeholder="Name" name="name"
+                            value="Пользователь" required />
+                        <p class="user_name-icon"><img src="/static/icons/user_type.png" alt=""></p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form__group field" style="display: none;">
+                        <input type="number" id="phone-number" class="form__field" placeholder="Name" name="name"
+                            value="{{ request.user.user_phone_number }}" required />
+                        <label for="name" class="form__label">Ваш номер телефона:</label>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <input type="checkbox" id="acc1">
+                            <label class="accordion-header" for="acc1">
+                                <h3 class="accordion_title">Выберите способ оплаты</h3>
+                                <svg class="arrow" viewBox="0 0 24 24">
+                                    <path d="M8 10l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </label>
+                            <div class="accordion-content">
+                                <div class="payment_buttons type_online">
+                                    <p>Онлайн</p>
+                                </div>
+                                <div class="payment_buttons type_offline">
+                                    <p>Наличными</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <input type="text" id="payment" name="payment" style="display: none;" value="">
+
+                    <div class="banks_link" style="display: flex;">
+                        <a href="#" class="mbank">
+                            <div class="img_container">
+                                <img src="/static/icons/mbank24.png" alt="">
+                            </div>
+                            <div class="gradient"></div>
+                            <p class="bank_name">Mbank</p>
+                        </a>
+
+                        <a href="#" class="odengi">
+                            <div class="img_container">
+                                <img src="/static/icons/odengi.png" alt="">
+                            </div>
+                            <div class="gradient"></div>
+                            <p class="bank_name">O! Bank</p>
+                        </a>
+
+                        <a href="#" class="rsk">
+                            <div class="img_container">
+                                <img src="/static/icons/rsk24.png" alt="">
+                            </div>
+                            <div class="gradient"></div>
+                            <p class="bank_name">RSK24</p>
+                        </a>
+
+                        <a href="#" class="aiyl">
+                            <div class="img_container">
+                                <img src="/static/icons/aiylbank.png" alt="">
+                            </div>
+                            <div class="gradient"></div>
+                            <p class="bank_name">Abank</p>
+                        </a>
+                    </div>
+                    <div class="file-group">
+                        <!-- <h3 class="payment_title check">Загрузить чек:</h3> -->
+
+                        <div class="file-wrapper">
+                            <label for="image-upload" class="file-label">
+                                Загрузить чек оплаты<img src="/static/icons/plus.png" alt="">
+                            </label>
+                            <input type="file" id="image-upload" class="file-input">
+                            <p id="view-image-btn" class="view-image-btn" style="display: none;"><img
+                                    src="/static/icons/view.png" alt=""></p>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <button id="create-order" value="{{ csrf_token }}">Оформить заказ</button>
+            {% else %}
+            <h2 class="add__login">Вы не вошли в систему</h2>
+            <a href="{% url 'registration_sms' %}" class="login">
+                <p>Войти</p>
+            </a>
+            {% endif %}
+        </div>
+
+        <div class="user-container">
+            {% if request.user.is_authenticated %}
+            <div class="user_profile">
+                <div class="image-container">
+                    {% if request.user.user_logo %}
+                    <img src="{{ request.user.user_logo.url }}" alt="user_photo" class="user-avatar">
+                    {% else %}
+                    <img src="/static/icons/free-icon-man-avatar-17932535.png" alt="user_photo" class="user-avatar">
+                    {% endif %}
+                    <label class="edit_avatar">
+                        <input type="file" class="edit_input">
+                        <span class="edit-icon"></span>
+                    </label>
+                </div>
+                <div class="user_name">
+                    {% if request.user.user_name %}
+                    <p class="user_name-info">{{ request.user.user_name }}</p><button class="rename_user-btn"></button>
+                    {% else %}
+                    <p class="user_name-info">Пользователь</p><button class="rename_user-btn"></button>
+                    {% endif %}
+                    <form action="" class="rename_form" style="display: none;">
+                        <input type="text" class="rename_input" placeholder="{{ request.user.user_name }}">
+                        <button class="rename_user-save"></button>
+                    </form>
+                </div>
+                <div class="user_raiting">
+                    <h3>Рейтинг</h3>
+                    <p>{{ request.user.user_raiting }}</p>
+                </div>
+                <div class="user_info">
+                    <div class="user_phone_number">
+                        <p class="phone_number">{{ request.user.user_phone_number|intcomma }}</p>
+                    </div>
+                    <div class="user_type">
+                        <p>{{ request.user.get_user_type_display }}</p>
+                    </div>
+                </div>
+                <a href="{% url 'my_orders' %}" class="edit_profile">
+                    <p>Мои заказы</p>
+                </a>
+                <a href="" class="edit_phone_number">
+                    <p>Изменить номер</p>
+                </a>
+                <a href="{% url 'taxi_driver' %}" class="go_line">
+                    <p>На линию</p>
+                </a>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;" class="logout_form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-button">Выйти из аккаунта</button>
+                </form>
+            </div>
+
+
+            {% else %}
+            <h2>Вы не вошли в систему</h2>
+            <a href="{% url 'registration_sms' %}" class="login">
+                <p>Войти</p>
+            </a>
+            {% endif %}
+        </div>
+
+
+        <div class="search-container">
+            <h2>Поиск:</h2>
+            <form>
+                <input type="search" id="search-input" name="query" hx-get="{% url 'search_food_menu' %}"
+                    hx-trigger="keyup changed delay:300ms" hx-target="#results" placeholder="Магазинов, заведения...">
+            </form>
+            <div id="results"></div>
+        </div>
+        <main>
+            {% block main %}
+            {% endblock %}
+        </main>
+
+        <footer>
+            <div class="button-container">
+                <button class="back" onclick="window.history.back()">
+                    <!-- <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024"
+                        height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
+                        </path>
+                    </svg> -->
+                </button>
+                <button class="search-btn">
+                    <svg class="icon" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
+                        aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+
+                <button class="cards-btn">
+                    <svg class="icon" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
+                        stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                </button>
+
+                <button class="user-btn">
+                    <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                        height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <button id="enable-notifications" style="display: none;">Enable notifications</button>
+        </footer>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging.js"
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZkTrPVYDi4xw1QC3CxgSwvLypUUWEFvg",
+            authDomain: "findymarket.firebaseapp.com",
+            projectId: "findymarket",
+            storageBucket: "findymarket.firebasestorage.app",
+            messagingSenderId: "502625114209",
+            appId: "1:502625114209:web:ae9a04d7604b7362c4b220",
+            measurementId: "G-18RT40CK0E"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+        const vapidKey = 'BPnPE1b8pwh5LesoRwLcdNL4144DdYfPQ25a3d8r77q8gE1b-Ljtlfv-UsupEv_dJWj-S1firTlLtpWhKtmlInQ'
+        const btn = document.getElementById('enable-notifications');
+
+        // Get CSRF token from cookie
+        const getCSRF = () => {
+            const match = document.cookie.match(/csrftoken=([^;]+)/);
+            return match ? match[1] : null;
+        };
+
+        const saveToken = (token) => {
+            fetch('/save-fcm-token/', { // Here update the API endpoint as per your setup.
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRF(),
+                },
+                credentials: 'include',
+                body: JSON.stringify({ token })
+            })
+                .then(res => res.json())
+                .then(data => console.log('Token saved:', data))
+                .catch(err => console.error('Save failed:', err));
+        };
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Проверяем поддержку уведомлений
+            if (!('Notification' in window)) {
+                console.warn('Ваш браузер не поддерживает уведомления.');
+                return;
+            }
+
+            // Проверяем текущее разрешение
+            if (Notification.permission === 'granted') {
+                console.log('Уведомления уже разрешены.');
+                initializeFCM();
+            } else if (Notification.permission !== 'denied') {
+                // Запрашиваем разрешение
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        console.log('Пользователь разрешил уведомления.');
+                        initializeFCM();
+                    } else {
+                        console.warn('Пользователь запретил уведомления.');
+                    }
+                });
+            } else {
+                console.warn('Пользователь ранее запретил уведомления.');
+            }
+        });
+
+
+        function initializeFCM() {
+            const app = initializeApp(firebaseConfig);
+            const messaging = getMessaging(app);
+
+            // Регистрируем service worker и получаем токен
+            navigator.serviceWorker.register('/static/firebase-messaging-sw.js')
+                .then(registration => {
+                    console.log('Service Worker зарегистрирован');
+                    getToken(messaging, { vapidKey, serviceWorkerRegistration: registration })
+                        .then(token => {
+                            if (token) {
+                                console.log('FCM Token:', token);
+                                // Отправка токена на сервер
+                                saveToken(token);
+                            }
+                        })
+                        .catch(err => console.error('Ошибка получения токена:', err));
+                })
+                .catch(err => console.error('Ошибка регистрации SW:', err));
+        }
+
+        // Получение CSRF из cookie
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? match[2] : null;
+        }
+
+
+
+    </script>
+    <script src="/static/script/script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userNameElement = document.querySelector(".user_name");
+
+            if (userNameElement) {
+                const fullNumber = userNameElement.textContent.trim(); // Получаем полный номер
+                const lastFourDigits = fullNumber.slice(-4); // Извлекаем последние 4 цифры
+                userNameElement.textContent = lastFourDigits; // Заменяем текст в элементе
+            }
+        });
+    </script>
+    {% block script %}
+    {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+{% extends 'basis/basis_admin.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="/static/css/statistic.css">
+<style>
+    h1 {
+        font-size: 25px;
+        font-weight: 700;
+        text-align: center;
+    }
+    #ordersChartCurrent, #ordersChartLast {
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<main>
+    <!-- Контейнеры для графиков -->
+
+    <h1 class="title">График заказов</h1>
+    <div id="chartsContainer" class="chartsContainer">
+        <!-- Селект для выбора года -->
+        <select id="yearSelect">
+            <option value="2024">2024 год</option>
+            <option value="2025">2025 год</option>
+        </select>
+    
+        <!-- Кнопки для выбора месяца -->
+        <div id="monthButtons">
+            <button class="monthBtn active" data-month="0">Январь</button>
+            <button class="monthBtn" data-month="1">Февраль</button>
+            <button class="monthBtn" data-month="2">Март</button>
+            <button class="monthBtn" data-month="3">Апрель</button>
+            <button class="monthBtn" data-month="4">Май</button>
+            <button class="monthBtn" data-month="5">Июнь</button>
+            <button class="monthBtn" data-month="6">Июль</button>
+            <button class="monthBtn" data-month="7">Август</button>
+            <button class="monthBtn" data-month="8">Сентябрь</button>
+            <button class="monthBtn" data-month="9">Октябрь</button>
+            <button class="monthBtn" data-month="10">Ноябрь</button>
+            <button class="monthBtn" data-month="11">Декабрь</button>
+        </div>
+    
+        <!-- График для отображения статистики -->
+        <canvas id="ordersChart"></canvas>
+    </div>
+    
+    
+
+</main>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="/static/script/statistic.js"></script>
+{% endblock %}

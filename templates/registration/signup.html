@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="/static/css/verification.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <div class="verification-form">
+        <div class="step-two">
+            <h2>Введите код из смс</h2>
+            <form class="inputs" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <div class="verification-code-container">
+                    <input type="text" name="verificationCode" class="verification-code" placeholder="Код"
+                        maxlength="10">
+                </div>
+                <button type="submit" class="verification-code-btn">Регистрация</button>
+                <button class="resend-code-btn" onsubmit="return checkForm(this)">Отправить повторно</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/script/signup.js"></script>
+
+</body>
+
+</html>

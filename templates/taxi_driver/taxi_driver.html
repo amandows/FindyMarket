@@ -1,0 +1,94 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Водитель</title>
+    <link rel="stylesheet" href="/static/css/taxi_driver.css">
+</head>
+
+<body>
+    {% csrf_token %}
+    <header>
+        <div class="header-top">
+            <div class="menu-btn">
+                <button class="aside-btn"></button>
+            </div>
+            <a href="{% url 'taxi_driver' %}" class="logo">
+                <p>FindyTaxi</p>
+            </a>
+            {% if request.user.is_authenticated %}
+            <p class="user_name">{{ request.user.username }}</p>
+            {% else %}
+            <!-- <a href="{% url 'registration_sms' %}" class="login">
+                    <p>Гость</p>
+                </a> -->
+            <a href="https://2gis.ru/routeSearch/rsType/car/from/-/to/72.73369215,41.64324689" class="login">
+                <p>Гость</p>
+            </a>
+            {% endif %}
+            <div class="aside-menu">
+                <div class="administrator">
+                    <div class="text-content">
+                        <h2 class="name">{{ request.user.user_name }}</h2>
+                        <p class="info">{{ request.user.get_user_type_display }}</p>
+                    </div>
+                    <div class="image-contaiener">
+                        <img src="{{ request.user.user_logo.url }}" alt="">
+                    </div>
+                </div>
+
+                <div class="aside-content">
+                </div>
+                <div class="footer">
+                    <div class="soccial">
+                        <a href="" class="facebook"></a>
+                        <a href="" class="instagram"></a>
+                        <a href="" class="twitter"></a>
+                        <a href="" class="youtube"></a>
+                    </div>
+                    <div class="footer-text">
+                        <p>ⓒ 2025 FindyMarket</p>
+                        <p>Все права защищены</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="maps" id="map_container"></div>
+        <div class="step_one">
+            <div class="findy_title">
+                <p>Findy Водитель</p>
+                <img src="/static/icons/taxi-svgrepo-com.svg" alt="" class="title_logo">
+            </div>
+            <button class="radar-btn" id="goBtn">
+                <span class="label">На линию</span>
+                <div class="rings"></div>
+                <div class="sweep"></div>
+            </button>
+            <button class="my_location">
+                <p>Обновить мое местоположение</p><span></span>
+            </button>
+        </div>
+    </main>
+    <script src="https://mapgl.2gis.com/api/js/v1"></script>
+    <script src="/static/script/taxi_driver.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userNameElement = document.querySelector(".user_name");
+
+            if (userNameElement) {
+                const fullNumber = userNameElement.textContent.trim(); // Получаем полный номер
+                const lastFourDigits = fullNumber.slice(-4); // Извлекаем последние 4 цифры
+                userNameElement.textContent = lastFourDigits; // Заменяем текст в элементе
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1001 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    user-select: none;
+}
+
+*,
+*:before,
+*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:focus,
+:active {
+    outline: none;
+}
+
+a:focus,
+a:active {
+    outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+    display: block;
+}
+
+html,
+body {
+    // background: rgb(87, 87, 87);
+    // background: rgb(215, 226, 0);
+    // background: radial-gradient(circle, rgba(215, 226, 0, 1) 0%, rgba(255, 181, 0, 1) 50%, rgba(255, 190, 0, 1) 100%);
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+    font-family: inherit;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: 400;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&display=swap");
+
+@keyframes animMarker {
+    0% {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    100% {
+        transform: rotate(45deg) translate(-5px, -5px);
+    }
+}
+
+@keyframes animShadow {
+    0% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+#preloader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.taxi_drivers {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    z-index: 356;
+    width: 30px;
+    img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+.start_marker, .start_marker_map, .finish_marker_map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -170%);
+    z-index: 5000;
+    .content {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        // gap: 8px;
+        justify-content: space-between;
+        background-color: #fff;
+        border-radius: 10px;
+        .img_container {
+            width: clamp(20px, 8vw, 100px);
+            height: clamp(20px, 8vw, 100px);
+            position: relative;
+            background-color: #ffc60a;
+            border-radius: 5px;
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 70%;
+                height: 70%;
+                object-fit: cover;
+                opacity: 100%;
+            }
+        }
+        .start_text_content {
+            visibility: hidden;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease; /* Плавное появление */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease; /* Плавное появление */
+            gap: 5px;
+            // padding: 0 5px 0px 5px;
+            p {
+                white-space: nowrap;
+                font-family: "Nunito";
+                color: rgb(31, 31, 31);
+            }
+            .text_price {
+                font-size: clamp(10px, 3.3vw, 22px);
+                font-weight: 600;
+            }
+            .start_price {
+                font-size: clamp(10px, 3.5vw, 22px);
+                font-weight: 700;
+            }
+        }
+        .active {
+            padding: 0 5px 0px 8px;
+            visibility: visible;
+            width: auto;  /* Или конкретное значение, например width: 100%; */
+            height: auto; /* Или нужное значение */
+            overflow: visible;
+        }
+    }
+    .line {
+        position: absolute;
+        top: 100%;
+        transform: translateX(-50%);
+        left: 50%;
+        width: 4px;
+        height: 70%;
+        background-color: #fff;
+        border-radius: 0 0 2px 2px ;
+    } 
+}
+
+.search-wave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 356;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 132, 255, 0.3);
+    border-radius: 50%;
+    border: 1px solid #ffffff;
+    animation: pulse 1.5s infinite;
+    display: block;
+    &::before, &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: rgba(0, 132, 255, 0.3);
+        border: 1px solid #ffffff;
+        animation: pulse 1.5s infinite;
+    }
+    &::before {
+        animation-delay: 0.5s;
+    }
+    &::after {
+        animation-delay: 1s;
+    }
+}
+
+.taxi_container {
+    max-width: 768px;
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 51;
+
+    .maps {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 75%;
+        z-index: 52;
+        .marker {
+            width: clamp(35px, 8vw, 100px);
+            height: clamp(35px, 8vw, 100px);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 355;
+            .marker_animate {
+                // &::before {
+                //     animation: animShadow 0.4s ease-in-out infinite alternate;
+                // }
+                &::after {
+                    animation: animMarker 0.4s ease-in-out infinite alternate;
+                }
+            }
+            .location_marker {
+                width: 100%;
+                height: 100%;
+                display: block;
+                margin: 20px auto;
+                box-sizing: border-box;
+                position: relative;
+                top: -150%;
+                left: 0%;
+                transition: all 0.3s ease 0s;
+                &::after {
+                    content: '';
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    bottom: 0;
+                    position: absolute;
+                    border-radius: 50% 50% 0;
+                    border: 12px solid red;
+                    transform: rotate(45deg) translate(0, 0);
+                    box-sizing: border-box;
+                }
+    
+                &::before {
+                    content: '';
+                    box-sizing: border-box;
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                    top: 150%;
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.842);
+                }
+            }
+        }
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+    }
+
+    .destination {
+        position: fixed;
+        bottom: 0%;
+        width: 100%;
+        height: 30%;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s ease 0s;
+        z-index: 53;
+        border-radius: 30px 30px 0 0;
+        display: none;
+        .back_btn2 {
+            width: clamp(50px, 11vw, 100px);
+            height: clamp(50px, 11vw, 100px);
+            position: absolute;
+            right: 85%;
+            top: 0%;
+            border-radius: 50%;
+            transform: translateY(-120%);
+            background-color: #fff;
+            img {
+                position: absolute;
+                top: 50%;
+                left: 48%;
+                transform: translate(-50%, -50%) rotate(-180deg);
+                width: 35%;
+                object-fit: cover;
+                opacity: 100%;
+            }
+        }
+        .destination_container {
+            position: absolute;
+            bottom: 0%;
+            background-color: #fff;
+            width: 100%;
+            height: 100%;
+            border-radius: 30px 30px 0 0;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            padding: 15px 4% 25px 4%;
+
+            h2 {
+                font-family: "Raleway";
+                font-size: clamp(10px, 4.8vw, 22px);
+                font-weight: 700;
+                color: rgb(12, 12, 12);
+                padding: 15px 0px;
+            }
+
+            .line {
+                width: 100%;
+                margin: 0 auto;
+                border-top: 1px solid #a1a1a1;
+            }
+
+            .text_container {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 15px 0px;
+                gap: 0px;
+
+                .img_container {
+                    width: clamp(20px, 7.5vw, 100px);
+                    height: clamp(20px, 7.5vw, 100px);
+                    position: relative;
+
+                    img {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 65%;
+                        object-fit: cover;
+                    }
+
+                    .right_arrow {
+                        width: 40%;
+                    }
+                }
+
+                .destination_text {
+                    font-family: "Nunito";
+                    font-size: clamp(10px, 3.9vw, 22px);
+                    font-weight: 600;
+                    color: rgb(31, 31, 31);
+                    margin-left: 10px;
+                }
+            }
+
+            .ok_destination {
+                width: 100%;
+                margin: 0 auto;
+                height: clamp(50px, 11vw, 120px);
+                font-family: "Nunito";
+                font-size: clamp(10px, 3.9vw, 22px);
+                font-weight: 700;
+                color: rgb(31, 31, 31);
+                background-color: #41c527;
+                border-radius: 15px;
+            }
+        }
+    }
+
+    .order_taxi {
+        position: fixed;
+        bottom: 0%;
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s ease 0s;
+        z-index: 53;
+        display: flex;
+        .slider_btn {
+            top: 10px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            width: 12%;
+            height: 5px;
+            background-color: #aaaaaa;
+            border-radius: 8px;
+            z-index: 6;
+        }
+
+        .my_location_btn {
+            width: clamp(50px, 11vw, 100px);
+            height: clamp(50px, 11vw, 100px);
+            position: absolute;
+            left: 85%;
+            top: 0%;
+            border-radius: 50%;
+            transform: translateY(-120%);
+
+            img {
+                position: absolute;
+                top: 55%;
+                left: 46%;
+                transform: translate(-50%, -50%);
+                width: 45%;
+                object-fit: cover;
+                opacity: 90%;
+            }
+        }
+
+        .end_point {
+            position: absolute;
+            bottom: 0%;
+            background-color: #fff;
+            width: 100%;
+            height: 100%;
+            border-radius: 30px 30px 0 0;
+            display: flex;
+            gap: 25px;
+            flex-direction: column;
+            padding: 15px 0 25px 0;
+
+            .location_points {
+                width: 100%;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 12px;
+                box-shadow: 0px 5px 5px #00000033;
+
+                .line {
+                    width: 92%;
+                    margin: 0 auto;
+                    border-top: 1px solid #a1a1a1;
+                }
+
+                .point_a,
+                .point_b {
+                    width: 92%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin: 0 auto;
+
+                    .icon {
+                        width: clamp(20px, 7.5vw, 100px);
+                        height: clamp(20px, 7.5vw, 100px);
+                        position: relative;
+
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            width: 65%;
+                            object-fit: cover;
+                        }
+                    }
+
+                    input {
+                        width: 78%;
+                        font-family: "Nunito";
+                        font-size: clamp(10px, 3.9vw, 22px);
+                        font-weight: 600;
+                        color: rgb(31, 31, 31);
+                        padding: 5px 10px;
+                        border-left: 1px solid #a1a1a1;
+                        border-right: 1px solid #a1a1a1;
+                    }
+
+                    .map_1,
+                    .map_2 {
+                        font-family: "Arial";
+                        font-size: clamp(10px, 3.2vw, 22px);
+                        font-weight: 400;
+                        color: rgb(65, 65, 65);
+                        background: #00000000;
+                    }
+                }
+            }
+
+            .geolocation_a {
+                width: 92%;
+                margin: 0 auto;
+                position: relative;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 15px 0;
+                background-color: #dbdbdb;
+                border-radius: 15px;
+
+                .text {
+                    font-family: "Raleway";
+                    font-size: clamp(10px, 3.8vw, 22px);
+                    font-weight: 500;
+                    color: rgb(12, 12, 12);
+                }
+
+                .icon {
+                    width: clamp(10px, 4.5vw, 50px);
+                    height: clamp(10px, 4%, 50px);
+                    position: absolute;
+                    top: 50%;
+                    left: 88%;
+                    transform: translate(0%, -50%);
+                    border-radius: 50%;
+
+                    img {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+
+
+            .logo_container {
+                width: 92%;
+                margin: 0 auto;
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-start;
+                gap: 15px;
+                margin-top: -10px;
+
+                .logo_img {
+                    width: clamp(50px, 11vw, 100px);
+                    height: clamp(50px, 11vw, 100px);
+                    position: relative;
+
+                    img {
+                        position: absolute;
+                        top: 55%;
+                        left: 46%;
+                        transform: translate(-50%, -50%);
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+
+                .logo_text {
+                    font-family: "Nunito";
+                    font-size: clamp(10px, 6vw, 22px);
+                    font-weight: 700;
+                    color: rgb(31, 31, 31);
+                }
+            }
+
+            .end_point_btn {
+                width: 92%;
+                margin: 0 auto;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 15px 0;
+                background-color: #dbdbdb;
+                border-radius: 15px;
+
+                .text {
+                    font-family: "Raleway";
+                    font-size: clamp(10px, 3.8vw, 22px);
+                    font-weight: 600;
+                    color: rgb(12, 12, 12);
+                }
+
+                .icon {
+                    width: clamp(10px, 3.5vw, 50px);
+                    height: clamp(10px, 3.5vw, 50px);
+                    position: absolute;
+                    top: 50%;
+                    left: 90%;
+                    transform: translate(0%, -50%);
+                    border-radius: 50%;
+
+                    img {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+
+            .old_point {
+                width: 92%;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                gap: 20px;
+
+                .point_one,
+                .street-item {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    position: relative;
+                    background-color: #00000000;
+
+                    .location_icon {
+                        width: clamp(20px, 10vw, 80px);
+                        height: clamp(20px, 10vw, 80px);
+                        position: relative;
+                        border: 1px solid #a1a1a1;
+                        border-radius: 10px;
+
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            width: 40%;
+                            object-fit: cover;
+                            opacity: 80%;
+                        }
+                    }
+
+                    .text {
+                        margin-left: 10px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 7px;
+
+                        h3 {
+                            font-family: "Nunito";
+                            font-size: clamp(10px, 3.9vw, 22px);
+                            font-weight: 700;
+                            color: rgb(31, 31, 31);
+                        }
+
+                        p {
+                            font-family: "Arial";
+                            font-size: clamp(10px, 3.5vw, 22px);
+                            font-weight: 400;
+                            color: rgb(65, 65, 65);
+                        }
+                    }
+
+                    .time_to_point {
+                        position: absolute;
+                        top: 50%;
+                        right: 0;
+                        transform: translateY(-50%);
+                        font-family: "Arial";
+                        font-size: clamp(10px, 3.2vw, 22px);
+                        font-weight: 400;
+                        color: rgb(65, 65, 65);
+                    }
+                }
+
+                .street-item {
+                    .location_icon {
+                        img {
+                            width: 60%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .taxi_go {
+        position: fixed;
+        bottom: 0%;
+        width: 100%;
+        min-height: 45%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+        padding: 15px 0 15px 0;
+        transition: all 0.3s ease 0s;
+        z-index: 53;
+        border-radius: 30px 30px 0 0;
+        background-color: #fff;
+        display: none;
+        .back_btn {
+            width: clamp(50px, 11vw, 100px);
+            height: clamp(50px, 11vw, 100px);
+            position: absolute;
+            right: 85%;
+            top: 0%;
+            border-radius: 50%;
+            transform: translateY(-120%);
+            background-color: #fff;
+            img {
+                position: absolute;
+                top: 50%;
+                left: 48%;
+                transform: translate(-50%, -50%) rotate(-180deg);
+                width: 35%;
+                object-fit: cover;
+                opacity: 100%;
+            }
+        }
+        .point_go {
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+            .line {
+                width: 92%;
+                margin: 0 auto;
+                border-top: 1px solid #a1a1a1;
+            }
+
+            .point_a_go,
+            .point_b_go {
+                width: 92%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0 auto;
+                .icon {
+                    width: clamp(20px, 7.5vw, 100px);
+                    height: clamp(20px, 7.5vw, 100px);
+                    position: relative;
+
+                    img {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 65%;
+                        object-fit: cover;
+                    }
+                }
+
+                input {
+                    width: 88%;
+                    font-family: "Nunito";
+                    font-size: clamp(10px, 3.9vw, 22px);
+                    font-weight: 600;
+                    color: rgb(31, 31, 31);
+                    padding: 5px 10px;
+                    border-left: 1px solid #a1a1a1;
+                    border-right: 1px solid #a1a1a1;
+                }
+
+                .map_1,
+                .map_2 {
+                    font-family: "Arial";
+                    font-size: clamp(10px, 3.2vw, 22px);
+                    font-weight: 400;
+                    color: rgb(65, 65, 65);
+                    background: #00000000;
+                }
+            }
+        }
+    }
+    .taxi_setup {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .buttons {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 92%;
+            margin: 0 auto;
+            gap: 15px;
+            button {
+                font-family: "Nunito";
+                font-size: clamp(10px, 3.9vw, 22px);
+                font-weight: 600;
+                color: rgb(31, 31, 31);
+                padding: 3px 10px;
+                border-radius: 5px;
+                border: 1px solid #0000006b;
+                transition: all 0.3s ease 0s;
+            }
+            .active {
+                background-color: #242424;
+                color: #fff;
+            }
+            .distance,
+            .duration {
+                font-family: "Nunito";
+                font-size: clamp(10px, 3.9vw, 22px);
+                font-weight: 600;
+                color: rgb(31, 31, 31);
+            }
+            .duration {
+                &::after {
+                    content: ' мин';
+                }
+            }
+            .distance {
+                &::after {
+                    content: ' км';
+                }
+            }
+        }
+        .taxi_category_setup {
+            width: 100%;
+            .taxi_category_setup_gallery {
+                height: clamp(60px, 30vw, 250px);
+                display: flex;
+                gap: 12px;
+                overflow: scroll;
+                scroll-snap-type: x mandatory;
+                margin-left: 2.5%;
+                margin-right: 2.5%;
+                margin-top: 20px;
+                &::-webkit-scrollbar {
+                    display: none;
+                    width: 0;
+                }
+                .taxi_category, .delivery_category {
+                    min-width: 30%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    -webkit-justify-content: space-between;
+                    // border: 1px solid #a1a1a1;
+                    opacity: 60%;
+                    transition: all 0.3s ease 0s;
+                    .img-container {
+                        width: 100%;
+                        height: 100%;
+                        position: relative;
+                        border-radius: 15px;
+                        overflow: hidden;
+                        // -webkit-backface-visibility: hidden;
+                        // -moz-backface-visibility: hidden;
+                        // -webkit-transform: translate3d(0, 0, 0);
+                        // -moz-transform: translate3d(0, 0, 0);
+                        -webkit-mask-image: -webkit-radial-gradient(white, black);
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+                        z-index: 5;
+                        img {
+                            position: absolute;
+                            top: -15%;
+                            left: 0;
+                            width: 100%;
+                            object-fit: cover;
+                            z-index: 1;
+                            transition: all 0.3s ease 0s;
+                            z-index: 6;
+                        }
+        
+                        .category_name {
+                            font-family: "Nunito";
+                            font-size: clamp(10px, 3.9vw, 22px);
+                            font-weight: 600;
+                            color: rgb(31, 31, 31);
+                            position: relative;
+                            display: inline-block;
+                            z-index: 3;
+                            padding-left: 10px;
+                            margin-bottom: 5px;
+                            color: #0a0a0a;
+                            z-index: 8;
+                        }
+        
+                        .price {
+                            font-family: "Nunito";
+                            font-size: clamp(10px, 4.1vw, 22px);
+                            font-weight: 700;
+                            color: rgb(31, 31, 31);
+                            position: relative;
+                            display: block;
+                            z-index: 3;
+                            padding-left: 10px;
+                            margin-bottom: 5px;
+                            color: #080808;
+                            z-index: 8;
+                        }
+                    }
+                }
+                .active {
+                    opacity: 100%;
+                    border: 1px solid #474747;
+                    border-radius: 10px;
+                }
+                .delivery_category {
+                    display: none;
+                }
+            }
+        }
+    }
+    .order_taxi_go, .gis_taxi_go, #open2GisButton {
+        background-color: #ffdd00;
+        font-family: "Nunito";
+        font-size: clamp(10px, 4.1vw, 22px);
+        font-weight: 700;
+        color: rgb(31, 31, 31);
+        width: 60%;
+        height: clamp(15px, 13vw, 50px);
+        border-radius: 20px;
+    }
+}

@@ -1,0 +1,407 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+.courier-info {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 100%;
+  z-index: 999;
+  background-color: #0084ff;
+  transition: all 0.3s ease 0s;
+}
+.courier-info .courier-info-container {
+  position: absolute;
+  width: 100%;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.courier-info .courier-info-container h1 {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: clamp(8px, 6vw, 80px);
+  color: #ebebeb;
+  margin-bottom: 15px;
+}
+.courier-info .courier-info-container p {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: clamp(8px, 4vw, 80px);
+  color: #d1d1d1;
+}
+.courier-info .courier-info-container p span {
+  color: #ffffff;
+  font-size: clamp(8px, 4.5vw, 80px);
+  font-family: "Noto Sans Georgian";
+}
+
+.active {
+  left: 0;
+}
+
+#auth-modal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+#auth-modal #links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#auth-modal #links a {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: clamp(8px, 5vw, 80px);
+  color: #1b1b1b;
+}
+#auth-modal #login-form {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#auth-modal #login-form .login, #auth-modal #login-form .password {
+  width: 70%;
+  margin: 0 auto;
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: clamp(8px, 4vw, 80px);
+  color: #1b1b1b;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #1f1f1f;
+}
+#auth-modal #login-form button {
+  padding: 8px 15px;
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: clamp(8px, 4vw, 80px);
+  color: #fafafa;
+  background-color: #49c700;
+  border-radius: 5px;
+}
+#auth-modal #register-form {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#auth-modal #register-form label {
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: clamp(8px, 4vw, 80px);
+  color: #1b1b1b;
+}
+#auth-modal #register-form .login, #auth-modal #register-form .password, #auth-modal #register-form .first_name, #auth-modal #register-form .last_name, #auth-modal #register-form .tel_number, #auth-modal #register-form .car, #auth-modal #register-form .car_number, #auth-modal #register-form .courier-city {
+  width: 70%;
+  margin: 0 auto;
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: clamp(8px, 4vw, 80px);
+  color: #1b1b1b;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #1f1f1f;
+}
+#auth-modal #register-form button {
+  padding: 8px 15px;
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: clamp(8px, 4vw, 80px);
+  color: #fafafa;
+  background-color: #0067c7;
+  border-radius: 5px;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.title h1 {
+  font-family: "Roboto";
+  font-weight: 600;
+  font-size: clamp(8px, 8vw, 80px);
+  color: #e700fc;
+}
+.title p {
+  font-family: "Montserrat";
+  font-weight: 800;
+  font-size: clamp(8px, 4.4vw, 80px);
+  color: #0067c7;
+}
+
+.courier-orders, .my-courier-orders {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: 15px;
+}
+.courier-orders .courier-order, .my-courier-orders .courier-order {
+  width: 100%;
+  border: 1px solid #474747;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+.courier-orders .courier-order .messages, .my-courier-orders .courier-order .messages {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.courier-orders .courier-order .messages .messages-icon, .my-courier-orders .courier-order .messages .messages-icon {
+  width: clamp(15px, 5vw, 50px);
+}
+.courier-orders .courier-order .messages .messages-title, .my-courier-orders .courier-order .messages .messages-title {
+  font-family: "Noto Sans";
+  font-weight: 600;
+  font-size: clamp(12px, 3.8vw, 80px);
+  color: #0084ff;
+}
+.courier-orders .courier-order .messages .order-number, .my-courier-orders .courier-order .messages .order-number {
+  font-family: "Noto Sans";
+  font-weight: 600;
+  font-size: clamp(8px, 3.2vw, 80px);
+  color: #858585;
+}
+.courier-orders .courier-order .order-content, .my-courier-orders .courier-order .order-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 65px;
+}
+.courier-orders .courier-order .order-content .admin, .my-courier-orders .courier-order .order-content .admin {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: clamp(12px, 4.5vw, 80px);
+  color: #141414;
+}
+.courier-orders .courier-order .order-content .admin .adress-icon, .my-courier-orders .courier-order .order-content .admin .adress-icon {
+  width: clamp(15px, 4vw, 50px);
+  margin-left: 10px;
+}
+.courier-orders .courier-order .order-content .admin .online-payment-icon, .courier-orders .courier-order .order-content .admin .payment-icon, .my-courier-orders .courier-order .order-content .admin .online-payment-icon, .my-courier-orders .courier-order .order-content .admin .payment-icon {
+  display: inline-block;
+  width: clamp(10px, 3.5vw, 50px);
+  height: clamp(10px, 3.5vw, 50px);
+  margin: 0 5px 0 15px;
+}
+.courier-orders .courier-order .order-content .admin .online-payment-icon, .my-courier-orders .courier-order .order-content .admin .online-payment-icon {
+  background: url("/static/icons/credit-card.png") center/cover no-repeat;
+}
+.courier-orders .courier-order .order-content .admin .payment-icon, .my-courier-orders .courier-order .order-content .admin .payment-icon {
+  background: url("/static/icons/cash-payment.png") center/cover no-repeat;
+}
+.courier-orders .courier-order .order-content .admin span, .my-courier-orders .courier-order .order-content .admin span {
+  font-family: "Roboto";
+  font-weight: 500;
+  font-size: clamp(8px, 3.4vw, 80px);
+  color: #00a50e;
+}
+.courier-orders .courier-order .order-content .content, .my-courier-orders .courier-order .order-content .content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: flex-start;
+}
+.courier-orders .courier-order .order-content .content .order_details, .my-courier-orders .courier-order .order-content .content .order_details {
+  width: 100%;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: clamp(8px, 3.5vw, 80px);
+  color: #4b4b4b;
+  line-height: clamp(8px, 5vw, 80px);
+}
+.courier-orders .courier-order .buttons, .my-courier-orders .courier-order .buttons {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 65px;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  border-radius: 0 0 5px 5px;
+  gap: 20px;
+}
+.courier-orders .courier-order .buttons .courier-status, .my-courier-orders .courier-order .buttons .courier-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+.courier-orders .courier-order .buttons .courier-status .adress, .my-courier-orders .courier-order .buttons .courier-status .adress {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: clamp(8px, 3.5vw, 80px);
+  color: #4b4b4b;
+  background-color: rgba(255, 255, 255, 0);
+}
+.courier-orders .courier-order .buttons .courier-status .adress span, .my-courier-orders .courier-order .buttons .courier-status .adress span {
+  display: inline-block;
+  width: clamp(10px, 3vw, 50px);
+  height: clamp(10px, 3vw, 50px);
+  margin: 0 5px 0 0px;
+  background: url("/static/icons/map-pin.png") center/cover no-repeat;
+}
+.courier-orders .courier-order .buttons .courier-status select, .my-courier-orders .courier-order .buttons .courier-status select {
+  font-family: "Roboto";
+  font-weight: 600;
+  font-size: clamp(12px, 3.2vw, 80px);
+  color: #3a3a3a;
+  padding: 5px 10px;
+  background-color: #fcb900;
+  border-radius: 5px;
+}
+.courier-orders .courier-order .buttons .get-order, .my-courier-orders .courier-order .buttons .get-order {
+  font-family: "Roboto";
+  font-weight: 600;
+  font-size: clamp(12px, 3.2vw, 80px);
+  color: #3a3a3a;
+  padding: 5px 10px;
+  background-color: #fcb900;
+  border-radius: 5px;
+  letter-spacing: 1px;
+}
+.courier-orders .courier-order .buttons .get-order:hover, .my-courier-orders .courier-order .buttons .get-order:hover {
+  background-color: #966e00;
+}
+.courier-orders .courier-order .buttons .customer-info, .my-courier-orders .courier-order .buttons .customer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+.courier-orders .courier-order .buttons .customer-info .name, .courier-orders .courier-order .buttons .customer-info .tel-number, .courier-orders .courier-order .buttons .customer-info .adress, .my-courier-orders .courier-order .buttons .customer-info .name, .my-courier-orders .courier-order .buttons .customer-info .tel-number, .my-courier-orders .courier-order .buttons .customer-info .adress {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: clamp(8px, 3.5vw, 80px);
+  color: #4b4b4b;
+  background-color: rgba(255, 255, 255, 0);
+}
+.courier-orders .courier-order .buttons .customer-info .name span, .courier-orders .courier-order .buttons .customer-info .tel-number span, .courier-orders .courier-order .buttons .customer-info .adress span, .my-courier-orders .courier-order .buttons .customer-info .name span, .my-courier-orders .courier-order .buttons .customer-info .tel-number span, .my-courier-orders .courier-order .buttons .customer-info .adress span {
+  display: inline-block;
+  width: clamp(10px, 3vw, 50px);
+  height: clamp(10px, 3vw, 50px);
+  margin: 0 5px 0 0px;
+}
+.courier-orders .courier-order .buttons .customer-info .name .name-span, .my-courier-orders .courier-order .buttons .customer-info .name .name-span {
+  background: url("/static/icons/free-icon-user-avatar-8188339.png") center/cover no-repeat;
+}
+.courier-orders .courier-order .buttons .customer-info .tel-number, .my-courier-orders .courier-order .buttons .customer-info .tel-number {
+  text-decoration: underline;
+}
+.courier-orders .courier-order .buttons .customer-info .tel-number span, .my-courier-orders .courier-order .buttons .customer-info .tel-number span {
+  width: clamp(10px, 3.2vw, 50px);
+  height: clamp(10px, 3.2vw, 50px);
+  background: url("/static/icons/free-icon-telephone-call-6803372.png") center/cover no-repeat;
+}
+.courier-orders .courier-order .buttons .customer-info .adress span, .my-courier-orders .courier-order .buttons .customer-info .adress span {
+  background: url("/static/icons/map-pin.png") center/cover no-repeat;
+}
+.courier-orders .courier-order .buttons p, .my-courier-orders .courier-order .buttons p {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: clamp(8px, 3.2vw, 80px);
+  color: #4b4b4b;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(20px, 12vw, 80px);
+  z-index: 998;
+  background-color: #0084ff;
+  display: flex;
+  justify-content: space-between;
+}
+footer .new-orders {
+  border-right: 1px solid #e6e6e6;
+}
+footer .new-orders, footer .my-orders {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+footer .new-orders p, footer .my-orders p {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: clamp(12px, 3.5vw, 80px);
+  color: #f1f1f1;
+}
+footer .new-orders .res, footer .my-orders .res {
+  margin-left: 5px;
+  width: 17px;
+  height: 17px;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: clamp(8px, 3.2vw, 80px);
+  border-radius: 50%;
+  background-color: #eeff00;
+  padding: 5px;
+  color: #111111;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}/*# sourceMappingURL=courier.css.map */

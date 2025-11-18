@@ -1,0 +1,110 @@
+{% extends 'basis/basis_admin.html' %}
+
+{% block link %}
+    <link rel="stylesheet" href="/static/css/edit_profile.css">
+{% endblock %}
+
+{% block main %}
+
+<main>
+    <h1 class="title">Редактировать профиль</h1>
+
+    <form method="post" enctype="multipart/form-data" class="profile-container">
+        {% csrf_token %}
+
+        <div class="profile-background">
+            
+                <img class="profile-background-img" src="{{ user.user_logo.url }}" alt="User Logo">
+            <input type="file" name="user_logo" accept="image/*" id="id_user_logo" style="display: none;">
+            
+            <label class="profile-background-gradient" for="id_user_logo">
+                <input type="file" name="user_logo" accept="image/*" id="id_user_logo" style="display: none;">
+            </label>
+
+            <div class="profile-info">
+                <h2>- Изменение информации о заведении -</h2>
+
+                <div class="profile-logo">
+                    <label for="id_user_logo_mini">
+                        <img src="{{ user.user_logo_mini.url }}" alt="Mini Logo">
+                    </label>
+                    <input type="file" name="user_logo_mini" accept="image/*" id="id_user_logo_mini" style="display: none;">
+                </div>
+
+                <div class="profile-info-text">
+                    <p>
+                        <label for="id_city"><span>Город:</span></label>
+                        <select name="city" id="id_city">
+                            {% for city_value, city_name in CITY %}
+                                <option value="{{ city_value }}" {% if user.city == city_value %}selected{% endif %}>
+                                    {{ city_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <p>
+                        <label for="id_user_name"><span>Название заведения:</span></label>
+                        <input type="text" name="user_name" value="{{ user.user_name }}" maxlength="25" id="id_user_name">
+                    </p>
+
+                    <p>
+                        <label for="id_user_description"><span>Описание:</span></label>
+                        <input type="text" name="user_description" value="{{ user.user_description }}" maxlength="500" id="id_user_description">
+                    </p>
+
+                    <p>
+                        <label for="id_user_phone_number"><span>Номер телефона:</span></label>
+                        <input type="number" name="user_phone_number" value="{{ user.user_phone_number }}" step="1" id="id_user_phone_number">
+                    </p>
+
+                    <p>
+                        <label for="id_user_phone_number2"><span>Доп. номер телефона:</span></label>
+                        <input type="number" name="user_phone_number2" value="{{ user.user_phone_number2 }}" step="1" id="id_user_phone_number2">
+                    </p>
+
+                    <p>
+                        <label for="id_user_status"><span>Статус:</span></label>
+                        <select name="user_status" id="id_user_status">
+                            <option value="Online" {% if user.user_status == 'Online' %}selected{% endif %}>Онлайн</option>
+                            <option value="Offline" {% if user.user_status == 'Offline' %}selected{% endif %}>Оффлайн</option>
+                        </select>
+                    </p>
+
+                    <div class="banks-container">
+                        <div class="bank-links">
+                            <p>
+                                <label for="id_user_mbank_link"><span>MBank:</span></label>
+                                <input type="url" name="user_mbank_link" id="id_user_mbank_link"
+                                    value="{{ user.user_mbank_link|default:'' }}" placeholder="https://mbank.kg/..." />
+                            </p>
+                        
+                            <p>
+                                <label for="id_user_obank_link"><span>O! Bank:</span></label>
+                                <input type="url" name="user_obank_link" id="id_user_obank_link"
+                                    value="{{ user.user_obank_link|default:'' }}" placeholder="https://obank.kg/..." />
+                            </p>
+                        
+                            <p>
+                                <label for="id_user_rsk_link"><span>RSK Bank:</span></label>
+                                <input type="url" name="user_rsk_link" id="id_user_rsk_link"
+                                    value="{{ user.user_rsk_link|default:'' }}" placeholder="https://rsk.kg/..." />
+                            </p>
+                        
+                            <p>
+                                <label for="id_user_abank_link"><span>Aiyl Bank:</span></label>
+                                <input type="url" name="user_abank_link" id="id_user_abank_link"
+                                    value="{{ user.user_abank_link|default:'' }}" placeholder="https://abank.kg/..." />
+                            </p>
+                            <p></p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button type="submit" class="profile-edit">Сохранить изменения</button>
+            </div>
+        </div>
+    </form>
+</main>
+
+{% endblock %}

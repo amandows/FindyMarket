@@ -1,0 +1,83 @@
+{% extends 'basis/basis_admin.html' %}
+
+
+{% block link %}
+<link rel="stylesheet" href="/static/css/create_food.css">
+{% endblock %}
+
+{% block main %}
+
+<div class="main">
+    <h1 class="title">Добавить новый продукт в меню</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div>
+            <label for="id_name">Название (Лагман, Манты):</label>
+            {{ form.name }}
+        </div>
+        <div>
+            <label for="id_description">Информация (состав т.д):</label>
+            {{ form.description }}
+        </div>
+        <div>
+            <label for="id_price">Цена:</label>
+            {{ form.price }}
+        </div>
+        <div>
+            <label for="id_category">Категория:</label>
+            {{ form.category }}
+        </div>
+        <div>
+            <label for="id_imageOne">Изображение:</label>
+            {{ form.imageOne }}
+        </div>
+        <div>
+            <label for="id_food_status">Статус продукта:</label>
+            {{ form.food_status }}
+        </div>
+        <button type="submit">Добавить товар</button>
+    </form>
+</div>
+
+<form id="category-form">
+    {% csrf_token %}
+    <label for="category-name">Имя категории:</label>
+    <input type="text" name="name" id="category-name" required>
+    <button type="submit">Создать категорию</button>
+</form>
+
+
+<script>
+    document.getElementById('category-form').addEventListener('submit', function (e) {
+        e.preventDefault();  // Предотвращает стандартную отправку формы
+
+        createCategory();  // Вызывает функцию для отправки данных через fetch
+    });
+
+    const createCategory = async () => {
+        const name = document.getElementById('category-name').value;
+        const response = await fetch('/create-category/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Убедитесь, что CSRF токен добавлен
+            },
+            body: JSON.stringify({ name: name })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('Категория создана');
+            location.reload();
+        } else {
+            console.error('Ошибка:', data.error);
+            alert('Произошла ошибка: ' + data.error);
+        }
+    };
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/style_form.css">
+</head>
+<body>
+
+
+    <!-- <h2>Login</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    {% if error %}
+        <p><strong>{{ error }}</strong></p>
+    {% endif %} -->
+
+
+<div class="main">
+    <!-- Sing in  Form -->
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <a href="{% url 'registration_sms' %}" class="signup-image-link">Регистрация аккаунта</a>
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Войти</h2>
+                    <form method="POST" class="register-form" id="login-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="username" id="your_name" placeholder="Логин"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="password" id="your_pass" placeholder="Пароль"/>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Далее"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+
+</body>
+</html>

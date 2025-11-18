@@ -1,0 +1,2041 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    user-select: none;
+}
+
+*,
+*:before,
+*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:focus,
+:active {
+    outline: none;
+}
+
+a:focus,
+a:active {
+    outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+    display: block;
+}
+
+html,
+body {
+    background: rgb(255, 255, 255);
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+    font-family: inherit;
+}
+
+button,
+a {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none; /* Отключает выделение текста */
+}
+
+@keyframes clickAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+a,
+.aside-btn,
+.payment_buttons,
+.delivery_buttons,
+.back,
+.search-btn,
+.cards-btn,
+.user-btn {
+    &:active {
+        animation: clickAnimation 0.3s ease-in-out;
+    }
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: 400;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,400i,700");
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+@mixin colorbg {
+    background: rgb(61, 61, 61);
+}
+
+@mixin colorstandart {
+    color: #727272;
+}
+
+@mixin fonttitle {
+    font-family: "Raleway";
+    font-size: clamp(12px, 4vw, 18px);
+    font-weight: 600;
+}
+
+@mixin fontdescription {
+    font-family: "Raleway";
+    font-size: clamp(10px, 3vw, 16px);
+    font-weight: 600;
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    .loader {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+}
+
+#preloader1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    .loader {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+}
+
+#preloader_order {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(6px);
+    display: none; /* показывать только при необходимости */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 9999;
+    transition: opacity 0.4s ease;
+    .order-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: fadeIn 0.5s ease forwards;
+        p {
+            @include fontdescription();
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #333;
+            letter-spacing: 0.6px;
+            animation: textPulse 1.6s ease-in-out infinite;
+        }
+        .dots {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            span {
+                width: 10px;
+                height: 10px;
+                background: #007bff;
+                border-radius: 50%;
+                margin: 0 4px;
+                animation: bounce 0.8s infinite alternate;
+                &:nth-child(2) {
+                    animation-delay: 0.2s;
+                }
+                &:nth-child(3) {
+                    animation-delay: 0.4s;
+                }
+            }
+        }
+    }
+}
+
+#image-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        padding: 5px;
+        border-radius: 15px;
+        max-width: 85%;
+        max-height: 85%;
+        animation: fadeIn 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+            max-width: 100%;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            border-radius: 10px;
+            object-fit: contain; /* <-- ключевой момент */
+        }
+        .close-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 15px;
+            right: 15px;
+            font-size: 35px;
+            font-weight: 600;
+            color: #0e0e0e;
+            cursor: pointer;
+            background-color: #ffffff73;
+            border-radius: 3px;
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Анимации */
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+        opacity: 0.6;
+    }
+    to {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+@keyframes textPulse {
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Фон модалки */
+#successModal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.856);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease forwards;
+    .modal-content {
+        background: #fff;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        width: 320px;
+        animation: slideUp 0.4s ease forwards;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        h2,
+        p,
+        .lose-btn {
+            font-family: "Nunito";
+            font-size: clamp(10px, 4vw, 16px);
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .rating-container {
+            margin-top: 15px;
+        }
+        .stars {
+            margin-top: 10px;
+            font-size: 35px;
+            cursor: pointer;
+            color: #ccc;
+            span {
+                transition: 0.2s;
+                user-select: none; /* чтобы текст не выделялся */
+            }
+            span.active {
+                color: #ff9800;
+            }
+
+            span:hover {
+                color: #ff9800;
+            }
+        }
+        .checkmark {
+            font-size: 50px;
+            color: #4caf50;
+            margin-bottom: 15px;
+            animation: pop 0.5s ease forwards;
+        }
+        .close-btn {
+            margin-top: 20px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+            &:hover {
+                background: #43a047;
+            }
+        }
+    }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0);
+    }
+    70% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Блок модального окна ошибки */
+.error-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    transition: opacity 0.3s ease;
+
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 80% auto;
+        padding: 20px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transform: scale(0.8);
+        opacity: 0;
+        transition: all 0.3s ease;
+        font-family: "Inter";
+        text-align: center;
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            color: #e74c3c;
+        }
+
+        p {
+            margin-top: 10px;
+            color: #333;
+            line-height: 1.4rem;
+            font-size: clamp(10px, 3.4vw, 16px);
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #aaa;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: #000;
+            }
+        }
+    }
+
+    &.show .modal-content {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.body-container {
+    max-width: 576px;
+    margin: 0 auto;
+    position: relative;
+    .carts {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 100%;
+        background-color: #ffffff;
+        z-index: 506;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s ease 0s;
+        left: 0;
+        overflow-y: auto;
+        padding-bottom: clamp(25px, 16vw, 60px);
+        h2 {
+            font-family: "Raleway";
+            font-size: clamp(10px, 6vw, 30px);
+            color: #111111;
+            margin-top: clamp(10px, 6vw, 100px);
+            margin-bottom: clamp(10px, 6vw, 100px);
+            text-align: center;
+        }
+        .all-price {
+            margin-top: 15px;
+            p {
+                font-family: "Nunito";
+                font-size: clamp(10px, 4.2vw, 25px);
+                font-weight: 700;
+                color: #111111;
+            }
+        }
+        .cart-products {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            gap: 10px;
+            .food {
+                width: 95%;
+                margin: 0 auto;
+                display: flex;
+                justify-content: start;
+                padding: 10px 7px;
+                gap: 15px;
+                border-bottom: 1px solid #111111;
+                background: #fff;
+                .img-container {
+                    width: 30%;
+                    padding: 0 0 29% 0;
+                    border-radius: 10px;
+                    position: relative;
+                    overflow: hidden;
+                    img {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+                .descrition-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: start;
+                    justify-content: space-between;
+                    width: 68%;
+                    .price-container {
+                        position: relative;
+                        width: 100%;
+                        .user {
+                            position: absolute;
+                            top: 50%;
+                            right: 0;
+                            transform: translateY(-50%);
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            .user-name {
+                                font-family: "Comfortaa";
+                                font-size: clamp(0.375rem, -0.436rem + 4.054vw, 0.75rem);
+                                font-weight: 600;
+                                color: #111111;
+                                border-bottom: 1px solid #111111;
+                            }
+                            .user-avatar {
+                                width: 18px;
+                                height: 18px;
+                                border-radius: 50%;
+                                border: 1px solid #111111;
+                            }
+                        }
+                        .price__view {
+                            background-color: #ffffff00;
+                            font-family: "Nunito";
+                            font-size: clamp(10px, 4vw, 24px);
+                            font-weight: 700;
+                            color: #000;
+                            @include colorstandart();
+                            &::after {
+                                content: "с";
+                                margin-left: 2px;
+                            }
+                        }
+                    }
+                    .food_name {
+                        font-family: "Inter";
+                        font-size: clamp(10px, 3.4vw, 16px);
+                        font-weight: 500;
+                        line-height: 1.4rem;
+                        @include colorstandart();
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    /* Добавьте дополнительные стили для кроссбраузерной совместимости */
+                    @supports (-webkit-line-clamp: 2) {
+                        .food_name {
+                            font-size: clamp(10px, 3.5vw, 25px);
+                        }
+                    }
+                    .coll-food {
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+                        position: relative;
+                        width: 100%;
+                        .coll {
+                            width: 15%;
+                            text-align: center;
+                            background-color: #00000000;
+                            font-family: "Nunito";
+                            font-size: clamp(10px, 4vw, 16px);
+                            font-weight: 500;
+                            color: #111111;
+                        }
+                        .input-disabled {
+                            pointer-events: none; // Отключает взаимодействие с элементом
+                            background-color: #f0f0f0; // Изменяет цвет фона, чтобы указать, что элемент неактивен
+                            border: 1px solid #ddd; // Делаем границу менее заметной
+                            color: #858585; // Изменяем цвет текста
+                            cursor: not-allowed; // Указывает, что элемент неактивен
+                        }
+                        span {
+                            display: block;
+                            font-family: "Nunito";
+                            font-size: clamp(10px, 3.5vw, 25px);
+                            margin-left: 10px;
+                        }
+                        .minus,
+                        .plus {
+                            display: none;
+                            font-family: "Nunito";
+                            font-size: clamp(10px, 6vw, 25px);
+                            font-weight: 500;
+                            color: #111111;
+                            background-color: #ffffff1f;
+                            padding: 0 10px;
+                            border: 1px solid #111111;
+                        }
+                        .box,
+                        .button {
+                            position: absolute;
+                            right: 0%;
+                            top: 50%;
+                            transform: translateY(-50%) translateX(0);
+                            width: 25%;
+                            height: clamp(10px, 7vw, 30px);
+                            font-size: clamp(10px, 3vw, 20px);
+                            font-weight: 500;
+                            @include colorstandart();
+                            background-color: #ffffff00;
+                            border: 1px solid #e6e6e6;
+                            border-radius: 5px;
+                            padding: 3px 0;
+                        }
+                    }
+                }
+            }
+        }
+        .form-container {
+            padding: 15px 0;
+            width: 95%;
+            margin: 0 auto;
+            form {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                gap: clamp(10px, 3.5vw, 20px);
+
+                $primary: #11998e;
+                $secondary: #38ef7d;
+                $white: #161616;
+                $gray: #5e5e5e;
+                .form__group {
+                    position: relative;
+                    margin-top: 10px;
+                    width: 95%;
+                    #get-address-btn {
+                        position: absolute;
+                        width: clamp(10px, 9.8vw, 60px);
+                        height: clamp(10px, 9.8vw, 60px);
+                        // border: 1px solid #000000;
+                        top: 50%;
+                        left: 100%;
+                        transform: translate(-110%, -50%);
+                        border-radius: 50%;
+                        background-color: #ffffff00;
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            width: 60%;
+                            height: 60%;
+                            transform: translate(-50%, -50%);
+                            object-fit: cover;
+                        }
+                    }
+                    .user_name-icon,
+                    .user_adress-ico {
+                        position: absolute;
+                        width: clamp(10px, 4.8vw, 60px);
+                        height: clamp(10px, 4.8vw, 60px);
+                        // border: 1px solid #000000;
+                        top: 50%;
+                        left: 0%;
+                        transform: translate(0%, -50%);
+                        border-radius: 50%;
+                        background-color: #fff;
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            width: 100%;
+                            height: 100%;
+                            transform: translate(-50%, -50%);
+                            object-fit: cover;
+                        }
+                    }
+                    #user-name,
+                    #address {
+                        padding: clamp(5px, 3.8vw, 30px) 0 clamp(5px, 3.8vw, 30px) clamp(10px, 7.8vw, 60px);
+                    }
+                }
+                .form__field {
+                    font-family: "Inter";
+                    width: 100%;
+                    border: 0;
+                    border-bottom: 2px solid $gray;
+                    outline: 0;
+                    font-size: clamp(10px, 3.8vw, 16px);
+                    color: $white;
+                    padding: 7px 0 7px 15px;
+                    background: transparent;
+                    transition: border-color 0.2s;
+                    &::placeholder {
+                        color: transparent;
+                    }
+                    &:placeholder-shown ~ .form__label {
+                        font-size: clamp(10px, 3.5vw, 16px);
+                        cursor: text;
+                        top: 20px;
+                    }
+                }
+                .adress_input {
+                    display: none;
+                }
+                .adress_active {
+                    display: block;
+                }
+                .form__label {
+                    font-family: "Nunito";
+                    font-size: clamp(10px, 4vw, 20px);
+                    position: absolute;
+                    top: 0;
+                    display: block;
+                    transition: 0.2s;
+                    color: $gray;
+                }
+
+                .form__field:focus {
+                    ~ .form__label {
+                        position: absolute;
+                        top: 0;
+                        display: block;
+                        transition: 0.2s;
+                        font-size: clamp(10px, 4vw, 20px);
+                        color: $primary;
+                        font-weight: 600;
+                    }
+                    padding-bottom: 6px;
+                    font-weight: 500;
+                    border-width: 3px;
+                    border-image: linear-gradient(to right, $primary, $secondary);
+                    border-image-slice: 1;
+                }
+                /* reset input */
+                .form__field {
+                    &:required,
+                    &:invalid {
+                        box-shadow: none;
+                    }
+                }
+
+                .input-group {
+                    margin-bottom: 10px;
+                    width: 100%;
+                    p {
+                        font-family: "Open Sans";
+                        font-size: clamp(10px, 4vw, 20px);
+                        color: #111111;
+                        font-weight: 500;
+                        margin-bottom: 10px;
+                        text-align: center;
+                    }
+                    input {
+                        width: 100%;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        font-size: 16px;
+                        transition: border-color 0.3s ease;
+                        font-family: "Nunito";
+                        font-size: clamp(10px, 3.5vw, 20px);
+
+                        &:focus {
+                            border-color: #007bff;
+                            outline: none;
+                        }
+                    }
+                }
+                .delivery_select {
+                    width: 95%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .type_courier,
+                    .type_pickup {
+                        transition: all 0.4s ease 0s;
+                        width: 48%;
+                        height: clamp(30px, 20vw, 150px);
+                        position: relative;
+                        overflow: hidden;
+                        background-color: #ffffff;
+                        border-radius: 15px;
+                        opacity: 35%;
+                        border: 1px solid #414141;
+                        -webkit-tap-highlight-color: transparent; // убирает синий блик на Android
+                        outline: none; // убирает контур при фокусе
+                        user-select: none; // чтобы не выделялся текст при клике
+                        cursor: pointer; // чтобы явно обозначить интерактивность
+                        &:focus,
+                        &:active {
+                            outline: none;
+                            box-shadow: none;
+                        }
+
+                        // Если хочешь совсем без эффекта нажатия
+                        &:active {
+                            background-color: inherit; // не меняет фон
+                            transform: none;
+                        }
+
+                        // Если хочешь лёгкий визуальный клик
+                        &.pressed {
+                            transform: none;
+                            background-color: rgba(0, 0, 0, 0.05);
+                        }
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            left: 70%;
+                            width: 30%;
+                            // height: 100%;
+                            transform: translate(-50%, -50%);
+                            object-fit: cover;
+                            z-index: 506;
+                        }
+                        p {
+                            position: absolute;
+                            top: 12%;
+                            left: 7%;
+                            color: #070707;
+                            font-family: "Nunito";
+                            font-size: clamp(10px, 3.6vw, 20px);
+                            z-index: 507;
+                        }
+                    }
+                    .active {
+                        opacity: 100%;
+                        background-color: #ffffff;
+                    }
+                }
+                .payment_title,
+                .delivery_title {
+                    font-family: "Nunito";
+                    font-size: clamp(10px, 4vw, 20px);
+                    font-weight: 600;
+                    text-align: left;
+                    width: 95%;
+                    margin-bottom: 5px;
+                    margin-top: 10px;
+                }
+
+                .accordion {
+                    width: 95%;
+                    margin: 0 auto;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    background: #fff;
+                    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+
+                    // Убираем синий клик-эффект на всех устройствах
+                    * {
+                        -webkit-tap-highlight-color: transparent;
+                        outline: none;
+                    }
+
+                    .accordion-item {
+                        border-bottom: 1px solid #eee;
+                        position: relative;
+
+                        input {
+                            position: absolute;
+                            opacity: 0;
+                            pointer-events: none;
+                        }
+
+                        .accordion-header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 1.2em 1.5em 1.2em 1.5em;
+                            cursor: pointer;
+                            background: #f9f9f9;
+                            transition: background 0.3s ease;
+                            user-select: none;
+
+                            &:hover {
+                                background: #f2f2f2;
+                            }
+
+                            h3 {
+                                font-family: "Nunito";
+                                font-size: clamp(10px, 4vw, 20px);
+                                font-weight: 600;
+                                text-align: left;
+                                margin: 0;
+                                color: #333;
+                                font-weight: 500;
+                            }
+
+                            .arrow {
+                                width: 22px;
+                                height: 22px;
+                                color: #007aff;
+                                transition: transform 0.3s ease;
+                            }
+                        }
+
+                        .accordion-content {
+                            width: 100%;
+                            max-height: 0;
+                            overflow: hidden;
+                            background: #fff;
+                            transition:
+                                max-height 0.4s ease,
+                                padding 0.3s ease;
+                            padding: 0 0;
+
+                            .payment_buttons {
+                                transition: all 0.3s ease 0s;
+                                width: 100%;
+                                height: clamp(30px, 12vw, 150px);
+                                position: relative;
+                                overflow: hidden;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                -webkit-tap-highlight-color: transparent; // убирает синий блик на Android
+                                outline: none; // убирает контур при фокусе
+                                user-select: none; // чтобы не выделялся текст при клике
+                                cursor: pointer; // чтобы явно обозначить интерактивность
+                                &:focus,
+                                &:active {
+                                    outline: none;
+                                    box-shadow: none;
+                                }
+
+                                // Если хочешь совсем без эффекта нажатия
+                                &:active {
+                                    background-color: inherit; // не меняет фон
+                                    transform: none;
+                                }
+
+                                // Если хочешь лёгкий визуальный клик
+                                &.pressed {
+                                    transform: none;
+                                    background-color: rgba(0, 0, 0, 0.05);
+                                }
+                                p {
+                                    color: #0a0a0a;
+                                    font-family: "Inter";
+                                    font-size: clamp(10px, 3.6vw, 20px);
+                                }
+                            }
+                            .active {
+                                background-color: #131313;
+                                p {
+                                    color: #fcfcfc;
+                                }
+                            }
+                        }
+
+                        // Анимации при открытии
+                        input:checked ~ .accordion-header .arrow {
+                            transform: rotate(180deg);
+                        }
+
+                        input:checked ~ .accordion-content {
+                            max-height: clamp(60px, 30vw, 250px);
+                            padding: 0 0;
+                        }
+                    }
+                }
+
+                // Убираем подсветку при фокусе
+                .accordion label:focus,
+                .accordion input:focus,
+                .accordion button:focus {
+                    outline: none;
+                    box-shadow: none;
+                }
+
+                .banks_link {
+                    width: 0px;
+                    height: 0px;
+                    display: flex;
+                    gap: 10px;
+                    overflow: scroll;
+                    scroll-snap-type: x mandatory;
+                    margin-left: 2.5%;
+                    margin-right: 2.5%;
+                    margin-top: 10px;
+                    transition: width 0.3s ease 0s;
+                    &::-webkit-scrollbar {
+                        width: 0;
+                    }
+                    a {
+                        min-width: 40%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        -webkit-justify-content: space-between;
+                        width: 100%;
+                        height: 100%;
+                        position: relative;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        // -webkit-backface-visibility: hidden;
+                        // -moz-backface-visibility: hidden;
+                        // -webkit-transform: translate3d(0, 0, 0);
+                        // -moz-transform: translate3d(0, 0, 0);
+                        -webkit-mask-image: -webkit-radial-gradient(white, black);
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+                        z-index: 5;
+
+                        img {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            z-index: 1;
+                            transition: all 0.3s ease 0s;
+                            z-index: 6;
+                        }
+                        .bank_name {
+                            position: relative;
+                            @include fontdescription();
+                            display: inline-block;
+                            z-index: 3;
+                            padding-left: 10px;
+                            margin-bottom: 10px;
+                            color: #fff;
+                            z-index: 8;
+                        }
+
+                        .gradient {
+                            opacity: 80%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: linear-gradient(
+                                1deg,
+                                rgba(0, 0, 0, 0.78) 0%,
+                                rgba(255, 255, 255, 0.15) 100%,
+                                rgba(255, 255, 255, 0) 13%
+                            );
+                            z-index: 7;
+                        }
+                    }
+                }
+                .active {
+                    width: 95%;
+                    height: clamp(20px, 20vw, 120px);
+                    transition: width 0.3s ease 0s;
+                }
+
+                .file-group {
+                    width: 95%;
+                    display: none;
+                    margin-bottom: 15px;
+                    text-align: center;
+                    position: relative;
+
+                    .file-wrapper {
+                        margin-top: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                        height: auto;
+
+                        .file-label {
+                            height: clamp(40px, 10vw, 50px);
+                            padding: 0 20px;
+                            font-family: "Inter";
+                            font-size: clamp(10px, 3.6vw, 20px);
+                            color: #111111;
+                            cursor: pointer;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 7px;
+                            border: none;
+                            background-color: #f5f5f5;
+                            // background: linear-gradient(135deg, #26ad3c, #2ecc71);
+                            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+                            transition: all 0.3s ease;
+                            font-weight: 400;
+
+                            &:hover {
+                                transform: translateY(-2px);
+                                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+                            }
+
+                            &:active {
+                                transform: translateY(0);
+                                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+                            }
+
+                            img {
+                                height: clamp(10px, 3vw, 25px);
+                                margin-left: 10px;
+                            }
+                        }
+
+                        .view-image-btn {
+                            width: clamp(40px, 10vw, 50px);
+                            height: clamp(40px, 10vw, 50px);
+                            padding: 0;
+                            border-radius: 7px;
+                            border: none;
+                            background: #fff;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            img {
+                                width: 60%;
+                                height: 60%;
+                            }
+                        }
+                    }
+
+                    .file-input {
+                        display: none;
+                    }
+                }
+            }
+        }
+        #create-order {
+            margin-top: 10px;
+            margin-bottom: 25px;
+            width: 90%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: "Nunito";
+            font-size: clamp(10px, 4vw, 20px);
+            &:hover {
+                background-color: #0056b3;
+            }
+        }
+        .add__login {
+            position: absolute;
+            top: 42%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Nunito";
+            font-size: clamp(12px, 5.5vw, 25px);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .login {
+            all: unset;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Montserrat";
+            font-size: clamp(12px, 4.5vw, 22px);
+            padding: 8px 16px;
+            color: #080808;
+            background-color: #f3aa0b;
+            font-weight: 500;
+            border-radius: 5px;
+        }
+    }
+    .carts-active {
+        top: 0;
+    }
+
+    header {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        background: rgb(255, 255, 255);
+        z-index: 510;
+        // border-bottom: 1px solid #a7a7a7;
+        .header-top {
+            max-width: 576px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: clamp(25px, 14vw, 65px);
+            width: 100%;
+            padding: 0 3%;
+            position: relative;
+            z-index: 510;
+            .menu-btn {
+                width: clamp(20px, 5vw, 40px);
+                transition: all 0.3s ease 0s;
+                .aside-btn {
+                    width: 100%;
+                    height: clamp(20px, 5vw, 40px);
+                    background: url("/static/icons/menu_4.png") center/cover no-repeat;
+                    transition: all 0.3s ease 0s;
+                    position: relative;
+                    z-index: 512;
+                }
+                .aside-btn-active {
+                    background: url("/static/icons/close.png") center/cover no-repeat;
+                }
+            }
+            .user_name {
+                font-family: "Nunito";
+                font-size: clamp(9px, 3.5vw, 17px);
+                color: #202020;
+                font-weight: 700;
+                letter-spacing: normal;
+                &::before {
+                    content: "**";
+                    font-family: "Nunito";
+                    font-size: clamp(9px, 3.5vw, 35px);
+                    color: #202020;
+                }
+            }
+            form {
+                button {
+                    @include fontdescription();
+                    padding: 3px 5px;
+                    border-radius: 3px;
+                }
+            }
+            .logo {
+                p {
+                    font-family: "Outfit", sans-serif;
+                    font-size: clamp(9px, 5.3vw, 25px);
+                    color: #2b2b2b;
+                    font-weight: 700;
+                    letter-spacing: normal;
+                    &::after {
+                        content: "Go";
+                        font-family: "Outfit", sans-serif;
+                        color: #d220d8;
+                    }
+                }
+            }
+
+            .login {
+                p {
+                    font-family: "Nunito";
+                    font-size: clamp(8px, 4vw, 18px);
+                    color: #0a0a0a;
+                    font-weight: 500;
+                }
+            }
+            .aside-menu {
+                width: 100vw;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                // left: 0%;
+                z-index: 511;
+                transition: all 0.3s ease 0s;
+                padding: 0 0px;
+                background: #ffffff;
+                .administrator {
+                    width: 100%;
+                    height: clamp(20px, 20vw, 100px);
+                    display: -webkit-box; /* Префикс для Safari */
+                    display: flex;
+                    align-items: center;
+                    -webkit-justify-content: flex-end;
+                    justify-content: flex-end;
+                    gap: 15px;
+                    position: relative;
+                    background-color: #fae207;
+                    padding: 0 15px 0 0;
+                    .text-content {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-around;
+                        align-items: flex-end;
+                        font-family: "Noto Sans Georgian";
+                        gap: clamp(1px, 2vw, 35px);
+                        h2 {
+                            font-family: "Noto Sans Georgian";
+                            font-size: clamp(12px, 4.2vw, 18px);
+                            color: #0f0f0f;
+                            font-weight: 500;
+                        }
+                        p {
+                            font-family: "Montserrat";
+                            font-size: clamp(8px, 3.4vw, 15px);
+                            color: #303030;
+                            font-weight: 500;
+                        }
+                    }
+                    .image-contaiener {
+                        position: relative;
+                        width: clamp(20px, 14vw, 50px);
+                        height: clamp(20px, 14vw, 50px);
+                        overflow: hidden;
+                        border-radius: 5px;
+                        img {
+                            width: 130%;
+                            height: 130%;
+                            position: absolute;
+                            top: 0%;
+                            left: 50%;
+                            transform: translate(-50%, 0%);
+                            object-fit: cover;
+                        }
+                    }
+                }
+                .aside-content {
+                    width: 90%;
+                    margin-left: 10%;
+                    margin-top: 30px;
+                    nav {
+                        width: 100%;
+                        .content-ul {
+                            width: 100%;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            gap: clamp(12px, 8vw, 30px);
+                            li {
+                                width: 100%;
+                                position: relative;
+                                a {
+                                    display: inline-block;
+                                    font-family: "Roboto";
+                                    font-size: clamp(11px, 4.1vw, 18px);
+                                    color: #0f0f0f;
+                                    font-weight: 400;
+                                    margin-left: 40px;
+                                }
+                                span {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 0;
+                                    transform: translateY(-50%);
+                                    width: clamp(9px, 4.3vw, 35px);
+                                    height: clamp(9px, 4.3vw, 35px);
+                                    display: inline-block;
+                                }
+                            }
+                            .home {
+                                span {
+                                    background: url("/static/icons/home-agreement.png") center/cover no-repeat;
+                                }
+                            }
+                            .contact {
+                                span {
+                                    background: url("/static/icons/phone-callblack.png") center/cover no-repeat;
+                                }
+                            }
+                            .services {
+                                span {
+                                    background: url("/static/icons/services.png") center/cover no-repeat;
+                                }
+                            }
+                            .help {
+                                span {
+                                    background: url("/static/icons/first-aid-kit.png") center/cover no-repeat;
+                                }
+                            }
+                            .about {
+                                span {
+                                    background: url("/static/icons/about.png") center/cover no-repeat;
+                                }
+                            }
+                        }
+                        .other-projects {
+                            display: flex;
+                            flex-direction: column;
+                            margin-top: 40px;
+                            gap: clamp(12px, 8vw, 30px);
+                            p {
+                                font-family: "Roboto";
+                                font-size: clamp(11px, 4.1vw, 18px);
+                                color: #0f0f0f;
+                                font-weight: 500;
+                            }
+                            li {
+                                a {
+                                    display: inline-block;
+                                    font-family: "Roboto";
+                                    font-size: clamp(10px, 3.8vw, 16px);
+                                    color: #0f0f0f;
+                                    font-weight: 400;
+                                }
+                            }
+                        }
+                    }
+                }
+                .footer {
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    padding: 0 15px;
+                    .soccial {
+                        display: flex;
+                        align-items: center;
+                        border-bottom: 1px solid #d4d4d4;
+                        padding: 0 0 20px 0;
+                        justify-content: center;
+                        gap: 30px;
+                        width: 100%;
+                        a {
+                            display: inline-block;
+                            width: clamp(9px, 5vw, 60px);
+                            height: clamp(9px, 5vw, 60px);
+                        }
+                        .facebook {
+                            background: url("/static/icons/facebook-white.png") center/cover no-repeat;
+                        }
+                        .instagram {
+                            background: url("/static/icons/instagram-white.png") center/cover no-repeat;
+                        }
+                        .twitter {
+                            background: url("/static/icons/twitter-white.png") center/cover no-repeat;
+                        }
+                        .youtube {
+                            background: url("/static/icons/youtube-white.png") center/cover no-repeat;
+                        }
+                    }
+                    .footer-text {
+                        margin-top: 30px;
+                        font-family: "Open Sans";
+                        font-size: clamp(6px, 2.8vw, 12px);
+                        color: #272727;
+                        font-weight: 400;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        align-items: center;
+                        margin-bottom: 30px;
+                    }
+                }
+            }
+            .aside-active {
+                left: 0;
+                transition: all 0.3s ease 0s;
+                z-index: 510;
+            }
+        }
+
+        .header-bottom {
+            height: clamp(20px, 9vw, 35px);
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            @include colorbg();
+        }
+    }
+
+    .user-container {
+        position: fixed;
+        top: 105%;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        transition: all 0.3s ease 0s;
+        padding-top: clamp(25px, 25vw, 150px);
+        .user_profile {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            .image-container {
+                position: relative;
+                width: clamp(50px, 30vw, 200px);
+                height: clamp(50px, 30vw, 200px);
+                img {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+                .edit_avatar {
+                    all: unset;
+                    display: block;
+                    position: absolute;
+                    width: 35%;
+                    padding: 0 0 35% 0;
+                    top: 100%;
+                    transform: translate(30%, -110%);
+                    right: 0;
+                    border-radius: 50%;
+                    will-change: transform;
+                    background: #1b6aa6 url("/static/icons/edit-text.png") center/50% no-repeat;
+                    .edit-icon {
+                        width: 100%;
+                        height: 100%;
+                    }
+                    input.edit_input {
+                        display: none;
+                    }
+                    a:active,
+                    a:focus {
+                        outline: none;
+                        box-shadow: none;
+                    }
+                    // img {
+                    //     position: absolute;
+                    //     top: 50%;
+                    //     left: 50%;
+                    //     transform: translate(-50%, -50%);
+                    //     width: 50%;
+                    //     height: 50%;
+                    //     object-fit: cover;
+                    // }
+                }
+            }
+            .user_name {
+                width: 95%;
+                margin-top: clamp(8px, 7.5vw, 15px);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                .user_name-info {
+                    text-align: center;
+                    font-family: "Inter";
+                    font-size: clamp(12px, 4.5vw, 20px);
+                    font-weight: 500;
+                    color: #1f1f1f;
+                }
+                .rename_user-btn {
+                    width: clamp(10px, 4.5vw, 25px);
+                    height: clamp(10px, 4.5vw, 25px);
+                    background: url("/static/icons/rename.png") center/cover no-repeat;
+                }
+                .rename_form {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+                    input {
+                        padding: 0px 5px 10px 0;
+                        text-align: center;
+                        font-family: "Inter";
+                        font-size: clamp(12px, 4.5vw, 20px);
+                        font-weight: 500;
+                        color: #1f1f1f;
+                        background-color: #ffffff00;
+                        border-bottom: 1px solid #0e0e0e;
+                    }
+                    .rename_user-save {
+                        width: clamp(10px, 6.5vw, 30px);
+                        height: clamp(10px, 6.5vw, 30px);
+                        background: url("/static/icons/save.png") center/cover no-repeat;
+                    }
+                }
+            }
+            .user_raiting {
+                margin-top: clamp(8px, 7.5vw, 15px);
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                font-family: "Nunito";
+                font-size: clamp(12px, 4vw, 25px);
+                background-color: #ffffff00;
+                h3 {
+                    font-weight: 600;
+                    color: #2e2e2e;
+                }
+                p {
+                    font-weight: 500;
+                    color: #fff;
+                    padding: 5px 15px;
+                    background-color: #f3aa0b;
+                    border-radius: 5px;
+                }
+            }
+            .user_info {
+                width: 70%;
+                background-color: #c9e0ef;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-family: "Nunito";
+                font-size: clamp(12px, 3.5vw, 25px);
+                color: #1b6aa6;
+                padding: clamp(10px, 5vw, 15px) 0;
+                gap: 15px;
+                margin: clamp(10px, 5vw, 15px) 0 10px 0;
+                border-radius: 15px;
+                .user_phone_number,
+                .user_type {
+                    width: 80%;
+                    font-weight: 500;
+                    padding-left: 10%;
+                    position: relative;
+                    .phone_number {
+                        &::before {
+                            content: "996";
+                            margin-right: 5px;
+                        }
+                    }
+                }
+                .user_phone_number {
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        width: 6%;
+                        padding: 0 0 6% 0;
+                        left: 0%;
+                        background: url("/static/icons/phone_blue.png") center/cover no-repeat;
+                        transform: rotate(10deg);
+                    }
+                }
+                .user_type {
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 6%;
+                        padding: 0 0 6% 0;
+                        left: 0%;
+                        background: url("/static/icons/user_type.png") center/cover no-repeat;
+                    }
+                }
+            }
+            a {
+                position: relative;
+                width: 80%;
+                margin-top: clamp(15px, 5vw, 20px);
+                &::before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    width: 6%;
+                    padding: 0 0 6% 0;
+                }
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 0;
+                    width: 4%;
+                    padding: 0 0 4% 0;
+                    background: url("/static/icons/right-arrow_blue.png") center/cover no-repeat;
+                }
+                p {
+                    margin-left: 15%;
+                    font-family: "Nunito";
+                    font-size: clamp(12px, 4vw, 18px);
+                    color: #3a3a3a;
+                    font-weight: 600;
+                }
+            }
+            .edit_profile {
+                &::before {
+                    background: url("/static/icons/order-history.png") center/cover no-repeat;
+                }
+            }
+            .edit_phone_number {
+                &::before {
+                    background: url("/static/icons/phone-guide.png") center/cover no-repeat;
+                }
+            }
+            .go_line {
+                &::before {
+                    background: url("/static/icons/taxi-ico.png") center/cover no-repeat;
+                }
+            }
+            .logout_form {
+                position: relative;
+                width: 80%;
+                margin-top: clamp(20px, 8vw, 35px);
+                &::before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    width: 6%;
+                    padding: 0 0 6% 0;
+                    background: url("/static/icons/logout.png") center/cover no-repeat;
+                }
+                .logout-button {
+                    margin-left: 15%;
+                    font-family: "Nunito";
+                    font-size: clamp(12px, 4vw, 18px);
+                    color: #ff2d2d;
+                    font-weight: 600;
+                    background-color: #ffffff00;
+                }
+            }
+        }
+        h2 {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Nunito";
+            font-size: clamp(12px, 5.5vw, 25px);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .login {
+            all: unset;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Montserrat";
+            font-size: clamp(12px, 4.5vw, 22px);
+            padding: 8px 16px;
+            color: #080808;
+            background-color: #f3aa0b;
+            font-weight: 500;
+            border-radius: 5px;
+        }
+    }
+    .user-active {
+        top: 0%;
+    }
+
+    .search-container {
+        position: fixed;
+        top: 105%;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease 0s;
+        h2 {
+            position: absolute;
+            top: 19vw;
+            left: 5%;
+            font-family: "Nunito";
+            font-size: clamp(12px, 4.5vw, 19px);
+            font-weight: 500;
+        }
+        form {
+            width: 90%;
+            position: relative;
+            top: 26vw;
+            &::before {
+                position: absolute;
+                content: ""; /* Код иконки, например, из Font Awesome */
+                font-family: "Font Awesome 5 Free"; /* Имя шрифта */
+                background: url("/static/icons/search_2.png") center/cover no-repeat;
+                width: clamp(12px, -0.125rem + 6vw, 40px);
+                height: clamp(12px, -0.125rem + 6vw, 40px);
+                left: 100%;
+                top: 50%;
+                left: 0%;
+                transform: translate(45%, -50%);
+                color: #aaa;
+                z-index: 508;
+            }
+            #search-input {
+                width: 100%;
+                font-family: "Nunito";
+                font-size: clamp(12px, -0.125rem + 4.3vw, 19px);
+                font-weight: 500;
+                padding: 12px 15px 12px 45px;
+                border-radius: 10px;
+                position: relative;
+                bottom: 0;
+                border: 1px solid #3a3a3a;
+            }
+        }
+        #results {
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            position: relative;
+            top: 27vw;
+            ul {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                p {
+                    font-family: "Nunito";
+                    font-size: clamp(12px, -0.125rem + 4.5vw, 19px);
+                    font-weight: 600;
+                    color: #6e6e6e;
+                }
+                li {
+                    font-family: "Nunito";
+                    font-size: clamp(12px, -0.125rem + 4.5vw, 19px);
+                    font-weight: 600;
+                    margin-left: 15px;
+                    color: #cf2323;
+                    margin-top: 15px;
+                }
+                a {
+                    width: 95%;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    padding: 20px 0;
+                    border-bottom: 1px solid #797979;
+                    margin: 0 auto;
+                    position: relative;
+                    .ico {
+                        display: none;
+                        position: absolute;
+                        width: 8%;
+                        padding: 0 0 8% 0;
+                        background: url("/static/icons/web-pages.png") center/cover no-repeat;
+                        top: 40%;
+                        left: 100%;
+                        transform: translate(-100%, -50%);
+                        opacity: 50%;
+                    }
+                    .img-container {
+                        width: 10%;
+                        padding: 0 0 10% 0;
+                        position: relative;
+                        overflow: hidden;
+                        border-radius: 50%;
+                        border: 1px solid #575757;
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                    .description {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+                        .name {
+                            font-family: "Nunito";
+                            font-size: clamp(12px, -0.125rem + 4.5vw, 19px);
+                            font-weight: 600;
+                            color: #0a0a0a;
+                            margin-left: 15px;
+                        }
+                        .category {
+                            font-family: "Nunito";
+                            font-size: clamp(12px, -0.125rem + 3.8vw, 19px);
+                            font-weight: 500;
+                            margin-left: 15px;
+                            color: #535353;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .search-active {
+        top: 0%;
+    }
+
+    main {
+        padding-bottom: clamp(10px, 10vw, 50px);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: clamp(25px, 14vw, 65px);
+        overflow: hidden;
+    }
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 100%;
+        max-width: 768px;
+        z-index: 507;
+        /* From Uiverse.io by faxriddin20 */
+        .button-container {
+            display: flex;
+            background-color: rgb(255, 255, 255);
+            width: 100%;
+            height: clamp(25px, 16vw, 50px);
+            align-items: center;
+            justify-content: space-around;
+            border-radius: 10px;
+            border-top: 1px solid #5f5f5f;
+            button {
+                outline: 0 !important;
+                border: 0 !important;
+                width: 40px;
+                height: 40px;
+                border-radius: 5px;
+                background-color: transparent;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #000000;
+                transition: all ease-in-out 0.3s;
+                cursor: pointer;
+                .icon {
+                    font-size: clamp(8px, 5.5vw, 32px);
+                }
+                &:hover {
+                    // transform: translateY(-3px);
+                    // background-color: #ff0101;
+                }
+            }
+            .search-btn-active,
+            .cards-btn-active,
+            .user-btn-active {
+                background-color: #181818;
+                color: #ffffff;
+            }
+            .back {
+                background: url("/static/icons/arrow-back-svgrepo-com.svg") center/clamp(8px, 6.8vw, 40px) no-repeat;
+            }
+            @keyframes zoomPulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(2.0);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+            .cards-btn-add {
+                color: #fdfdfd;
+                // animation: zoomPulse 0.25s ease;
+                background-color: #ffae00;
+            }
+        }
+    }
+}

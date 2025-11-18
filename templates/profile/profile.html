@@ -1,0 +1,37 @@
+{% extends 'basis/basis_admin.html' %}
+
+{% block link %}
+    <link rel="stylesheet" href="/static/css/profile.css">
+{% endblock %}
+
+{% block main %}
+<main>
+    <h1 class="title">Профиль пользователя</h1>
+
+    <div class="profile-container">
+        <div class="profile-background">
+            <img class="profile-background-img" src="{{ user.user_logo.url }}" alt="User Logo"">
+            <div class="profile-background-gradient"></div>
+            <div class="profile-info">
+                <h2>- Информация о заведении -</h2>
+                <div class="profile-logo">
+                    <img src="{{ user.user_logo_mini.url }}" alt="Mini Logo">
+                </div>
+                <div class="profile-info-text">
+                    <p><span>Город:</span> {{ user.city }}</p>
+                    <p><span>Название заведения:</span> {{ user.user_name }}</p>
+                    <p><span>Описание:</span> {{ user.user_description }}</p>
+    
+                    <p><span>Номер телефона:</span> {{ user.user_phone_number }}</p>
+                    <p><span>Доп. номер телефона:</span> {{ user.user_phone_number2 }}</p>
+    
+                    <p><span>Категория заведения:</span> {{ user.get_category_of_education_display }}</p>
+                    <p><span>Статус:</span> {{ user.get_user_status_display }}</p>
+                </div>
+                <a class="profile-edit" href="{% url 'edit_profile' %}">Редактировать профиль</a>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+{% endblock %}

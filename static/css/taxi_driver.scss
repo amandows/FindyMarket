@@ -1,0 +1,578 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    user-select: none;
+}
+
+*,
+*:before,
+*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:focus,
+:active {
+    outline: none;
+}
+
+a:focus,
+a:active {
+    outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+    display: block;
+}
+
+html,
+body {
+    background: rgb(255, 255, 255);
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+    font-family: inherit;
+}
+
+button,
+a {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none; /* Отключает выделение текста */
+}
+
+@keyframes clickAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+a,
+.aside-btn,
+.payment_buttons,
+.delivery_buttons,
+.back,
+.search-btn,
+.cards-btn,
+.user-btn {
+    &:active {
+        animation: clickAnimation 0.3s ease-in-out;
+    }
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: 400;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,400i,700");
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+.user_marker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5000;
+    .content {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .img_container {
+            width: clamp(20px, 12vw, 100px);
+            height: clamp(20px, 12vw, 100px);
+            position: relative;
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 70%;
+                height: 70%;
+                object-fit: cover;
+                opacity: 100%;
+            }
+        }
+        .start_text_content {
+            visibility: hidden;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease; /* Плавное появление */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease; /* Плавное появление */
+            gap: 5px;
+        }
+    }
+    .line {
+        position: absolute;
+        top: 100%;
+        transform: translateX(-50%);
+        left: 50%;
+        width: 4px;
+        height: 70%;
+        background-color: #fff;
+        border-radius: 0 0 2px 2px;
+    }
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 510;
+    .header-top {
+        max-width: 576px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: clamp(25px, 14vw, 65px);
+        width: 100%;
+        padding: 0 3%;
+        position: relative;
+        z-index: 510;
+        .menu-btn {
+            width: clamp(20px, 8vw, 50px);
+            height: clamp(20px, 8vw, 50px);
+            transition: all 0.3s ease 0s;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            .aside-btn {
+                width: clamp(20px, 5vw, 40px);
+                height: clamp(20px, 5vw, 40px);
+                background: url("/static/icons/menu_4.png") center/cover no-repeat;
+                transition: all 0.3s ease 0s;
+                position: relative;
+                z-index: 512;
+            }
+            .aside-btn-active {
+                background: url("/static/icons/close.png") center/cover no-repeat;
+            }
+        }
+        .user_name {
+            opacity: 0;
+            font-family: "Nunito";
+            font-size: clamp(9px, 3.5vw, 17px);
+            color: #202020;
+            font-weight: 700;
+            letter-spacing: normal;
+            &::before {
+                content: "**";
+                font-family: "Nunito";
+                font-size: clamp(9px, 3.5vw, 35px);
+                color: #202020;
+            }
+        }
+        form {
+            button {
+                padding: 3px 5px;
+                border-radius: 3px;
+            }
+        }
+        .logo {
+            p {
+                font-family: "Outfit", sans-serif;
+                font-size: clamp(9px, 5.0vw, 25px);
+                color: #ffffff;
+                font-weight: 600;
+                letter-spacing: normal;
+                // &::after {
+                //     content: "Taxi";
+                //     font-family: "Outfit", sans-serif;
+                //     color: #d220d8;
+                //     font-weight: 700;
+                // }
+            }
+        }
+
+        .login {
+            p {
+                font-family: "Nunito";
+                font-size: clamp(8px, 4vw, 18px);
+                color: #0a0a0a;
+                font-weight: 500;
+            }
+        }
+        .aside-menu {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            // left: 0%;
+            z-index: 511;
+            transition: all 0.3s ease 0s;
+            padding: 0 0px;
+            background: #ffffff;
+            .administrator {
+                width: 100%;
+                height: clamp(20px, 20vw, 100px);
+                display: -webkit-box; /* Префикс для Safari */
+                display: flex;
+                align-items: center;
+                -webkit-justify-content: flex-end;
+                justify-content: flex-end;
+                gap: 15px;
+                position: relative;
+                background-color: #fae207;
+                padding: 0 15px 0 0;
+                .text-content {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: flex-end;
+                    gap: clamp(1px, 2vw, 35px);
+                    h2 {
+                        font-family: "Comfortaa";
+                        font-size: clamp(12px, 3.8vw, 18px);
+                        color: #0f0f0f;
+                        font-weight: 500;
+                    }
+                    p {
+                        font-family: "Montserrat";
+                        font-size: clamp(8px, 3.4vw, 15px);
+                        color: #303030;
+                        font-weight: 500;
+                    }
+                }
+                .image-contaiener {
+                    position: relative;
+                    width: clamp(20px, 14vw, 50px);
+                    height: clamp(20px, 14vw, 50px);
+                    overflow: hidden;
+                    border-radius: 5px;
+                    img {
+                        width: 130%;
+                        height: 130%;
+                        position: absolute;
+                        top: 0%;
+                        left: 50%;
+                        transform: translate(-50%, 0%);
+                        object-fit: cover;
+                    }
+                }
+            }
+            .aside-content {
+            }
+            .footer {
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 0 15px;
+                .soccial {
+                    display: flex;
+                    align-items: center;
+                    border-bottom: 1px solid #d4d4d4;
+                    padding: 0 0 20px 0;
+                    justify-content: center;
+                    gap: 30px;
+                    width: 100%;
+                    a {
+                        display: inline-block;
+                        width: clamp(9px, 5vw, 60px);
+                        height: clamp(9px, 5vw, 60px);
+                    }
+                    .facebook {
+                        background: url("/static/icons/facebook-white.png") center/cover no-repeat;
+                    }
+                    .instagram {
+                        background: url("/static/icons/instagram-white.png") center/cover no-repeat;
+                    }
+                    .twitter {
+                        background: url("/static/icons/twitter-white.png") center/cover no-repeat;
+                    }
+                    .youtube {
+                        background: url("/static/icons/youtube-white.png") center/cover no-repeat;
+                    }
+                }
+                .footer-text {
+                    margin-top: 30px;
+                    font-family: "Open Sans";
+                    font-size: clamp(6px, 2.8vw, 12px);
+                    color: #272727;
+                    font-weight: 400;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    align-items: center;
+                    margin-bottom: 30px;
+                }
+            }
+        }
+        .aside-active {
+            left: 0;
+            transition: all 0.3s ease 0s;
+            z-index: 510;
+        }
+    }
+
+    .header-bottom {
+        height: clamp(20px, 9vw, 35px);
+        width: 100%;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+}
+main {
+    max-width: 576px;
+    height: 100vh;
+    position: relative;
+    margin: 0 auto;
+    .maps {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 55%;
+        background-color: #666666;
+        z-index: 500;
+    }
+    .step_one {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        z-index: 501;
+        background-color: #fff;
+        border-radius: 20px 20px 0px 0px;
+        .findy_title {
+            position: relative;
+            width: 85%;
+            height: clamp(20px, 12vw, 100px);
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: -20px;
+            .title_logo {
+                height: clamp(20px, 12vw, 100px);
+                position: absolute;
+                top: 0%;
+                left: 0%;
+            }
+            p {
+                font-family: "Comfortaa";
+                font-size: clamp(12px, 4.5vw, 18px);
+                font-weight: 700;
+            }
+        }
+        .radar-btn {
+            font-family: "Comfortaa";
+            --size: clamp(80px, 40vw, 200px);
+            --primary: #ffee00; // цвет текста/луча
+            --glow: rgba(255, 255, 255, 0.25); // мягкое свечение
+            --active: #1ed727; // зеленый онлайн
+            --active-glow: rgba(3, 255, 91, 0.35);
+
+            width: var(--size);
+            height: var(--size);
+            border-radius: 50%;
+            border: none;
+            background: #161b22; // темная кнопка
+            display: grid;
+            place-items: center;
+            position: relative;
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: clamp(12px, 3.5vw, 18px);
+            transition: 0.25s ease;
+            box-shadow: 0px 5px 10px #08080860;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+            &:active {
+                transform: scale(0.96);
+            }
+
+            .label {
+                z-index: 10;
+                pointer-events: none;
+            }
+
+            /* Волны радара */
+            .rings {
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                pointer-events: none;
+
+                &::before,
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    border-radius: 50%;
+                    border: 2px solid var(--glow);
+                    animation: ring-wave 2.6s infinite ease-out;
+                }
+
+                &::after {
+                    animation-delay: 0.8s;
+                }
+            }
+
+            /* Вращающийся луч */
+            .sweep {
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                pointer-events: none;
+                animation: sweep 1.8s linear infinite;
+                mix-blend-mode: screen;
+            }
+
+            &.active {
+                color: var(--active);
+
+                .rings::before,
+                .rings::after {
+                    border-color: var(--active-glow);
+                }
+
+                .sweep {
+                    background: conic-gradient(
+                        from 200deg,
+                        rgba(30, 215, 96, 0.35),
+                        rgba(255, 255, 255, 0.05) 20%,
+                        transparent 60%
+                    );
+                    animation-duration: 1.4s;
+                }
+            }
+        }
+
+        /* Анимации */
+        @keyframes ring-wave {
+            0% {
+                transform: scale(0.3);
+                opacity: 0.45;
+            }
+            60% {
+                transform: scale(1.2);
+                opacity: 0.15;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes sweep {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+    .my_location {
+        width: 85%;
+        height: 12%;
+        font-family: "Inter";
+        font-size: clamp(12px, 3.5vw, 18px);
+        background-color: #fae207;
+        border-radius: 255px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        box-shadow: 0px 5px 10px #08080860;
+        p {
+            color: #252525;
+        }
+        span {
+            width: clamp(20px, 5.4vw, 50px);
+            height: clamp(20px, 5.4vw, 50px);
+            background: url("/static/icons/navigation.png") center/cover no-repeat;
+        }
+    }
+}

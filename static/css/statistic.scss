@@ -1,0 +1,77 @@
+main {
+    max-width: 1280px;
+    margin: 0 auto;
+    margin-top: 60px;
+    .title {
+        font-family: 'Open Sans';
+        font-size: 17px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: left;
+        border-bottom: 1px solid #141414;
+        &::after {
+            display: block;
+            content: '';
+            width: 20px;
+            height: 15px;
+            background: url("/static/icons/orders.svg") center/cover no-repeat;
+        }
+    }
+    .chartsContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 20px;
+        #yearSelect {
+            width: 8%;
+            color: #252525;
+            font-family: 'Open Sans';
+            font-size: 16px;
+            font-weight: 700;
+            text-align: left;
+            // border: 1px solid #252525;
+            padding: 0px 0px;
+            border-radius: 10px;
+            option {
+                padding: 10px 15px;
+                text-align: center;
+            }
+        }
+        #monthButtons {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #252525;
+            border-radius: 10px;
+            overflow: hidden;
+            .monthBtn {
+                width: 8.4%;
+                height: 100%;
+                font-family: "Nunito";
+                font-size: 14px;
+                font-weight: 600;
+                background-color: #ffffff;
+                height: 100%;
+                transition: all 0.3s ease 0s;
+                &:hover {
+                    background-color: #dddddd;
+                }
+            }
+            .active {
+                background-color: #0f0f0f;
+                color: #ffffff;
+                &:hover {
+                    background-color: #0f0f0f;
+                }
+            }
+        }
+        #ordersChart {
+            width: 100%;
+            max-height: 500px;
+        }
+    }
+}

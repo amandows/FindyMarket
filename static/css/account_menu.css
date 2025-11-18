@@ -1,0 +1,507 @@
+@charset "UTF-8";
+@keyframes opacity-block {
+  to {
+    opacity: 0;
+    scale: 1.1;
+    transform: translateY(-20vh);
+  }
+}
+.search__container {
+  display: block;
+  position: fixed;
+  top: clamp(25px, 18vw, 100px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 93%;
+  height: clamp(25px, 11vw, 65px);
+  z-index: 10;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.3098039216);
+  border-radius: 5px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5137254902);
+  transition: all 0.5s ease 0s;
+}
+.search__container .search__btn-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12%;
+  height: 100%;
+  z-index: 9;
+  outline: none;
+  border-radius: 5px 0px 0px 5px;
+  border-right: 1px solid rgba(0, 0, 0, 0.3843137255);
+  background: #ffffff url("/static/icons/search_2.png") center/55% no-repeat;
+}
+.search__container .search-input {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  padding: 0px 10px 0px 15%;
+  z-index: 8;
+  border-radius: 5px;
+  font-family: "Inter";
+  font-size: clamp(10px, 3.4vw, 16px);
+  font-weight: 500;
+  color: #222222;
+  background: #ffffff;
+}
+.search__container .search-input-active {
+  width: 100%;
+  opacity: 1;
+}
+
+.search__container-deactive {
+  top: -30%;
+}
+
+.profile-parallax {
+  width: 100vw;
+  height: 70vw;
+  z-index: 4;
+  transition: opacity 0.2s linear;
+  position: fixed;
+  top: clamp(25px, 14vw, 65px);
+  left: 0%;
+  animation-name: opacity-block;
+  animation-timing-function: linear;
+  animation-timeline: scroll();
+  animation-range: 0px 30vh;
+}
+.profile-parallax img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: opacity 0.2s linear;
+  z-index: 5;
+}
+.profile-parallax .user__name,
+.profile-parallax .user__category,
+.profile-parallax .user__info {
+  position: absolute;
+  z-index: 7;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+}
+.profile-parallax .user__name {
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-family: "Pacifico";
+  font-size: clamp(12px, 7vw, 30px);
+  font-weight: 400;
+  text-align: center;
+}
+.profile-parallax .user__category {
+  top: 85%;
+  left: 5%;
+  transform: translate(0%, -50%);
+  font-family: "Open Sans";
+  font-size: clamp(10px, 3.5vw, 24px);
+  font-weight: 600;
+}
+.profile-parallax .user__info {
+  width: 65%;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Open Sans";
+  font-size: clamp(10px, 3.5vw, 24px);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2rem;
+}
+.profile-parallax .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: opacity 0.2s linear;
+  z-index: 6;
+  background: #000000;
+  background: linear-gradient(1deg, rgba(0, 0, 0, 0.78) 0%, rgba(255, 255, 255, 0.15) 100%, rgba(255, 255, 255, 0) 18%);
+}
+
+.mbank-user,
+.rsk-user {
+  display: none;
+}
+
+.user-products {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+  padding-top: 15px;
+  padding-bottom: clamp(25px, 20vw, 70px);
+  background-color: #ffffff;
+  border-radius: 20px 20px 0 0;
+  min-height: 500px;
+  margin-top: 65vw;
+}
+.user-products .food {
+  width: 95%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: start;
+  padding: 15px 7px;
+  gap: 15px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1764705882);
+}
+.user-products .food .img-container {
+  width: 30%;
+  padding: 0 0 29% 0;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.user-products .food .img-container .loader {
+  border: 4px solid rgba(200, 200, 200, 0.3); /* Серый цвет с прозрачностью */
+  border-top: 4px solid #fff; /* Белый цвет */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite; /* Анимация поворота */
+  margin: 0 auto;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+}
+.user-products .food .img-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.user-products .food .descrition-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  width: 68%;
+  /* Добавьте дополнительные стили для кроссбраузерной совместимости */
+}
+.user-products .food .descrition-container .price-container {
+  position: relative;
+  width: 100%;
+}
+.user-products .food .descrition-container .price-container .user {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-products .food .descrition-container .price-container .user .user-name {
+  font-family: "Comfortaa";
+  font-size: clamp(0.375rem, -0.436rem + 4.054vw, 0.75rem);
+  font-weight: 300;
+  color: #222222;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #252525;
+}
+.user-products .food .descrition-container .price-container .user .user-avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #d4d4d4;
+}
+.user-products .food .descrition-container .price-container .price__view {
+  background-color: rgba(80, 80, 80, 0);
+  font-family: "Nunito";
+  font-size: clamp(12px, 4vw, 20px);
+  font-weight: 700;
+  color: #222222;
+}
+.user-products .food .descrition-container .price-container .price__view::after {
+  content: "с";
+  margin-left: 2px;
+}
+.user-products .food .descrition-container .food_name {
+  font-family: "Inter";
+  font-size: clamp(10px, 3.4vw, 16px);
+  font-weight: 500;
+  line-height: clamp(0.875rem, -0.864rem + 8.696vw, 1.375rem);
+  color: #222222;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@supports (-webkit-line-clamp: 2) {
+  .user-products .food .descrition-container .food_name {
+    font-size: clamp(10px, 3.4vw, 16px);
+  }
+}
+.user-products .food .descrition-container .coll-food {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+}
+.user-products .food .descrition-container .coll-food .coll {
+  width: 15%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0);
+  font-family: "Nunito";
+  font-size: clamp(10px, 4vw, 16px);
+  font-weight: 500;
+  color: #222222;
+}
+.user-products .food .descrition-container .coll-food span {
+  display: none;
+}
+.user-products .food .descrition-container .coll-food .minus,
+.user-products .food .descrition-container .coll-food .plus {
+  font-family: "Nunito";
+  font-size: clamp(10px, 6vw, 25px);
+  font-weight: 500;
+  color: #222222;
+  background-color: rgba(255, 255, 255, 0.1215686275);
+  padding: 0 10px;
+}
+.user-products .food .descrition-container .coll-food .box,
+.user-products .food .descrition-container .coll-food .button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(0);
+  width: 30%;
+  height: clamp(10px, 8vw, 50px);
+  font-size: clamp(10px, 3vw, 20px);
+  font-weight: 500;
+  color: #222222;
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  padding: 3px 0;
+  background: url("/static/icons/free-icon-font-shopping-cart-add-3916604.png") center/clamp(10px, 4vw, 30px) no-repeat;
+}
+.user-products .food .descrition-container .coll-food .fly-clone {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.6s ease;
+  transform-origin: center center;
+  /* небольшая тень для визуала */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.user-products .food .descrition-container .coll-food .none {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 15px;
+  width: 40%;
+  font-family: "Nunito";
+  font-size: clamp(10px, 3.2vw, 20px);
+  font-weight: 500;
+  text-align: center;
+  color: #222222;
+  background-color: rgba(255, 255, 255, 0);
+}
+.user-products .food .descrition-container .coll-food .yellow {
+  background: #ffae00 url("/static/icons/free-icon-font-shopping-cart-check.png") center/clamp(10px, 4vw, 30px) no-repeat;
+}
+.user-products .noactive {
+  opacity: 40%;
+}
+
+.category-institution-slider {
+  position: fixed;
+  bottom: clamp(25px, 15vw, 50px);
+  width: 100%;
+  height: clamp(25px, 15vw, 70px);
+  background: rgb(255, 255, 255);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  padding-left: 2.5%;
+}
+.category-institution-slider .buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  overflow-y: scroll;
+  scroll-snap-type: x mandatory;
+}
+.category-institution-slider .buttons::-webkit-scrollbar {
+  display: none;
+  width: 0;
+}
+.category-institution-slider .buttons button {
+  transition: all 0.4s ease 0s;
+  white-space: nowrap;
+  padding: 8px 18px;
+  width: 100%;
+  background-color: #e6e6e6;
+  border-radius: 15px;
+  font-family: "Inter";
+  font-size: clamp(10px, 3.4vw, 16px);
+  font-weight: 500;
+  color: #696969;
+}
+.category-institution-slider .buttons .active {
+  background-color: #0a0a0a;
+  color: #e4e4e4;
+}
+
+.food_info {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+.food_info.active {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+.food_info-content {
+  background: #fff;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 90%;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  animation: scaleIn 0.25s ease-out;
+}
+@media (min-width: 600px) {
+  .food_info-content {
+    flex-direction: row;
+  }
+}
+.food_info-close {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #000000;
+  transition: 0.3s;
+}
+.food_info-close:hover {
+  color: #000;
+  transform: rotate(90deg);
+}
+.food_info-img {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.food_info-img img {
+  max-width: 100%;
+  max-height: 60vh;
+  border-radius: 15px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.food_info-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.food_info-text h2 {
+  font-family: "Inter";
+  font-size: clamp(12px, 4vw, 20px);
+  margin-bottom: 10px;
+  color: #1a1a1a;
+}
+.food_info-text p {
+  font-family: "Inter";
+  font-size: clamp(10px, 3.4vw, 16px);
+  margin-bottom: 8px;
+  color: #555;
+  line-height: 1.2rem;
+  font-style: italic;
+}
+.food_info-text #foodInfoPrice {
+  font-family: "Nunito";
+  font-style: normal;
+  font-size: clamp(12px, 3.4vw, 20px);
+  font-weight: 600;
+  color: #181818;
+}
+.food_info-text .food_info-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.food_info-text .food_info-user img {
+  width: clamp(10px, 7vw, 40px);
+  height: clamp(10px, 7vw, 40px);
+  border-radius: 50%;
+}
+.food_info-text .food_info-user a {
+  font-family: "Comfortaa";
+  color: #007aff;
+  font-style: italic;
+  text-decoration: none;
+  font-weight: 700;
+}
+.food_info-text .food_info-user a:hover {
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}/*# sourceMappingURL=account_menu.css.map */
