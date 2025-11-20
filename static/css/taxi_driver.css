@@ -388,7 +388,7 @@ main .maps {
   top: 0;
   left: 0;
   width: 100%;
-  height: 55%;
+  height: 65%;
   background-color: #666666;
   z-index: 500;
 }
@@ -397,37 +397,54 @@ main .step_one {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
+  height: 40%;
+  display: grid;
+  grid-template: repeat(4, 1fr)/repeat(2, 1fr);
+  padding: 15px;
   z-index: 501;
   background-color: #fff;
   border-radius: 20px 20px 0px 0px;
+  grid-gap: 15px;
   /* Анимации */
 }
 main .step_one .findy_title {
   position: relative;
-  width: 85%;
-  height: clamp(20px, 12vw, 100px);
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
   margin-top: -20px;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
 }
 main .step_one .findy_title .title_logo {
   height: clamp(20px, 12vw, 100px);
   position: absolute;
-  top: 0%;
-  left: 0%;
+  top: 50%;
+  left: -100%;
+  transform: translateY(-50%);
 }
 main .step_one .findy_title p {
-  font-family: "Comfortaa";
+  font-family: "Inter";
   font-size: clamp(12px, 4.5vw, 18px);
-  font-weight: 700;
+  font-weight: 600;
+}
+main .step_one .my_statistic,
+main .step_one .options {
+  position: relative;
+}
+main .step_one .my_statistic p,
+main .step_one .options p {
+  font-family: "Inter";
+  font-size: clamp(12px, 3.5vw, 18px);
+  color: #f3f3f3;
+  font-weight: 500;
+  position: absolute;
+  top: 20%;
+  left: 15%;
 }
 main .step_one .radar-btn {
   font-family: "Comfortaa";
@@ -436,9 +453,7 @@ main .step_one .radar-btn {
   --glow: rgba(255, 255, 255, 0.25);
   --active: #1ed727;
   --active-glow: rgba(3, 255, 91, 0.35);
-  width: var(--size);
-  height: var(--size);
-  border-radius: 50%;
+  border-radius: 20px;
   border: none;
   background: #161b22;
   display: grid;
@@ -452,14 +467,12 @@ main .step_one .radar-btn {
   box-shadow: 0px 5px 10px rgba(8, 8, 8, 0.3764705882);
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 4;
   /* Волны радара */
   /* Вращающийся луч */
-}
-main .step_one .radar-btn:hover {
-  transform: scale(1.05);
-}
-main .step_one .radar-btn:active {
-  transform: scale(0.96);
 }
 main .step_one .radar-btn .label {
   z-index: 10;
@@ -468,7 +481,7 @@ main .step_one .radar-btn .label {
 main .step_one .radar-btn .rings {
   position: absolute;
   inset: 0;
-  border-radius: 50%;
+  border-radius: 20px;
   pointer-events: none;
 }
 main .step_one .radar-btn .rings::before, main .step_one .radar-btn .rings::after {
@@ -501,6 +514,30 @@ main .step_one .radar-btn.active .sweep {
   background: conic-gradient(from 200deg, rgba(30, 215, 96, 0.35), rgba(255, 255, 255, 0.05) 20%, transparent 60%);
   animation-duration: 1.4s;
 }
+main .step_one .my_statistic {
+  border-radius: 20px;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/static/icons/statistics.png") center/cover no-repeat;
+  box-shadow: 0px 5px 10px rgba(8, 8, 8, 0.3764705882);
+}
+main .step_one .options {
+  border-radius: 20px;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 5px 10px rgba(8, 8, 8, 0.3764705882);
+  background: url("/static/icons/settings.png") center/cover no-repeat;
+}
 @keyframes ring-wave {
   0% {
     transform: scale(0.3);
@@ -520,24 +557,27 @@ main .step_one .radar-btn.active .sweep {
   }
 }
 main .my_location {
-  width: 85%;
-  height: 12%;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 4;
+  grid-row-end: 5;
+  background-color: rgba(86, 24, 255, 0.6039215686);
   font-family: "Inter";
   font-size: clamp(12px, 3.5vw, 18px);
   background-color: #fae207;
-  border-radius: 255px;
+  border-radius: 20px;
   font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 15px;
   box-shadow: 0px 5px 10px rgba(8, 8, 8, 0.3764705882);
+  background: url("/static/icons/my_location.png") center/cover no-repeat;
 }
 main .my_location p {
-  color: #252525;
-}
-main .my_location span {
-  width: clamp(20px, 5.4vw, 50px);
-  height: clamp(20px, 5.4vw, 50px);
-  background: url("/static/icons/navigation.png") center/cover no-repeat;
+  font-family: "Inter";
+  font-size: clamp(12px, 3.5vw, 18px);
+  color: #f1f1f1;
+  font-weight: 500;
+  margin-right: 20%;
 }/*# sourceMappingURL=taxi_driver.css.map */
