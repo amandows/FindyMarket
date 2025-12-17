@@ -1,4 +1,4 @@
-const apiKey = "0d58621a-008f-467e-a9c3-3f27f7cd186e";
+const apiKey = "a369efd1-1b1d-432f-8eb4-99b5fea78699";
 let defaultCenter = [72.746835, 41.654299]; // fallback если геолокация не даст данные
 let userMarker = null;
 

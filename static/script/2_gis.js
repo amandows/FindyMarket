@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const locationTwoGo = document.querySelector('.location_two_go')
     const backBtn = document.querySelector('.back_btn')
     const backBtn2 = document.querySelector('.back_btn2')
-    const apiKey = "0d58621a-008f-467e-a9c3-3f27f7cd186e";
+    const apiKey = "a369efd1-1b1d-432f-8eb4-99b5fea78699";
     const econom = document.getElementById('price_econom')
     const comfort = document.getElementById('price_comfort')
     const comfortPlus = document.getElementById('price_comfort_plus')
@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const twoTonn = document.getElementById('price_two_tonn')
     const distanceText = document.querySelector('.distance')
     const durationText = document.querySelector('.duration')
+    const searchLocation1animation = document.querySelector('.search_location1_animation')
     let defaultCenter = [72.746835, 41.654299]; // fallback если геолокация не даст данные
     let startMoveMarker = null; // Переменная для хранения текущего маркера
     let finishMoveMarker = null; // Переменная для хранения текущего маркера
@@ -307,6 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(`Адрес центра карты: ${address}`);
                     locationMarker.classList.add('marker_animate')
                     resultName.textContent = address;
+                    destinationText.style.cssText = 'animation: none;';
                 } else {
                     console.log("Адрес не найден.");
                 }
@@ -318,6 +320,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     map.on('move', () => {
+        destinationText.style.cssText = 'animation: pulseText 1.2s ease-in-out infinite;';
+        destinationText.textContent = 'Подождите пожалуйста...'
         if (destinationPoint.value === 'a') {
             startTextContent.classList.remove('active');
             if (startMoveMarker) {
@@ -594,8 +598,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const latitude = center[1].toFixed(8); // Широта
         const longitude = center[0].toFixed(8); // Долгота
         status.textContent = '';
-
-
+        searchLocation1animation.style.cssText = 'display: none;';
+        inputA.style.cssText = 'display: block;';
         startMarkerHtml(pos.coords.latitude, pos.coords.longitude)
         // Центрировать карту на новой точке
         map.setCenter(center);
@@ -633,6 +637,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function error() {
         status.textContent = 'Unable to retrieve your location';
+        searchLocation1animation.style.cssText = 'display: none;';
+        inputA.style.cssText = 'display: block;';
     }
 
     function geoFindMe() {
@@ -641,6 +647,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             status.textContent = 'Locating…';
             navigator.geolocation.getCurrentPosition(success, error);
+            searchLocation1animation.style.cssText = 'display: block;';
+            inputA.style.cssText = 'display: none;';
             contentUp();
         }
     }
@@ -862,6 +870,7 @@ document.addEventListener("DOMContentLoaded", function () {
         startMoveMarker.destroy();
         finishMoveMarker.destroy();
         searchWave.destroy();
+        taxiOrderCancel()
 
         if (event.target.classList.contains("location_one_go")) {
             document.querySelector(".search_location1").focus();
@@ -886,6 +895,35 @@ document.addEventListener("DOMContentLoaded", function () {
     backBtn.addEventListener("click", handleLocationClick);
     backBtn2.addEventListener("click", handleLocationClick);
 
+    const taxiSetup = document.querySelector(".taxi_setup")
+    const searchTaxiDriver = document.querySelector(".search_taxi_driver")
+    const orderTaxiGoBtn = document.querySelector(".order_taxi_go")
+    const orderTaxiGoCancelBtn = document.querySelector(".order_taxi_cancel")
+
+    function removeTaxiDriversMarkers() {
+    taxiDriverMarkers.forEach(marker => {
+        marker.destroy();
+    });
+
+    taxiDriverMarkers = [];
+}
+
+
+
+
+    function taxiOrderGo() {
+        taxiSetup.style.cssText = 'opacity: 0;';
+        searchTaxiDriver.style.cssText = 'opacity: 1;'
+        orderTaxiGoCancelBtn.style.cssText = 'display: block;'
+        orderTaxiGoBtn.style.cssText = 'display: none;'
+    }
+    function taxiOrderCancel() {
+        taxiSetup.style.cssText = 'opacity: 1;';
+        searchTaxiDriver.style.cssText = 'opacity: 0;'
+        orderTaxiGoCancelBtn.style.cssText = 'display: none;'
+        orderTaxiGoBtn.style.cssText = 'display: block;'
+    }
+
 
     document.querySelector(".order_taxi_go").addEventListener("click", function () {
         // Удаляем значения из localStorage
@@ -894,9 +932,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const pointA = JSON.parse(localStorage.getItem('point_a'));
         console.log(pointA.lon + pointA.lat + " ETO POINT A")
         searchWaveMArker(pointA.lat, pointA.lon);
-        getCenter(pointA.lon, pointA.lat, 16.5)
-        placeTaxiDriversMarkers()
+        getCenter(pointA.lon, pointA.lat, 15.5)
+        // placeTaxiDriversMarkers()
+        taxiOrderGo()
+        // console.log("point_a и point_b удалены из localStorage"); // Проверка в консоли
+    });
 
+    orderTaxiGoCancelBtn.addEventListener("click", function () {
+        searchWave.destroy();
+        taxiOrderCancel()
+        // removeTaxiDriversMarkers()
         // console.log("point_a и point_b удалены из localStorage"); // Проверка в консоли
     });
 

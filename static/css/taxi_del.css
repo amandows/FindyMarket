@@ -159,14 +159,18 @@ h6 {
      object-fit: cover;
 }
 
-.start_marker, .start_marker_map, .finish_marker_map {
+.start_marker,
+.start_marker_map,
+.finish_marker_map {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -170%);
   z-index: 5000;
 }
-.start_marker .content, .start_marker_map .content, .finish_marker_map .content {
+.start_marker .content,
+.start_marker_map .content,
+.finish_marker_map .content {
   position: relative;
   display: flex;
   align-items: center;
@@ -175,14 +179,18 @@ h6 {
   background-color: #fff;
   border-radius: 10px;
 }
-.start_marker .content .img_container, .start_marker_map .content .img_container, .finish_marker_map .content .img_container {
+.start_marker .content .img_container,
+.start_marker_map .content .img_container,
+.finish_marker_map .content .img_container {
   width: clamp(20px, 8vw, 100px);
   height: clamp(20px, 8vw, 100px);
   position: relative;
   background-color: #ffc60a;
   border-radius: 5px;
 }
-.start_marker .content .img_container img, .start_marker_map .content .img_container img, .finish_marker_map .content .img_container img {
+.start_marker .content .img_container img,
+.start_marker_map .content .img_container img,
+.finish_marker_map .content .img_container img {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -193,7 +201,9 @@ h6 {
      object-fit: cover;
   opacity: 100%;
 }
-.start_marker .content .start_text_content, .start_marker_map .content .start_text_content, .finish_marker_map .content .start_text_content {
+.start_marker .content .start_text_content,
+.start_marker_map .content .start_text_content,
+.finish_marker_map .content .start_text_content {
   visibility: hidden;
   width: 0;
   height: 0;
@@ -205,27 +215,37 @@ h6 {
   transition: all 0.3s ease; /* Плавное появление */
   gap: 5px;
 }
-.start_marker .content .start_text_content p, .start_marker_map .content .start_text_content p, .finish_marker_map .content .start_text_content p {
+.start_marker .content .start_text_content p,
+.start_marker_map .content .start_text_content p,
+.finish_marker_map .content .start_text_content p {
   white-space: nowrap;
   font-family: "Nunito";
   color: rgb(31, 31, 31);
 }
-.start_marker .content .start_text_content .text_price, .start_marker_map .content .start_text_content .text_price, .finish_marker_map .content .start_text_content .text_price {
+.start_marker .content .start_text_content .text_price,
+.start_marker_map .content .start_text_content .text_price,
+.finish_marker_map .content .start_text_content .text_price {
   font-size: clamp(10px, 3.3vw, 22px);
   font-weight: 600;
 }
-.start_marker .content .start_text_content .start_price, .start_marker_map .content .start_text_content .start_price, .finish_marker_map .content .start_text_content .start_price {
+.start_marker .content .start_text_content .start_price,
+.start_marker_map .content .start_text_content .start_price,
+.finish_marker_map .content .start_text_content .start_price {
   font-size: clamp(10px, 3.5vw, 22px);
   font-weight: 700;
 }
-.start_marker .content .active, .start_marker_map .content .active, .finish_marker_map .content .active {
+.start_marker .content .active,
+.start_marker_map .content .active,
+.finish_marker_map .content .active {
   padding: 0 5px 0px 8px;
   visibility: visible;
   width: auto; /* Или конкретное значение, например width: 100%; */
   height: auto; /* Или нужное значение */
   overflow: visible;
 }
-.start_marker .line, .start_marker_map .line, .finish_marker_map .line {
+.start_marker .line,
+.start_marker_map .line,
+.finish_marker_map .line {
   position: absolute;
   top: 100%;
   transform: translateX(-50%);
@@ -517,6 +537,7 @@ h6 {
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
+  position: relative;
 }
 .taxi_container .order_taxi .end_point .location_points .point_a .icon,
 .taxi_container .order_taxi .end_point .location_points .point_b .icon {
@@ -533,6 +554,53 @@ h6 {
   width: 65%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+.taxi_container .order_taxi .end_point .location_points .point_a .search_location1_animation,
+.taxi_container .order_taxi .end_point .location_points .point_b .search_location1_animation {
+  display: none;
+  width: 78%;
+  font-family: "Nunito";
+  font-size: clamp(10px, 3.9vw, 22px);
+  font-weight: 600;
+  color: rgb(31, 31, 31);
+  padding: 5px 10px;
+  border-left: 1px solid #a1a1a1;
+  border-right: 1px solid #a1a1a1;
+  animation: pulseText 1.2s ease-in-out infinite;
+}
+.taxi_container .order_taxi .end_point .location_points .point_a .search_location1_animation::after,
+.taxi_container .order_taxi .end_point .location_points .point_b .search_location1_animation::after {
+  content: "";
+  animation: dots 1.2s steps(3, end) infinite;
+}
+@keyframes pulseText {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+@keyframes dots {
+  0% {
+    content: "";
+  }
+  33% {
+    content: ".";
+  }
+  66% {
+    content: "..";
+  }
+  100% {
+    content: "...";
+  }
+}
+.taxi_container .order_taxi .end_point .location_points .point_a .search_location1,
+.taxi_container .order_taxi .end_point .location_points .point_b .search_location1 {
+  display: block;
 }
 .taxi_container .order_taxi .end_point .location_points .point_a input,
 .taxi_container .order_taxi .end_point .location_points .point_b input {
@@ -820,6 +888,80 @@ h6 {
   color: rgb(65, 65, 65);
   background: rgba(0, 0, 0, 0);
 }
+.taxi_container .search_taxi_driver {
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.taxi_container .search_taxi_driver .text {
+  text-wrap: nowrap;
+  font-family: sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 30px;
+}
+.taxi_container .search_taxi_driver .dots {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.taxi_container .search_taxi_driver .dots span {
+  width: 12px;
+  height: 12px;
+  background: #fcbf49;
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+.taxi_container .search_taxi_driver .dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+.taxi_container .search_taxi_driver .dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.taxi_container .search_taxi_driver .dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.taxi_container .search_taxi_driver .wave {
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), #fcbf49, rgba(0, 0, 0, 0));
+  position: absolute;
+  bottom: 0px;
+  animation: slide 2s linear infinite;
+}
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+}
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
 .taxi_container .taxi_setup {
   width: 100%;
   display: flex;
@@ -877,7 +1019,8 @@ h6 {
   display: none;
   width: 0;
 }
-.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category, .taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category {
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category,
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category {
   min-width: 30%;
   display: flex;
   flex-direction: column;
@@ -886,7 +1029,8 @@ h6 {
   opacity: 60%;
   transition: all 0.3s ease 0s;
 }
-.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category .img-container, .taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category .img-container {
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category .img-container,
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category .img-container {
   width: 100%;
   height: 100%;
   position: relative;
@@ -898,7 +1042,8 @@ h6 {
   justify-content: flex-end;
   z-index: 5;
 }
-.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category .img-container img, .taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category .img-container img {
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category .img-container img,
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category .img-container img {
   position: absolute;
   top: -15%;
   left: 0;
@@ -909,7 +1054,8 @@ h6 {
   transition: all 0.3s ease 0s;
   z-index: 6;
 }
-.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category .img-container .category_name, .taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category .img-container .category_name {
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category .img-container .category_name,
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category .img-container .category_name {
   font-family: "Nunito";
   font-size: clamp(10px, 3.9vw, 22px);
   font-weight: 600;
@@ -922,7 +1068,8 @@ h6 {
   color: #0a0a0a;
   z-index: 8;
 }
-.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category .img-container .price, .taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category .img-container .price {
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .taxi_category .img-container .price,
+.taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category .img-container .price {
   font-family: "Nunito";
   font-size: clamp(10px, 4.1vw, 22px);
   font-weight: 700;
@@ -943,12 +1090,22 @@ h6 {
 .taxi_container .taxi_setup .taxi_category_setup .taxi_category_setup_gallery .delivery_category {
   display: none;
 }
-.taxi_container .order_taxi_go, .taxi_container .gis_taxi_go, .taxi_container #open2GisButton {
+.taxi_container .order_taxi_go {
   background-color: #ffdd00;
   font-family: "Nunito";
   font-size: clamp(10px, 4.1vw, 22px);
   font-weight: 700;
   color: rgb(31, 31, 31);
+  width: 60%;
+  height: clamp(15px, 13vw, 50px);
+  border-radius: 20px;
+}
+.taxi_container .order_taxi_cancel {
+  background-color: #b82c2c;
+  font-family: "Nunito";
+  font-size: clamp(10px, 4.1vw, 22px);
+  font-weight: 700;
+  color: rgb(253, 253, 253);
   width: 60%;
   height: clamp(15px, 13vw, 50px);
   border-radius: 20px;

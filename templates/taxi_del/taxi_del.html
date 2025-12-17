@@ -93,6 +93,7 @@
                             <img src="/static/icons/passenger3.png" alt="">
                         </div>
                         <input type="search" class="search_location1" placeholder="Откуда поедем?">
+                        <p class="search_location1_animation">Определяем где вы.</p>
                         <button class="map_1">Карта</button>
                     </div>
                     <div class="line"></div>
@@ -154,6 +155,13 @@
                     </div>
                     <input type="search" class="location_two_go" placeholder="Куда поедем?" value="" readonly>
                 </div>
+            </div>
+            <div class="search_taxi_driver">
+                <p class="text">Ищем свободное такси...</p>
+                <div class="dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="wave"></div>
             </div>
             <div class="taxi_setup">
                 <div class="buttons">
@@ -221,6 +229,7 @@
                 </div>
             </div>
             <button class="order_taxi_go">Заказать</button>
+            <button class="order_taxi_cancel" style="display: none;">Отменить</button>
             <!-- <button id="open2GisButton">Открыть маршрут в 2ГИС</button> -->
         </div>
     </div>

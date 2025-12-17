@@ -120,7 +120,6 @@ h6 {
     }
 }
 
-
 #preloader {
     position: fixed;
     width: 100%;
@@ -142,8 +141,12 @@ h6 {
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .taxi_drivers {
@@ -163,7 +166,9 @@ h6 {
     }
 }
 
-.start_marker, .start_marker_map, .finish_marker_map {
+.start_marker,
+.start_marker_map,
+.finish_marker_map {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -224,7 +229,7 @@ h6 {
         .active {
             padding: 0 5px 0px 8px;
             visibility: visible;
-            width: auto;  /* Или конкретное значение, например width: 100%; */
+            width: auto; /* Или конкретное значение, например width: 100%; */
             height: auto; /* Или нужное значение */
             overflow: visible;
         }
@@ -237,8 +242,8 @@ h6 {
         width: 4px;
         height: 70%;
         background-color: #fff;
-        border-radius: 0 0 2px 2px ;
-    } 
+        border-radius: 0 0 2px 2px;
+    }
 }
 
 .search-wave {
@@ -254,7 +259,8 @@ h6 {
     border: 1px solid #ffffff;
     animation: pulse 1.5s infinite;
     display: block;
-    &::before, &::after {
+    &::before,
+    &::after {
         content: "";
         position: absolute;
         top: 50%;
@@ -316,7 +322,7 @@ h6 {
                 left: 0%;
                 transition: all 0.3s ease 0s;
                 &::after {
-                    content: '';
+                    content: "";
                     width: 100%;
                     height: 100%;
                     left: 0;
@@ -327,9 +333,9 @@ h6 {
                     transform: rotate(45deg) translate(0, 0);
                     box-sizing: border-box;
                 }
-    
+
                 &::before {
-                    content: '';
+                    content: "";
                     box-sizing: border-box;
                     position: absolute;
                     left: 0;
@@ -538,7 +544,7 @@ h6 {
                     align-items: center;
                     justify-content: space-between;
                     margin: 0 auto;
-
+                    position: relative;
                     .icon {
                         width: clamp(20px, 7.5vw, 100px);
                         height: clamp(20px, 7.5vw, 100px);
@@ -554,6 +560,50 @@ h6 {
                         }
                     }
 
+                    .search_location1_animation {
+                        display: none;
+                        width: 78%;
+                        font-family: "Nunito";
+                        font-size: clamp(10px, 3.9vw, 22px);
+                        font-weight: 600;
+                        color: rgb(31, 31, 31);
+                        padding: 5px 10px;
+                        border-left: 1px solid #a1a1a1;
+                        border-right: 1px solid #a1a1a1;
+                        animation: pulseText 1.2s ease-in-out infinite;
+                    }
+                    .search_location1_animation::after {
+                        content: "";
+                        animation: dots 1.2s steps(3, end) infinite;
+                    }
+                    @keyframes pulseText {
+                        0% {
+                            opacity: 0.4;
+                        }
+                        50% {
+                            opacity: 1;
+                        }
+                        100% {
+                            opacity: 0.4;
+                        }
+                    }
+                    @keyframes dots {
+                        0% {
+                            content: "";
+                        }
+                        33% {
+                            content: ".";
+                        }
+                        66% {
+                            content: "..";
+                        }
+                        100% {
+                            content: "...";
+                        }
+                    }
+                    .search_location1 {
+                        display: block;
+                    }
                     input {
                         width: 78%;
                         font-family: "Nunito";
@@ -613,7 +663,6 @@ h6 {
                     }
                 }
             }
-
 
             .logo_container {
                 width: 92%;
@@ -855,6 +904,80 @@ h6 {
             }
         }
     }
+    .search_taxi_driver {
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        height: 200px;
+        background: #ffffff00;
+        border-radius: 20px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .text {
+            text-wrap: nowrap;
+            font-family: sans-serif;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .dots {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            span {
+                width: 12px;
+                height: 12px;
+                background: #fcbf49;
+                border-radius: 50%;
+                animation: blink 1.4s infinite both;
+                &:nth-child(1) {
+                    animation-delay: 0s;
+                }
+                &:nth-child(2) {
+                    animation-delay: 0.2s;
+                }
+                &:nth-child(3) {
+                    animation-delay: 0.4s;
+                }
+            }
+        }
+        .wave {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #0000, #fcbf49, #0000);
+            position: absolute;
+            bottom: 0px;
+            animation: slide 2s linear infinite;
+        }
+    }
+    @keyframes blink {
+        0% {
+            opacity: 0.2;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.4);
+        }
+        100% {
+            opacity: 0.2;
+            transform: scale(1);
+        }
+    }
+    @keyframes slide {
+        0% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(100%);
+        }
+    }
     .taxi_setup {
         width: 100%;
         display: flex;
@@ -889,12 +1012,12 @@ h6 {
             }
             .duration {
                 &::after {
-                    content: ' мин';
+                    content: " мин";
                 }
             }
             .distance {
                 &::after {
-                    content: ' км';
+                    content: " км";
                 }
             }
         }
@@ -913,7 +1036,8 @@ h6 {
                     display: none;
                     width: 0;
                 }
-                .taxi_category, .delivery_category {
+                .taxi_category,
+                .delivery_category {
                     min-width: 30%;
                     display: flex;
                     flex-direction: column;
@@ -947,7 +1071,7 @@ h6 {
                             transition: all 0.3s ease 0s;
                             z-index: 6;
                         }
-        
+
                         .category_name {
                             font-family: "Nunito";
                             font-size: clamp(10px, 3.9vw, 22px);
@@ -961,7 +1085,7 @@ h6 {
                             color: #0a0a0a;
                             z-index: 8;
                         }
-        
+
                         .price {
                             font-family: "Nunito";
                             font-size: clamp(10px, 4.1vw, 22px);
@@ -988,12 +1112,22 @@ h6 {
             }
         }
     }
-    .order_taxi_go, .gis_taxi_go, #open2GisButton {
+    .order_taxi_go {
         background-color: #ffdd00;
         font-family: "Nunito";
         font-size: clamp(10px, 4.1vw, 22px);
         font-weight: 700;
         color: rgb(31, 31, 31);
+        width: 60%;
+        height: clamp(15px, 13vw, 50px);
+        border-radius: 20px;
+    }
+    .order_taxi_cancel {
+        background-color: #b82c2c;
+        font-family: "Nunito";
+        font-size: clamp(10px, 4.1vw, 22px);
+        font-weight: 700;
+        color: rgb(253, 253, 253);
         width: 60%;
         height: clamp(15px, 13vw, 50px);
         border-radius: 20px;
