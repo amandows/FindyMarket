@@ -42,7 +42,7 @@
                 <td class="order-details-container">
                     <ol id="myList-{{order.id}}" class="order-details-list">
                         {% for line in order.order_details.splitlines %}
-                            <li>{{ line }}</li>
+                        <li>{{ line }}</li>
                         {% endfor %}
                     </ol>
                     <p class="created-at">Дата: {{order.created_at}}</p>
@@ -84,7 +84,7 @@
                 <td class="order-details-container">
                     <ol id="myList-{{order.id}}" class="order-details-list">
                         {% for line in order.order_details.splitlines %}
-                            <li>{{ line }}</li>
+                        <li>{{ line }}</li>
                         {% endfor %}
                     </ol>
                     <p class="created-at">Дата: {{order.created_at}}</p>
@@ -111,6 +111,9 @@
         </tbody>
 
     </table>
+    <div class="table-pagination" data-target="tbody-completed"></div>
+    <div class="table-pagination" data-target="tbody-cancelled"></div>
+
 
     <events name="ondownevent" ondown="playbackgroundsound()" />
     <button id="enable-sound" style="display:none;">Enable Sound</button>
@@ -124,5 +127,57 @@
 <script src="/static/script/async.js"></script>
 <script src="/static/script/orders-btn.js"></script>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        function paginateTable(tbodyId, rowsPerPage = 50) {
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+
+            const rows = Array.from(tbody.querySelectorAll("tr.order"));
+            const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+            const pagination = document.querySelector(`.table-pagination[data-target="${tbodyId}"]`);
+            if (!pagination) return;
+
+            function showPage(page) {
+                rows.forEach((row, index) => {
+                    row.style.display =
+                        (index >= (page - 1) * rowsPerPage &&
+                            index < page * rowsPerPage)
+                            ? "table-row"
+                            : "none";
+                });
+
+                pagination.querySelectorAll("button").forEach(btn => {
+                    btn.classList.remove("active");
+                });
+
+                pagination.querySelector(`button[data-page="${page}"]`).classList.add("active");
+
+                // 🔥 Скролл вверх к таблице
+                tbody.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+
+            // Создаём кнопки страниц
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement("button");
+                btn.textContent = i;
+                btn.dataset.page = i;
+                btn.onclick = () => showPage(i);
+                pagination.appendChild(btn);
+            }
+
+            // Показать первую страницу
+            if (totalPages > 0) {
+                showPage(1);
+            }
+        }
+
+        // Инициализация для двух таблиц
+        paginateTable("tbody-completed", 50);
+        paginateTable("tbody-cancelled", 50);
+
+    });
 </script>
+
 {% endblock %}

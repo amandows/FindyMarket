@@ -28,7 +28,7 @@ main .edit-menu {
 }
 main .edit-menu details {
   width: 95%;
-  text-align: center;
+  text-align: left;
 }
 main .edit-menu details summary {
   background-color: #d6d6d6;
@@ -38,7 +38,7 @@ main .edit-menu details summary {
   font-family: "Nunito";
   font-size: 16px;
   font-weight: 700;
-  padding: 10px 0;
+  padding: 12px 0px 12px 20px;
   border-radius: 10px;
 }
 main .edit-menu details summary::before {
@@ -128,7 +128,6 @@ main .edit-menu details .food-items .food-item form .container button {
   font-weight: 600;
   color: #ffffff;
   position: absolute;
-  background-color: #108d00;
   padding: 8px 15px;
   bottom: 0px;
   right: 15px;
@@ -136,7 +135,10 @@ main .edit-menu details .food-items .food-item form .container button {
   transition: all 0.3s ease 0s;
 }
 main .edit-menu details .food-items .food-item form .container button:hover {
-  background-color: #0d6801;
+  background-color: #2fd419;
+}
+main .edit-menu details .food-items .food-item form .container .action-btn {
+  background-color: #cc1616;
 }
 main .edit-menu details .food-items .food-item form .container .food-name, main .edit-menu details .food-items .food-item form .container .food-description, main .edit-menu details .food-items .food-item form .container .food-price, main .edit-menu details .food-items .food-item form .container .food-status, main .edit-menu details .food-items .food-item form .container .food-new-img {
   display: flex;

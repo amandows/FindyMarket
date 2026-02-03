@@ -47,6 +47,19 @@
     <button type="submit">Создать категорию</button>
 </form>
 
+<!-- Список существующих категорий -->
+<div id="my-categories">
+    <h4>Мои категории:</h4>
+    <ul id="categories-list">
+        {% for category in categories %}
+        <li data-id="{{ category.id }}">
+            {{ category.name }}
+            <button class="delete-category-btn" data-id="{{ category.id }}">Удалить</button>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
 
 <script>
     document.getElementById('category-form').addEventListener('submit', function (e) {

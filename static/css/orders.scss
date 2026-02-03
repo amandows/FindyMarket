@@ -90,18 +90,19 @@ h6 {
 }
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
-@import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
 
 table {
     max-width: 1280px;
     margin: 0 auto;
     border-collapse: collapse;
 }
-th, td {
+th,
+td {
     border-bottom: 1px solid rgb(184, 184, 184);
     padding: 20px 8px;
     text-align: left;
@@ -113,8 +114,9 @@ main {
     max-width: 1280px;
     margin: 0 auto;
     margin-top: 60px;
+    padding: 0 0 20px 0;
     .title {
-        font-family: 'Open Sans';
+        font-family: "Open Sans";
         font-size: 17px;
         font-weight: 700;
         margin-bottom: 20px;
@@ -122,7 +124,7 @@ main {
         border-bottom: 1px solid #141414;
         &::after {
             display: block;
-            content: '';
+            content: "";
             width: 20px;
             height: 15px;
             background: url("/static/icons/orders.svg") center/cover no-repeat;
@@ -146,7 +148,7 @@ main {
             border-left: 1px solid #131313;
             border-radius: 10px 0px 0px 10px;
             span {
-                font-family: 'Nunito';
+                font-family: "Nunito";
                 font-size: 14px;
                 padding: 0px 6px;
                 background-color: #eeff00;
@@ -168,7 +170,7 @@ main {
             width: 34%;
             height: auto;
             padding: 10px 15px;
-            font-family: 'Nunito';
+            font-family: "Nunito";
             font-size: 14px;
             font-weight: 700;
             color: #141414;
@@ -250,7 +252,7 @@ main {
                             font-weight: 600;
                             line-height: 1.5; /* Укажите конкретное значение */
                             cursor: pointer;
-                            }
+                        }
                     }
                     .created-at {
                         text-align: left;
@@ -390,6 +392,26 @@ main {
                     }
                 }
             }
+        }
+    }
+    .table-pagination {
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        margin: 15px 0;
+        flex-wrap: wrap;
+        button {
+            padding: 6px 12px;
+            border: none;
+            background: #eee;
+            cursor: pointer;
+            border-radius: 6px;
+            font-family: "Open Sans";
+            font-size: 14px;
+        }
+        .active {
+            background: #2fd419;
+            color: #fff;
         }
     }
 }

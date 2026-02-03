@@ -64,9 +64,22 @@ class Food_menu(models.Model):
 
 
     def save(self, *args, **kwargs):
+        # 🔥 Удаление старых файлов при обновлении изображения
+        if self.pk:
+            old = Food_menu.objects.get(pk=self.pk)
+
+            for field in ['adscreenimg', 'imageOne']:
+                old_file = getattr(old, field)
+                new_file = getattr(self, field)
+
+                if old_file and old_file != new_file:
+                    if os.path.exists(old_file.path):
+                        os.remove(old_file.path)
+
         if not self.date_add:
             self.date_add = timezone.now()
-        super(Food_menu, self).save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
 
 
 

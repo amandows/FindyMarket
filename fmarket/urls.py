@@ -1,4 +1,4 @@
-from tkinter.font import names
+# from tkinter.font import names
 
 from django.contrib import admin
 from django.urls import path, include
@@ -12,7 +12,7 @@ from account.views import SignUp, user_profile, account_menu, send_sms, registra
 from create_food.views import add_food, create_category
 from owner.views import get_orders
 from oreders.views import orders_view, update_order_status, user_orders_json, orders_chart_view, update_order_courier_status
-from edit_menu.views import edit_menu_view, edit_food_view
+from edit_menu.views import edit_menu_view, edit_food_view, delete_food
 from edit_profile.views import edit_profile_view
 from profile_info.views import profile_view
 from basis_admin.views import toggle_user_status
@@ -51,6 +51,7 @@ urlpatterns = [
     path('profile/', profile_view, name='profile'),
     path('edit-profile/', edit_profile_view, name='edit_profile'),
     path('edit-menu/', edit_menu_view, name='edit_menu'),
+    path('delete_food/<int:id>/', delete_food, name='delete_food'),
     path('edit-food/<int:food_id>/', edit_food_view, name='edit_food'),
     path('orders-chart/', orders_chart_view, name='orders_chart'),  # показать на странице график json статистика
     path('user-orders-json/', user_orders_json, name='user_orders_json'),  # запрос на создание json статистика

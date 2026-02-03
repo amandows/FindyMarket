@@ -80,3 +80,7 @@ def edit_food_view(request, food_id):
 
     return render(request, 'edit_food.html', {'food_item': food_item})
 
+def delete_food(request, id):
+    food = Food_menu.objects.get(id=id)
+    food.delete()  # тут автоматически вызовется delete_images()
+    return redirect('edit_menu')
