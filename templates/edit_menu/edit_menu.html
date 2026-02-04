@@ -7,7 +7,7 @@
 {% block main %}
 <main>
     <h1 class="title">Редактировать меню</h1>
-
+    <input type="search" class="menu_search" placeholder="Поиск товаров">
     <div class="edit-menu">
         {% for category, items in categories %}
         <details class="category-details">
@@ -159,4 +159,38 @@ function updateImagePreview(event, itemId) {
     }
 }
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.querySelector('.menu_search');
+    const detailsList = document.querySelectorAll('.category-details');
+    const foodItems = document.querySelectorAll('.food-item');
+
+    // При фокусе открываем все категории
+    searchInput.addEventListener('focus', () => {
+        detailsList.forEach(d => d.open = true);
+    });
+
+    // Поиск при вводе
+    searchInput.addEventListener('input', function () {
+        const value = this.value.toLowerCase().trim();
+
+        foodItems.forEach(item => {
+            const name = item.querySelector('input[name="food_name"]').value.toLowerCase();
+
+            if (name.includes(value)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Если поиск пустой — вернуть всё
+        if (value === '') {
+            foodItems.forEach(item => item.style.display = 'flex');
+        }
+    });
+});
+</script>
+
 {% endblock %}

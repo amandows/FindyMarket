@@ -15,6 +15,7 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,400i,700");
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
 * {
   padding: 0;
   margin: 0;
@@ -428,7 +429,7 @@ main .step_one .findy_title .title_logo {
   transform: translateY(-50%);
 }
 main .step_one .findy_title p {
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(12px, 4.5vw, 18px);
   font-weight: 600;
 }
@@ -438,7 +439,7 @@ main .step_one .options {
 }
 main .step_one .my_statistic p,
 main .step_one .options p {
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(12px, 3.5vw, 18px);
   color: #f3f3f3;
   font-weight: 500;
@@ -562,7 +563,7 @@ main .my_location {
   grid-row-start: 4;
   grid-row-end: 5;
   background-color: rgba(86, 24, 255, 0.6039215686);
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(12px, 3.5vw, 18px);
   background-color: #fae207;
   border-radius: 20px;
@@ -575,7 +576,7 @@ main .my_location {
   background: url("/static/icons/my_location.png") center/cover no-repeat;
 }
 main .my_location p {
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(12px, 3.5vw, 18px);
   color: #f1f1f1;
   font-weight: 500;

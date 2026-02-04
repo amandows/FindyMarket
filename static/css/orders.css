@@ -133,11 +133,21 @@ main .title::after {
 main .sub-title {
   margin: 20px 0px;
 }
+main .order-search {
+  border: 1px solid #202020;
+  font-family: "Nunito";
+  font-size: 16px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 5px;
+  width: 300px;
+}
 main .orders-btn {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 20px;
 }
 main .orders-btn .active {
   background-color: #0f0f0f;

@@ -62,7 +62,7 @@
         padding: 0px 10px 0px 15%;
         z-index: 8;
         border-radius: 5px;
-        font-family: "Inter";
+        font-family: "Inter Tight", sans-serif;
         font-size: clamp(10px, 3.4vw, 16px);
         font-weight: 500;
         @include colorstandart();
@@ -266,7 +266,7 @@
                 }
             }
             .food_name {
-                font-family: "Inter";
+                font-family: "Inter Tight";
                 font-size: clamp(10px, 3.4vw, 16px);
                 font-weight: 500;
                 line-height: clamp(0.875rem, -0.864rem + 8.696vw, 1.375rem);
@@ -394,7 +394,7 @@
             width: 100%;
             background-color: #e6e6e6;
             border-radius: 15px;
-            font-family: "Inter";
+            font-family: "Inter Tight", sans-serif;
             font-size: clamp(10px, 3.4vw, 16px);
             font-weight: 500;
             color: #696969;
@@ -474,14 +474,14 @@
         justify-content: center;
 
         h2 {
-            font-family: "Inter";
+            font-family: "Inter Tight", sans-serif;
             font-size: clamp(12px, 4vw, 20px);
             margin-bottom: 10px;
             color: #1a1a1a;
         }
 
         p {
-            font-family: "Inter";
+            font-family: "Inter Tight", sans-serif;
             font-size: clamp(10px, 3.4vw, 16px);
             margin-bottom: 8px;
             color: #555;

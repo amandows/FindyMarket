@@ -137,6 +137,7 @@ h6 {
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,400i,700");
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
 
 .user_marker {
     position: absolute;
@@ -437,7 +438,7 @@ main {
                 transform: translateY(-50%)
             }
             p {
-                font-family: "Inter";
+                font-family: "Inter Tight", sans-serif;
                 font-size: clamp(12px, 4.5vw, 18px);
                 font-weight: 600;
             }
@@ -446,7 +447,7 @@ main {
         .options {
             position: relative;
             p {
-                font-family: "Inter";
+                font-family: "Inter Tight", sans-serif;
                 font-size: clamp(12px, 3.5vw, 18px);
                 color: #f3f3f3;
                 font-weight: 500;
@@ -594,7 +595,7 @@ main {
         grid-row-start: 4;
         grid-row-end: 5;
         background-color: #5618ff9a;
-        font-family: "Inter";
+        font-family: "Inter Tight", sans-serif;
         font-size: clamp(12px, 3.5vw, 18px);
         background-color: #fae207;
         border-radius: 20px;
@@ -606,7 +607,7 @@ main {
         box-shadow: 0px 5px 10px #08080860;
         background: url("/static/icons/my_location.png") center/cover no-repeat;
         p {
-            font-family: "Inter";
+            font-family: "Inter Tight", sans-serif;
             font-size: clamp(12px, 3.5vw, 18px);
             color: #f1f1f1;
             font-weight: 500;

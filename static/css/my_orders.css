@@ -101,7 +101,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(10px, 3.4vw, 16px);
 }
 .orders-page .order_accordion .order_accordion-item .order_accordion-content .details tbody tr .table_detail {
@@ -111,7 +111,7 @@
 }
 .orders-page .order_accordion .order_accordion-item .order_accordion-content .details h2,
 .orders-page .order_accordion .order_accordion-item .order_accordion-content .details p {
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(10px, 3.4vw, 16px);
   color: #3d3d3d;
 }
@@ -126,7 +126,7 @@
   align-items: center;
 }
 .orders-page .order_accordion .order_accordion-item .order_accordion-content .details .order-actions .btn {
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(10px, 3.4vw, 16px);
   padding: 5px 10px;
   color: #eee;

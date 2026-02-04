@@ -7,6 +7,7 @@
 {% block main %}
 <main>
     <h1 class="title">Заказы</h1>
+    <input type="search" id="order-search" class="order-search" placeholder="Поиск заказов">
     <div class="orders-btn">
         <button class="new-orders" onclick="showOrders('tbody', this)">Новые заказы <span
                 class="inProgressStatus"></span></button>
@@ -178,6 +179,32 @@
         paginateTable("tbody-cancelled", 50);
 
     });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('order-search');
+    const orders = document.querySelectorAll('tr.order');
+
+    searchInput.addEventListener('input', function () {
+        const value = this.value.toLowerCase().trim();
+
+        orders.forEach(order => {
+            const orderNumber = order.querySelector('.order-number')?.innerText.toLowerCase() || '';
+            const userName = order.querySelector('.user-name')?.innerText.toLowerCase() || '';
+            const tel = order.querySelector('.tel-number')?.innerText.toLowerCase() || '';
+
+            if (
+                orderNumber.includes(value) ||
+                userName.includes(value) ||
+                tel.includes(value)
+            ) {
+                order.style.display = '';
+            } else {
+                order.style.display = 'none';
+            }
+        });
+    });
+});
 </script>
 
 {% endblock %}

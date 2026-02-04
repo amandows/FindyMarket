@@ -15,6 +15,8 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,400i,700");
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
 * {
   padding: 0;
   margin: 0;
@@ -459,7 +461,7 @@ h6 {
   transform: scale(0.8);
   opacity: 0;
   transition: all 0.3s ease;
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   text-align: center;
 }
 .error-modal .modal-content h2 {
@@ -609,7 +611,7 @@ h6 {
   margin-left: 2px;
 }
 .body-container .carts .cart-products .food .descrition-container .food_name {
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(10px, 3.4vw, 16px);
   font-weight: 500;
   line-height: 1.4rem;
@@ -745,7 +747,7 @@ h6 {
   padding: clamp(5px, 3.8vw, 30px) 0 clamp(5px, 3.8vw, 30px) clamp(10px, 7.8vw, 60px);
 }
 .body-container .carts .form-container form .form__field {
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   width: 100%;
   border: 0;
   border-bottom: 2px solid #5e5e5e;
@@ -998,7 +1000,7 @@ h6 {
 }
 .body-container .carts .form-container form .accordion .accordion-item .accordion-content .payment_buttons p {
   color: #0a0a0a;
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(10px, 3.6vw, 20px);
 }
 .body-container .carts .form-container form .accordion .accordion-item .accordion-content .active {
@@ -1109,7 +1111,7 @@ h6 {
 .body-container .carts .form-container form .file-group .file-wrapper .file-label {
   height: clamp(40px, 10vw, 50px);
   padding: 0 20px;
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(10px, 3.6vw, 20px);
   color: #111111;
   cursor: pointer;
@@ -1536,7 +1538,7 @@ h6 {
 }
 .body-container .user-container .user_profile .user_name .user_name-info {
   text-align: center;
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(12px, 4.5vw, 20px);
   font-weight: 500;
   color: #1f1f1f;
@@ -1555,7 +1557,7 @@ h6 {
 .body-container .user-container .user_profile .user_name .rename_form input {
   padding: 0px 5px 10px 0;
   text-align: center;
-  font-family: "Inter";
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(12px, 4.5vw, 20px);
   font-weight: 500;
   color: #1f1f1f;
