@@ -8,7 +8,7 @@
 {% block main %}
 
 <div class="main">
-    <h1 class="title">Добавить новый продукт, категорию</h1>
+    <h1 class="title">Добавить новый товар или создать категорию</h1>
     <div class="add_view_bts">
         <button class="add_menu">Добавить товар</button>
         <button class="add_category">Добавить категорию</button>
@@ -21,7 +21,7 @@
             {{ form.name }}
         </div>
         <div>
-            <label for="id_description">Информация (состав т.д):</label>
+            <label for="id_description">Информация (состав и т.д):</label>
             {{ form.description }}
         </div>
         <div>
@@ -44,23 +44,24 @@
     </form>
     <form id="category-form" class="add_category_form">
         {% csrf_token %}
-        <label for="category-name">Имя категории:</label>
-        <input type="text" name="name" id="category-name" required>
-        <button type="submit">Создать категорию</button>
+        <label for="category-name">Имя новой категории:</label>
+        <div class="input_container">
+            <input type="text" name="name" id="category-name" required class="category-name"
+                placeholder="Введите название категории">
+            <button type="submit" class="submit">Создать категорию</button>
+        </div>
     </form>
-</div>
-
-<!-- Список существующих категорий -->
-<div id="my-categories">
-    <h4>Мои категории:</h4>
-    <ul id="categories-list">
-        {% for category in categories %}
-        <li data-id="{{ category.id }}">
-            {{ category.name }}
-            <button class="delete-category-btn" data-id="{{ category.id }}">Удалить</button>
-        </li>
+    <div class="my-categories">
+        <h3>Мои категории товаров:</h3>
+        {% for cat in request.user.categories.all %}
+        <div class="cat-row" data-id="{{cat.id}}">
+            <input type="text" value="{{cat.name}}" class="cat-input">
+            <button class="save-cat">Сохранить</button>
+            <button class="delete-cat">Удалить</button>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
+
 </div>
 
 
@@ -97,32 +98,110 @@
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const btnMenu = document.querySelector('.add_menu');
-    const btnCategory = document.querySelector('.add_category');
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnMenu = document.querySelector('.add_menu');
+        const btnCategory = document.querySelector('.add_category');
 
-    const formMenu = document.querySelector('.add_menu_form');
-    const formCategory = document.querySelector('.add_category_form');
+        const formMenu = document.querySelector('.add_menu_form');
+        const formCategory = document.querySelector('.add_category_form');
+        const myCategories = document.querySelector('.my-categories')
 
-    // по умолчанию
-    formMenu.style.display = 'flex';
-    formCategory.style.display = 'none';
-
-    btnMenu.addEventListener('click', function () {
+        // по умолчанию
         formMenu.style.display = 'flex';
         formCategory.style.display = 'none';
-        btnMenu.style.cssText = 'background-color: #131313; color: #ffffff;'
-        btnCategory.style.cssText = 'background-color: #ffffff; color: #131313;'
-    });
 
-    btnCategory.addEventListener('click', function () {
-        formMenu.style.display = 'none';
-        formCategory.style.display = 'flex';
-        btnCategory.style.cssText = 'background-color: #131313; color: #ffffff;'
-        btnMenu.style.cssText = 'background-color: #ffffff; color: #131313;'
+        btnMenu.addEventListener('click', function () {
+            formMenu.style.display = 'flex';
+            formCategory.style.display = 'none';
+            myCategories.style.display = 'none'
+            btnMenu.style.cssText = 'background-color: #131313; color: #ffffff;'
+            btnCategory.style.cssText = 'background-color: #ffffff; color: #131313;'
+        });
+
+        btnCategory.addEventListener('click', function () {
+            formMenu.style.display = 'none';
+            formCategory.style.display = 'flex';
+            myCategories.style.display = 'flex'
+            btnCategory.style.cssText = 'background-color: #131313; color: #ffffff;'
+            btnMenu.style.cssText = 'background-color: #ffffff; color: #131313;'
+        });
     });
-});
 </script>
+<script>
+    document.querySelectorAll('.cat-row').forEach(row => {
+        const id = row.dataset.id;
+        const input = row.querySelector('.cat-input');
+
+        row.querySelector('.save-cat').onclick = async () => {
+            const res = await fetch('/manage-category/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    id: id,
+                    action: 'edit',
+                    name: input.value
+                })
+            });
+
+            const data = await res.json();
+            alert(data.message);
+            location.reload();
+        };
+
+        row.querySelector('.delete-cat').onclick = async () => {
+            if (!confirm('Удалить категорию?')) return;
+
+            const res = await fetch('/manage-category/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    id: id,
+                    action: 'delete'
+                })
+            });
+
+            const data = await res.json();
+            alert(data.message);
+            location.reload();
+        };
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        document.querySelectorAll('.cat-row').forEach(row => {
+            const input = row.querySelector('.cat-input');
+            const btnSave = row.querySelector('.save-cat');
+            const btnDelete = row.querySelector('.delete-cat');
+
+            const originalValue = input.value;
+
+            // дефолт
+            btnSave.style.display = 'none';
+            btnDelete.style.display = 'inline-block';
+
+            input.addEventListener('input', function () {
+                if (input.value.trim() !== originalValue.trim()) {
+                    btnSave.style.display = 'inline-block';
+                    btnDelete.style.display = 'none';
+                } else {
+                    btnSave.style.display = 'none';
+                    btnDelete.style.display = 'inline-block';
+                }
+            });
+        });
+
+    });
+</script>
+
+
 
 
 

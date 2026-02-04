@@ -94,43 +94,6 @@ h6 {
   font-weight: 400;
 }
 
-#category-form {
-  max-width: 400px;
-  width: 100%;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: 8px;
-  padding: 20px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-  font-family: "Open Sans";
-}
-#category-form input[type=text] {
-  padding: 10px 15px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 10px;
-}
-#category-form button {
-  padding: 10px 15px;
-  background-color: #20a100;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 10px;
-}
-#category-form button:hover {
-  background-color: #1a8300;
-}
-
 .main {
   width: 768px;
   margin: 0 auto;
@@ -212,15 +175,13 @@ h6 {
   margin-top: 20px;
   animation: fadeIn 0.25s ease;
 }
-.main .add_menu_form div,
-.main .add_category_form div {
+.main .add_menu_form div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
 }
-.main .add_menu_form div label,
-.main .add_category_form div label {
+.main .add_menu_form div label {
   font-weight: bold;
   font-size: 14px;
 }
@@ -228,12 +189,7 @@ h6 {
 .main .add_menu_form div input[type=number],
 .main .add_menu_form div input[type=file],
 .main .add_menu_form div select,
-.main .add_menu_form div textarea,
-.main .add_category_form div input[type=text],
-.main .add_category_form div input[type=number],
-.main .add_category_form div input[type=file],
-.main .add_category_form div select,
-.main .add_category_form div textarea {
+.main .add_menu_form div textarea {
   padding: 10px 15px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
@@ -243,12 +199,10 @@ h6 {
   box-sizing: border-box;
   margin-top: 5px;
 }
-.main .add_menu_form div textarea,
-.main .add_category_form div textarea {
+.main .add_menu_form div textarea {
   height: 60px;
 }
-.main .add_menu_form div a,
-.main .add_category_form div a {
+.main .add_menu_form div a {
   text-align: center;
   display: block;
   margin-top: 15px;
@@ -256,12 +210,10 @@ h6 {
   text-decoration: none;
   font-size: 16px;
 }
-.main .add_menu_form div a:hover,
-.main .add_category_form div a:hover {
+.main .add_menu_form div a:hover {
   text-decoration: underline;
 }
-.main .add_menu_form button,
-.main .add_category_form button {
+.main .add_menu_form button {
   padding: 10px 15px;
   background-color: #007bff;
   color: #fff;
@@ -271,10 +223,85 @@ h6 {
   font-size: 16px;
   margin-top: 10px;
 }
-.main .add_menu_form button:hover,
-.main .add_category_form button:hover {
+.main .add_menu_form button:hover {
   background-color: #0056b3;
+}
+.main .add_category_form {
+  width: 100%;
+  flex-direction: column;
+  gap: 10px;
+}
+.main .add_category_form label {
+  font-family: "Nunito";
+  font-size: 16px;
+  font-weight: 700;
+}
+.main .add_category_form .input_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.main .add_category_form .input_container .category-name {
+  width: 70%;
+  border: 1px solid #202020;
+  font-family: "Nunito";
+  font-size: 16px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.main .add_category_form .input_container .submit {
+  width: 25%;
+  background-color: #20a100;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 7px 10px;
+  border-radius: 5px;
 }
 .main .active {
   display: flex;
+}
+.main .my-categories {
+  width: 100%;
+  margin-top: 20px;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  animation: fadeIn 0.25s ease;
+}
+.main .my-categories h3 {
+  font-family: "Nunito";
+  font-size: 16px;
+  font-weight: 700;
+}
+.main .my-categories .cat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+.main .my-categories .cat-row .cat-input {
+  width: 70%;
+  border-bottom: 1px solid #555555;
+  font-family: "Nunito";
+  font-size: 16px;
+  font-weight: 500;
+  padding: 5px 10px;
+}
+.main .my-categories .cat-row button {
+  width: 25%;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 7px 10px;
+  border-radius: 5px;
+}
+.main .my-categories .cat-row .save-cat {
+  background-color: #292cd1;
+}
+.main .my-categories .cat-row .delete-cat {
+  background-color: #d12929;
 }/*# sourceMappingURL=create_food.css.map */

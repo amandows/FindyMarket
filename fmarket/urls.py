@@ -9,7 +9,7 @@ from django.contrib.auth import views as auth_views
 from basis.views import create_order
 from home.views import home
 from account.views import SignUp, user_profile, account_menu, send_sms, registration_sms, login_view, submit_rating, update_username, update_avatar
-from create_food.views import add_food, create_category
+from create_food.views import add_food, create_category, manage_category
 from owner.views import get_orders
 from oreders.views import orders_view, update_order_status, user_orders_json, orders_chart_view, update_order_courier_status
 from edit_menu.views import edit_menu_view, edit_food_view, delete_food
@@ -39,6 +39,7 @@ urlpatterns = [
     path('registration/', registration_sms, name='registration_sms'),
     path('search/', search_food_menu, name='search_food_menu'),
     path('create-category/', create_category, name='create_category'),
+    path('manage-category/', manage_category, name='manage_category'),
     path('category/<str:category>/', user_list, name='user_list'),
     path('pickup_order/<int:order_id>/', pickup_order, name='pickup_order'),
     path('courier_update_order_status/<int:order_id>/', courier_update_order_status, name='courier_update_order_status'),

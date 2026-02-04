@@ -4,7 +4,7 @@ from .forms import FoodMenuForm
 from django.core.files.base import ContentFile
 from PIL import Image
 from io import BytesIO
-from basis.models import FoodCategory
+from basis.models import FoodCategory, Food_menu
 from django.http import JsonResponse
 
 
@@ -71,3 +71,45 @@ def add_food(request):
     else:
         form = FoodMenuForm(user=request.user)  # **Передаем user в форму**
     return render(request, 'create_food/create_food.html', {'form': form})
+
+
+def manage_category(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        category_id = data.get("id")
+        action = data.get("action")
+        new_name = data.get("name")
+
+        try:
+            category = FoodCategory.objects.get(id=category_id, user=request.user)
+
+            # ✏️ Переименование
+            if action == "edit":
+                if not new_name:
+                    return JsonResponse({'success': False, 'error': 'Введите имя'})
+
+                category.name = new_name
+                category.save()
+
+                return JsonResponse({'success': True, 'message': 'Категория обновлена'})
+
+            # 🗑️ Удаление
+            if action == "delete":
+                # Находим ВСЕ товары этого пользователя с этой категорией
+                foods = Food_menu.objects.filter(
+                    user=request.user,
+                    category=category
+                )
+
+                for food in foods:
+                    food.delete()  # <-- тут вызовется delete_images()
+
+                category.delete()
+
+                return JsonResponse({'success': True, 'message': 'Категория и все товары удалены'})
+
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False})
