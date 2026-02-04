@@ -132,8 +132,7 @@ h6 {
 }
 
 .main {
-  max-width: 768px;
-  width: 100%;
+  width: 768px;
   margin: 0 auto;
   margin-top: 50px;
   background: #fff;
@@ -160,28 +159,81 @@ h6 {
   height: 15px;
   background: url("/static/icons/orders.svg") center/cover no-repeat;
 }
-.main form {
+.main .add_view_bts {
+  width: 100%;
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main .add_view_bts button {
+  width: 50%;
+  height: auto;
+  padding: 10px 15px;
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 700;
+  color: #141414;
+  transition: all 0.3s ease 0s;
+}
+.main .add_view_bts button:hover {
+  background-color: #353535;
+  color: #dadada;
+}
+.main .add_view_bts .add_menu {
+  border-bottom: 1px solid #131313;
+  border-left: 1px solid #131313;
+  border-top: 1px solid #131313;
+  border-radius: 10px 0px 0px 10px;
+  background-color: #131313;
+  color: #dadada;
+}
+.main .add_view_bts .add_category {
+  border-bottom: 1px solid #131313;
+  border-right: 1px solid #131313;
+  border-top: 1px solid #131313;
+  border-radius: 0px 10px 10px 0px;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.main .add_menu_form,
+.main .add_category_form {
+  display: none;
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  max-width: 400px;
+  margin-top: 20px;
+  animation: fadeIn 0.25s ease;
 }
-.main form div {
+.main .add_menu_form div,
+.main .add_category_form div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
 }
-.main form div label {
+.main .add_menu_form div label,
+.main .add_category_form div label {
   font-weight: bold;
   font-size: 14px;
 }
-.main form div input[type=text],
-.main form div input[type=number],
-.main form div input[type=file],
-.main form div select,
-.main form div textarea {
+.main .add_menu_form div input[type=text],
+.main .add_menu_form div input[type=number],
+.main .add_menu_form div input[type=file],
+.main .add_menu_form div select,
+.main .add_menu_form div textarea,
+.main .add_category_form div input[type=text],
+.main .add_category_form div input[type=number],
+.main .add_category_form div input[type=file],
+.main .add_category_form div select,
+.main .add_category_form div textarea {
   padding: 10px 15px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
@@ -191,10 +243,12 @@ h6 {
   box-sizing: border-box;
   margin-top: 5px;
 }
-.main form div textarea {
+.main .add_menu_form div textarea,
+.main .add_category_form div textarea {
   height: 60px;
 }
-.main form div a {
+.main .add_menu_form div a,
+.main .add_category_form div a {
   text-align: center;
   display: block;
   margin-top: 15px;
@@ -202,10 +256,12 @@ h6 {
   text-decoration: none;
   font-size: 16px;
 }
-.main form div a:hover {
+.main .add_menu_form div a:hover,
+.main .add_category_form div a:hover {
   text-decoration: underline;
 }
-.main form button {
+.main .add_menu_form button,
+.main .add_category_form button {
   padding: 10px 15px;
   background-color: #007bff;
   color: #fff;
@@ -215,6 +271,10 @@ h6 {
   font-size: 16px;
   margin-top: 10px;
 }
-.main form button:hover {
+.main .add_menu_form button:hover,
+.main .add_category_form button:hover {
   background-color: #0056b3;
+}
+.main .active {
+  display: flex;
 }/*# sourceMappingURL=create_food.css.map */

@@ -95,7 +95,6 @@ h6 {
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
 
-
 #category-form {
     max-width: 400px;
     width: 100%;
@@ -107,7 +106,7 @@ h6 {
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    font-family: 'Open Sans';
+    font-family: "Open Sans";
     input[type="text"] {
         padding: 10px 15px;
         margin-bottom: 15px;
@@ -134,8 +133,7 @@ h6 {
     }
 }
 .main {
-    max-width: 768px;
-    width: 100%;
+    width: 768px;
     margin: 0 auto;
     margin-top: 50px;
     background: #fff;
@@ -145,9 +143,9 @@ h6 {
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    font-family: 'Open Sans';
+    font-family: "Open Sans";
     .title {
-        font-family: 'Open Sans';
+        font-family: "Open Sans";
         font-size: 17px;
         font-weight: 700;
         margin-bottom: 20px;
@@ -155,19 +153,66 @@ h6 {
         border-bottom: 1px solid #141414;
         &::after {
             display: block;
-            content: '';
+            content: "";
             width: 20px;
             height: 15px;
             background: url("/static/icons/orders.svg") center/cover no-repeat;
         }
     }
-
-    form {
+    .add_view_bts {
+        width: 100%;
         display: flex;
+        align-items: center;
+        justify-content: center;
+        button {
+            width: 50%;
+            height: auto;
+            padding: 10px 15px;
+            font-family: "Nunito";
+            font-size: 14px;
+            font-weight: 700;
+            color: #141414;
+            transition: all 0.3s ease 0s;
+            &:hover {
+                background-color: #353535;
+                color: #dadada;
+            }
+        }
+        .add_menu {
+            border-bottom: 1px solid #131313;
+            border-left: 1px solid #131313;
+            border-top: 1px solid #131313;
+            border-radius: 10px 0px 0px 10px;
+            background-color: #131313;
+            color: #dadada;
+        }
+        .add_category {
+            border-bottom: 1px solid #131313;
+            border-right: 1px solid #131313;
+            border-top: 1px solid #131313;
+            border-radius: 0px 10px 10px 0px;
+        }
+    }
+
+    // ✨ лёгкая анимация появления
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .add_menu_form,
+    .add_category_form {
+        display: none;
         flex-direction: column;
         gap: 10px;
         width: 100%;
-        max-width: 400px;
+        margin-top: 20px;
+        animation: fadeIn 0.25s ease;
         div {
             display: flex;
             flex-direction: column;
@@ -177,7 +222,7 @@ h6 {
                 font-weight: bold;
                 font-size: 14px;
             }
-    
+
             input[type="text"],
             input[type="number"],
             input[type="file"],
@@ -195,7 +240,7 @@ h6 {
             textarea {
                 height: 60px;
             }
-    
+
             a {
                 text-align: center;
                 display: block;
@@ -203,7 +248,7 @@ h6 {
                 color: #007bff;
                 text-decoration: none;
                 font-size: 16px;
-    
+
                 &:hover {
                     text-decoration: underline;
                 }
@@ -223,5 +268,8 @@ h6 {
                 background-color: #0056b3;
             }
         }
+    }
+    .active {
+        display: flex;
     }
 }

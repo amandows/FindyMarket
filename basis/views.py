@@ -2,6 +2,10 @@ import json
 from django.http import JsonResponse
 from django.utils import timezone
 from .models import Order, Food_menu
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
+import os
 
 def create_order(request):
     if request.method == 'POST':
@@ -72,7 +76,35 @@ def create_order(request):
 
             # Если был загружен чек, сохраняем его в заказе
             if order_bank_check:
-                order.order_bank_check = order_bank_check  # поле модели должно поддерживать файлы (ImageField или FileField)
+                file_name = order_bank_check.name.lower()
+                ext = os.path.splitext(file_name)[1]
+
+                # Проверяем, что это изображение
+                if ext in ['.jpg', '.jpeg', '.png', '.webp']:
+                    img = Image.open(order_bank_check)
+
+                    # Конвертация в RGB (важно для png/webp)
+                    if img.mode in ("RGBA", "P"):
+                        img = img.convert("RGB")
+
+                    # Уменьшаем размер с сохранением пропорций
+                    max_size = 700
+                    img.thumbnail((max_size, max_size))
+
+                    # Сжимаем
+                    output = BytesIO()
+                    img.save(output, format='JPEG', quality=45)
+                    output.seek(0)
+
+                    # Сохраняем в поле модели
+                    order.order_bank_check.save(
+                        f'check_{order.order_number}.jpg',
+                        ContentFile(output.read()),
+                        save=False
+                    )
+                else:
+                    # Если это не изображение (pdf, doc и т.д.) — просто сохраняем как есть
+                    order.order_bank_check = order_bank_check
 
             # Сохраняем заказ
             order.save()
