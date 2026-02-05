@@ -5,7 +5,7 @@ from basis.models import Food_menu, Order, FoodCategory
 
 @admin.register(Food_menu)
 class FoodMenuAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description', 'price', 'category', 'date_add', 'user', 'click_order']
+    list_display = ['name', 'description', 'price', 'category', 'date_add', 'user', 'click_order', 'discount_percent', 'discount_active',]
     list_filter = ['category', 'date_add']
     search_fields = ['name', 'description', 'user']
 

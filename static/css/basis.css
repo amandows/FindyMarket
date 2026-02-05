@@ -564,6 +564,22 @@ h6 {
   -o-object-fit: cover;
      object-fit: cover;
 }
+.body-container .carts .cart-products .food .img-container .sale_animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(12px, 5.2vw, 25px);
+  background-color: #ff0000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.body-container .carts .cart-products .food .img-container .sale_animation p {
+  font-family: "Nunito";
+  font-size: clamp(8px, 3vw, 16px);
+  color: #ffffff;
+}
 .body-container .carts .cart-products .food .descrition-container {
   display: flex;
   flex-direction: column;
@@ -609,6 +625,11 @@ h6 {
 .body-container .carts .cart-products .food .descrition-container .price-container .price__view::after {
   content: "с";
   margin-left: 2px;
+}
+.body-container .carts .cart-products .food .descrition-container .price-container .price__view span {
+  text-decoration: line-through;
+  font-size: clamp(8px, 3.2vw, 16px);
+  color: #ff0000;
 }
 .body-container .carts .cart-products .food .descrition-container .food_name {
   font-family: "Inter Tight", sans-serif;

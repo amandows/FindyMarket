@@ -6,6 +6,8 @@ from PIL import Image
 from io import BytesIO
 from basis.models import FoodCategory, Food_menu
 from django.http import JsonResponse
+from django.core.cache import cache
+import datetime
 
 
 def create_category(request):
@@ -67,6 +69,9 @@ def add_food(request):
                 food.adscreenimg.save('filename.jpg', ContentFile(output.read()))
 
             food.save()
+            # Удаляем кэш для этого пользователя
+            cache_key = f"foods_shuffle_{food.user.id}_{datetime.date.today()}"
+            cache.delete(cache_key)
             return redirect('add_food')  # Измените на URL, куда вы хотите перенаправлять после сохранения
     else:
         form = FoodMenuForm(user=request.user)  # **Передаем user в форму**

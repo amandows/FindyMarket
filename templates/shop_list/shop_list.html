@@ -58,50 +58,50 @@
 {% block script %}
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const cityModal = document.getElementById('cityModal');
-        const selectCityButton = document.getElementById('selectCityButton');
-        const citySelect = document.getElementById('citySelect');
-        const cafeContainer = document.getElementById('cafeContainer');
-        var cafeTitle = document.querySelector('.cafe-title');
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     const cityModal = document.getElementById('cityModal');
+    //     const selectCityButton = document.getElementById('selectCityButton');
+    //     const citySelect = document.getElementById('citySelect');
+    //     const cafeContainer = document.getElementById('cafeContainer');
+    //     var cafeTitle = document.querySelector('.cafe-title');
 
-        // Проверяем, есть ли выбранный город в localStorage
-        const selectedCity = localStorage.getItem('selectedCity');
+    //     // Проверяем, есть ли выбранный город в localStorage
+    //     const selectedCity = localStorage.getItem('selectedCity');
 
-        if (!selectedCity) {
-            // Если города нет в localStorage, показываем модальное окно
-            cityModal.style.display = 'block';
-        } else {
-            // Если город есть, фильтруем заведения
-            filterCafesByCity(selectedCity);
-            cafeTitle.textContent = 'Заведения, вашем городе'
-        }
+    //     if (!selectedCity) {
+    //         // Если города нет в localStorage, показываем модальное окно
+    //         cityModal.style.display = 'block';
+    //     } else {
+    //         // Если город есть, фильтруем заведения
+    //         filterCafesByCity(selectedCity);
+    //         cafeTitle.textContent = 'Заведения, вашем городе'
+    //     }
 
-        // Обработка выбора города и сохранение в localStorage
-        selectCityButton.addEventListener('click', function () {
-            const city = citySelect.value;
-            if (city) {
-                localStorage.setItem('selectedCity', city);
-                cityModal.style.display = 'none';
-                filterCafesByCity(city);
-            } else {
-                alert('Пожалуйста, выберите город!');
-            }
-        });
+    //     // Обработка выбора города и сохранение в localStorage
+    //     selectCityButton.addEventListener('click', function () {
+    //         const city = citySelect.value;
+    //         if (city) {
+    //             localStorage.setItem('selectedCity', city);
+    //             cityModal.style.display = 'none';
+    //             filterCafesByCity(city);
+    //         } else {
+    //             alert('Пожалуйста, выберите город!');
+    //         }
+    //     });
 
-        // Функция для фильтрации заведений по городу
-        function filterCafesByCity(city) {
-            const cafes = cafeContainer.querySelectorAll('.institution');
-            cafes.forEach(cafe => {
-                const cafeCity = cafe.getAttribute('data-city');
-                if (cafeCity === city) {
-                    cafe.style.display = 'block';
-                } else {
-                    cafe.style.display = 'none';
-                }
-            });
-        }
-    });
+    //     // Функция для фильтрации заведений по городу
+    //     function filterCafesByCity(city) {
+    //         const cafes = cafeContainer.querySelectorAll('.institution');
+    //         cafes.forEach(cafe => {
+    //             const cafeCity = cafe.getAttribute('data-city');
+    //             if (cafeCity === city) {
+    //                 cafe.style.display = 'block';
+    //             } else {
+    //                 cafe.style.display = 'none';
+    //             }
+    //         });
+    //     }
+    // });
 
 </script>
 

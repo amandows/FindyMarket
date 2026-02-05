@@ -36,6 +36,7 @@
                             </div>
                             <div class="food-price">
                                 <p>Цена:</p>
+                                <h3>{{ item.final_price  }}   /</h3>
                                 <input type="number" name="price" value="{{ item.price }}" step="1">
                             </div>
                             <div class="food-status">
@@ -46,6 +47,13 @@
                                     <option value="False" {% if item.food_status == 'False' %}selected{% endif %}>
                                         Отсутствует</option>
                                 </select>
+                            </div>
+                            <div class="discount-container">
+                                <p>Скидка:</p>
+                                <input type="checkbox" name="discount_active" class="sale_checkbox" {% if item.discount_active %}checked{% endif %}>
+                                <h4>%</h4>
+                                <input type="number" name="discount_percent" class="sale_input" value="{{ item.discount_percent|default:0 }}" 
+                                step="1" min="0" max="100">
                             </div>
                             <button type="submit" class="action-btn" data-item="{{ item.id }}"
                                 data-mode="delete">Удалить</button>
@@ -139,26 +147,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 <script>
-function updateImagePreview(event, itemId) {
-    const file = event.target.files[0];
-    const imageContainer = document.getElementById('image-container-' + itemId);
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".discount-container").forEach(container => {
+        const form = container.closest("form");
+        const button = form.querySelector(".action-btn");
 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            imageContainer.style.backgroundImage = 'url(' + e.target.result + ')';
+        const checkbox = container.querySelector(".sale_checkbox");
+        const input = container.querySelector(".sale_input");
 
-            // 🔥 Находим форму и говорим что были изменения
-            const form = imageContainer.closest("form");
-            const button = form.querySelector(".action-btn");
-            button.textContent = "Сохранить";
-            button.dataset.mode = "save";
-            button.style.backgroundColor = "#2fd419";
+        // Сохраняем исходные значения
+        const initial = {
+            checked: checkbox.checked,
+            percent: input.value
+        };
+
+        function updateButton() {
+            const changed = checkbox.checked !== initial.checked || input.value !== initial.percent;
+            if (changed) {
+                button.textContent = "Сохранить";
+                button.dataset.mode = "save";
+                button.style.backgroundColor = "#2fd419";
+            } else {
+                button.textContent = "Удалить";
+                button.dataset.mode = "delete";
+                button.style.backgroundColor = "#cc1616";
+            }
         }
-        reader.readAsDataURL(file);
-    }
-}
+
+        checkbox.addEventListener("change", updateButton);
+        input.addEventListener("input", updateButton);
+    });
+});
 </script>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

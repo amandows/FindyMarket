@@ -59,8 +59,11 @@ def create_order(request):
 
                 try:
                     food = Food_menu.objects.get(id=food_id)
-                    order_details.append(f"{food.name} ({food.price} сом), {quantity} штук, итого {food.price * quantity} сом")
-                    total_amount += food.price * quantity
+                    price = food.final_price  # 🔥 ВАЖНО
+                    order_details.append(
+                        f"{food.name} ({price} сом), {quantity} штук, итого {price * quantity} сом"
+                    )
+                    total_amount += price * quantity
 
                     if user_name is None:
                         user_name = food.user.user_name

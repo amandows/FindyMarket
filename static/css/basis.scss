@@ -137,8 +137,8 @@ h6 {
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,400i,700");
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
 
 @mixin colorbg {
     background: rgb(61, 61, 61);
@@ -588,6 +588,22 @@ h6 {
                         height: 100%;
                         object-fit: cover;
                     }
+                    .sale_animation {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: clamp(12px, 5.2vw, 25px);
+                        background-color: #ff0000;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        p {
+                            font-family: "Nunito";
+                            font-size: clamp(8px, 3vw, 16px);
+                            color: #ffffff;
+                        }
+                    }
                 }
                 .descrition-container {
                     display: flex;
@@ -630,6 +646,11 @@ h6 {
                             &::after {
                                 content: "с";
                                 margin-left: 2px;
+                            }
+                            span {
+                                text-decoration: line-through;
+                                font-size: clamp(8px, 3.2vw, 16px);
+                                color: #ff0000;
                             }
                         }
                     }
@@ -2027,7 +2048,7 @@ h6 {
                     transform: scale(1);
                 }
                 50% {
-                    transform: scale(2.0);
+                    transform: scale(2);
                 }
                 100% {
                     transform: scale(1);

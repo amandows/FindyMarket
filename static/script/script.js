@@ -1205,32 +1205,6 @@ getAdressBtn.addEventListener("click", (event) => {
 });
 
 
-/////------- анимацию случайным образом для каждой плитки через ------/////
-
-document.addEventListener("DOMContentLoaded", () => {
-    const tiles = document.querySelectorAll(".basis-links a, .taxi a");
-
-    function randomFlip() {
-        const tile = tiles[Math.floor(Math.random() * tiles.length)];
-        const img = tile.querySelector(".bg");
-
-        if (!img) return;
-
-        // добавляем класс flip
-        tile.classList.add("flip");
-
-        // снимаем класс после анимации, чтобы можно было снова
-        setTimeout(() => {
-            tile.classList.remove("flip");
-        }, 1500);
-    }
-
-    // каждые 2–4 секунды запускаем анимацию
-    setInterval(randomFlip, Math.floor(Math.random() * 8000) + 11000);
-});
-
-
-
 /////...... функция для вызова модального окна Ошибок ...///////
 
 function showErrorModal(message, title = "Ошибка") {

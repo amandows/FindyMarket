@@ -25,7 +25,7 @@
             img.addEventListener('click', () => {
                 const foodCard = img.closest('.food');
                 const name = foodCard.querySelector('.food_name').textContent;
-                const price = foodCard.querySelector('.price__view').textContent;
+                const price = foodCard.querySelector('.price').value;
                 const desc = foodCard.querySelector('.food_description').textContent.trim() || 'Описание отсутствует';
                 const userName = foodCard.querySelector('.user-name').textContent;
                 const userAvatar = foodCard.querySelector('.user-avatar').src;
@@ -117,15 +117,23 @@
             <div class="img-container">
                 <div class="loader"></div>
                 <img data-src="{{ food.adscreenimg.url }}" src="/static/icons/10px.png" alt="{{ food.name }}">
+                {% if food.discount_active  %}
+                <div class="sale_animation">
+                    <p>Акция {{ food.discount_percent }}%</p>
+                </div>
+                {% endif %}
             </div>
             <div class="descrition-container">
                 <div class="price-container">
-                    <p class="price__view">{{ food.price|intcomma }}</p>
+                    {% if food.discount_active  %}
+                    <p class="price__view"><span>{{ food.price|intcomma }}</span> {{ food.final_price|intcomma }} c</p>
+                    {% else %}
+                    <p class="price__view">{{ food.final_price|intcomma }} c</p>
+                    {% endif %}
                     <input style="display: none;" type="number" name="price" class="price" id="price"
-                        value="{{ food.price }}" oninput="updateWidth(this)" readonly>
+                        value="{{ food.final_price }}" oninput="updateWidth(this)" readonly>
                     <div class="user">
                         <a class="user-name" href="/account/{{ food.user.id }}/">{{ food.user.user_name }}</a>
-                        <!-- <p class="user-name">{{ food.user.user_name }}</p> -->
                         <img src="{{ food.user.user_logo_mini.url }}" alt="" class="user-avatar">
                     </div>
                 </div>

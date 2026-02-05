@@ -141,7 +141,7 @@ main {
                             .action-btn {
                                 background-color: #cc1616;
                             }
-                            .food-name, .food-description, .food-price, .food-status, .food-new-img {
+                            .food-name, .food-description, .food-price, .food-status, .food-new-img, .discount-container {
                                 display: flex;
                                 align-items: center;
                                 width: 100%;
@@ -179,6 +179,28 @@ main {
                                 }
                                 select {
                                     width: 30%;
+                                }
+                                .sale_checkbox {
+                                    width: 18px;
+                                    height: 18px;
+                                    margin-left: 10px;
+                                }
+                                .sale_input {
+                                    width: 20px;
+                                }
+                                h4 {
+                                    font-family: 'Nunito';
+                                    font-size: 14px;
+                                    font-weight: 600;
+                                    color: #000000;
+                                    margin-left: 15px;
+                                }
+                                h3 {
+                                    font-family: 'Nunito';
+                                    font-size: 14px;
+                                    font-weight: 700;
+                                    color: #1f8107;
+                                    margin-left: 10px;
                                 }
                             }
                         }

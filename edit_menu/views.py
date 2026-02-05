@@ -8,6 +8,8 @@ from django.contrib import messages
 from io import BytesIO
 from django.core.files.base import ContentFile
 from PIL import Image
+from django.core.cache import cache
+import datetime
 
 
 
@@ -37,25 +39,34 @@ def edit_food_view(request, food_id):
     food_item = get_object_or_404(Food_menu, id=food_id)
 
     if request.method == 'POST':
-
         # Обновляем данные блюда из формы
         food_item.description = request.POST.get('description')
         food_item.price = request.POST.get('price')
         food_item.food_status = request.POST.get('food_status')
         food_item.name = request.POST.get('food_name')
 
+        # 🔥 Обновляем скидки
+        food_item.discount_active = bool(request.POST.get('discount_active'))
+        try:
+            discount_percent = int(request.POST.get('discount_percent', 0))
+            if discount_percent < 0: discount_percent = 0
+            if discount_percent > 100: discount_percent = 100
+            food_item.discount_percent = discount_percent
+        except ValueError:
+            food_item.discount_percent = 0
+
         # Обработка изображения
         if 'imageOne' in request.FILES:
             image_field = request.FILES['imageOne']
             image = Image.open(image_field)
 
-            # Сохранение сжато изображения
+            # Сжатие исходного изображения
             output = BytesIO()
             image.save(output, format='JPEG', quality=40)
             output.seek(0)
             food_item.imageOne.save(image_field.name, ContentFile(output.read()))
 
-            # Изменение размера изображения
+            # Изменение размера для adscreenimg
             width, height = image.size
             target_width = 500
             target_height = 500
@@ -75,12 +86,19 @@ def edit_food_view(request, food_id):
 
         # Сохраняем объект после всех изменений
         food_item.save()
+        # Удаляем кэш для этого пользователя
+        cache_key = f"foods_shuffle_{food_item.user.id}_{datetime.date.today()}"
+        cache.delete(cache_key)
         messages.success(request, 'Блюдо успешно обновлено!')
         return redirect(reverse('edit_menu'))
 
     return render(request, 'edit_food.html', {'food_item': food_item})
 
+
 def delete_food(request, id):
     food = Food_menu.objects.get(id=id)
     food.delete()  # тут автоматически вызовется delete_images()
+    # Удаляем кэш для этого пользователя
+    cache_key = f"foods_shuffle_{food.user.id}_{datetime.date.today()}"
+    cache.delete(cache_key)
     return redirect('edit_menu')

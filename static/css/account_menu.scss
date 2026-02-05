@@ -220,6 +220,23 @@
                 height: 100%;
                 object-fit: cover;
             }
+            .sale_animation {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: clamp(12px, 5.2vw, 25px);
+                background-color: #ff0000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                p {
+                    font-family: "Nunito";
+                    font-size: clamp(8px, 3.0vw, 16px);
+                    color: #ffffff;
+                    font-weight: 700;
+                }
+            }
         }
         .descrition-container {
             display: flex;
@@ -256,12 +273,17 @@
                 .price__view {
                     background-color: #50505000;
                     font-family: "Nunito";
-                    font-size: clamp(12px, 4vw, 20px);
+                    font-size: clamp(12px, 4vw, 25px);
                     font-weight: 700;
                     @include colorstandart();
                     &::after {
-                        content: "с";
+                        content: "";
                         margin-left: 2px;
+                    }
+                    span {
+                        text-decoration: line-through;
+                        font-size: clamp(8px, 3.2vw, 16px);
+                        color: #ff0000;
                     }
                 }
             }

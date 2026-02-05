@@ -2,6 +2,7 @@ from account.models import CustomUser
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from decimal import Decimal, ROUND_HALF_UP
 import os
 
 
@@ -37,6 +38,8 @@ class Food_menu(models.Model):
     name = models.TextField(max_length=50)
     description = models.TextField(max_length=800)
     price = models.DecimalField(max_digits=10, decimal_places=0, default='10')
+    discount_percent = models.PositiveIntegerField(default=0)  # 0–100
+    discount_active = models.BooleanField(default=False)
     category = models.ForeignKey(
         FoodCategory,
         on_delete=models.SET_NULL,
@@ -50,6 +53,14 @@ class Food_menu(models.Model):
     date_add = models.DateField(blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     click_order = models.PositiveIntegerField(default=0)
+
+    @property
+    def final_price(self):
+        if self.discount_active and self.discount_percent > 0:
+            discount = (self.price * Decimal(self.discount_percent)) / Decimal(100)
+            final = self.price - discount
+            return final.quantize(Decimal('1'), rounding=ROUND_HALF_UP)
+        return self.price
 
     def delete(self, *args, **kwargs):
         self.delete_images()

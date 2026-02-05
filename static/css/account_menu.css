@@ -202,6 +202,23 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
+.user-products .food .img-container .sale_animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(12px, 5.2vw, 25px);
+  background-color: #ff0000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.user-products .food .img-container .sale_animation p {
+  font-family: "Nunito";
+  font-size: clamp(8px, 3vw, 16px);
+  color: #ffffff;
+  font-weight: 700;
+}
 .user-products .food .descrition-container {
   display: flex;
   flex-direction: column;
@@ -240,13 +257,18 @@
 .user-products .food .descrition-container .price-container .price__view {
   background-color: rgba(80, 80, 80, 0);
   font-family: "Nunito";
-  font-size: clamp(12px, 4vw, 20px);
+  font-size: clamp(12px, 4vw, 25px);
   font-weight: 700;
   color: #222222;
 }
 .user-products .food .descrition-container .price-container .price__view::after {
-  content: "с";
+  content: "";
   margin-left: 2px;
+}
+.user-products .food .descrition-container .price-container .price__view span {
+  text-decoration: line-through;
+  font-size: clamp(8px, 3.2vw, 16px);
+  color: #ff0000;
 }
 .user-products .food .descrition-container .food_name {
   font-family: "Inter Tight";
