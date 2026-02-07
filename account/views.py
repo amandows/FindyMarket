@@ -43,18 +43,18 @@ def account_menu(request, user_id):
     food_items = cache.get(cache_key)
 
     if not food_items:
-        # Сначала товары со скидкой, потом остальные
+        # Товары со скидкой
         discounted = list(Food_menu.objects.filter(user=user, discount_active=True))
         non_discounted = list(Food_menu.objects.filter(user=user, discount_active=False))
 
-        # Можно перемешать внутри каждой группы
-        random.shuffle(discounted)
-        random.shuffle(non_discounted)
+        # Сортируем по популярности (click_order) по убыванию
+        discounted.sort(key=lambda x: x.click_order, reverse=True)
+        non_discounted.sort(key=lambda x: x.click_order, reverse=True)
 
         # Объединяем списки: сначала со скидкой, потом без
         food_items = discounted + non_discounted
 
-        # Сохраняем в кэш
+        # Кэшируем
         cache.set(cache_key, food_items, 60 * 60 * 24)
 
     return render(request, 'account/account_menu.html', {
@@ -62,6 +62,7 @@ def account_menu(request, user_id):
         'food_items': food_items,
         'categories': categories
     })
+
 
 
 def login_view(request):

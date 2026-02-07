@@ -574,6 +574,10 @@ h6 {
                 gap: 15px;
                 border-bottom: 1px solid #111111;
                 background: #fff;
+                .food_quantity {
+                    position: absolute;
+                    display: none;
+                }
                 .img-container {
                     width: 30%;
                     padding: 0 0 29% 0;
@@ -643,10 +647,10 @@ h6 {
                             font-weight: 700;
                             color: #000;
                             @include colorstandart();
-                            &::after {
-                                content: "с";
-                                margin-left: 2px;
-                            }
+                            // &::after {
+                            //     content: "с";
+                            //     margin-left: 2px;
+                            // }
                             span {
                                 text-decoration: line-through;
                                 font-size: clamp(8px, 3.2vw, 16px);

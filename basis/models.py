@@ -52,6 +52,7 @@ class Food_menu(models.Model):
     imageOne = models.ImageField(upload_to='static/media/foodimages')
     date_add = models.DateField(blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
     click_order = models.PositiveIntegerField(default=0)
 
     @property
@@ -73,7 +74,6 @@ class Food_menu(models.Model):
                 if os.path.exists(image_field.path):
                     os.remove(image_field.path)
 
-
     def save(self, *args, **kwargs):
         # 🔥 Удаление старых файлов при обновлении изображения
         if self.pk:
@@ -90,9 +90,15 @@ class Food_menu(models.Model):
         if not self.date_add:
             self.date_add = timezone.now()
 
+        # Авто статус по количеству — только если auto_status=True
+        auto_status = kwargs.pop('auto_status', True)
+        if auto_status:
+            if self.quantity <= 0:
+                self.food_status = 'False'
+            elif self.food_status not in ['True', 'False']:
+                self.food_status = 'True'
+
         super().save(*args, **kwargs)
-
-
 
 
 class Order(models.Model):

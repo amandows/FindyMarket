@@ -42,8 +42,26 @@ def edit_food_view(request, food_id):
         # Обновляем данные блюда из формы
         food_item.description = request.POST.get('description')
         food_item.price = request.POST.get('price')
-        food_item.food_status = request.POST.get('food_status')
         food_item.name = request.POST.get('food_name')
+
+        # Обновляем количество
+        try:
+            quantity = int(request.POST.get('quantity', 0))
+            quantity = max(0, quantity)
+            food_item.quantity = quantity
+        except ValueError:
+            food_item.quantity = 0
+
+        # 🔥 Обновляем статус
+        status_from_form = request.POST.get('food_status')
+        if food_item.quantity == 0:
+            # Если товара нет — статус всегда "Отсутствует"
+            food_item.food_status = 'False'
+        elif status_from_form in ['True', 'False']:
+            # Если есть товар — ставим статус, который выбрал пользователь
+            food_item.food_status = status_from_form
+        # Если поле не было отправлено, статус не трогаем
+
 
         # 🔥 Обновляем скидки
         food_item.discount_active = bool(request.POST.get('discount_active'))
@@ -85,7 +103,7 @@ def edit_food_view(request, food_id):
             food_item.adscreenimg.save('filename.jpg', ContentFile(output.read()))
 
         # Сохраняем объект после всех изменений
-        food_item.save()
+        food_item.save(auto_status=False)
         # Удаляем кэш для этого пользователя
         cache_key = f"foods_shuffle_{food_item.user.id}_{datetime.date.today()}"
         cache.delete(cache_key)

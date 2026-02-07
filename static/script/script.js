@@ -1002,17 +1002,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             })
             .then(data => {
+                hideOrderPreloader(); // 🔥 Сразу скрываем прелоадер
+
                 if (data.success) {
-                    // alert('Заказ успешно создан!');
-                    hideOrderPreloader()
                     openModal();
                     localStorage.removeItem('cart');
                 } else {
-                    showErrorModal("Ошибка при создании заказа.", "Предупреждение");
+                    // Показываем конкретную ошибку от сервера
+                    const errorText = data.error || "Ошибка при создании заказа.";
+                    showErrorModal(errorText, "Предупреждение");
                     console.log('Ошибка сервера:', data);
                 }
             })
             .catch(error => {
+                hideOrderPreloader(); // 🔥 И при ошибке запроса тоже
                 console.error('Ошибка при отправке данных:', error);
                 showErrorModal(error.message, "Ошибка при отправке данных");
             });

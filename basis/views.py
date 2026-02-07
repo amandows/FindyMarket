@@ -6,6 +6,8 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
 import os
+from django.core.cache import cache
+import datetime
 
 def create_order(request):
     if request.method == 'POST':
@@ -55,21 +57,42 @@ def create_order(request):
             # Обработка каждого элемента заказа
             for item in order_items:
                 food_id = item['foodId']
-                quantity = item['quantity']
+                quantity = int(item['quantity'])
 
                 try:
                     food = Food_menu.objects.get(id=food_id)
-                    price = food.final_price  # 🔥 ВАЖНО
+
+                    # ✅ Проверка остатка
+                    if food.quantity < quantity:
+                        return JsonResponse({
+                            'success': False,
+                            'error': f'Недостаточно "{food.name}" на складе. Остаток: {food.quantity}'
+                        })
+
+                    # ✅ Цена с учётом скидки
+                    price = food.final_price
+
                     order_details.append(
                         f"{food.name} ({price} сом), {quantity} штук, итого {price * quantity} сом"
                     )
                     total_amount += price * quantity
 
+                    # ✅ Уменьшаем склад
+                    food.quantity -= quantity
+
+                    # ✅ Увеличиваем популярность (ВАЖНО)
+                    food.click_order += quantity
+
+                    food.save()  # тут обновится и статус и всё остальное
+
                     if user_name is None:
                         user_name = food.user.user_name
 
                 except Food_menu.DoesNotExist:
-                    return JsonResponse({'success': False, 'error': f'Food with id {food_id} not found'})
+                    return JsonResponse({
+                        'success': False,
+                        'error': f'Food with id {food_id} not found'
+                    })
 
             # Записываем детали заказа
             order.order_details = "\n".join(order_details)
@@ -111,6 +134,9 @@ def create_order(request):
 
             # Сохраняем заказ
             order.save()
+            today = datetime.date.today()
+            cache_key = f"foods_shuffle_{food.user.id}_{today}"
+            cache.delete(cache_key)
 
             return JsonResponse({'success': True})
 

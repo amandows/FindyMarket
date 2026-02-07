@@ -1,7 +1,7 @@
 import json
 from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
-
+import re  # 🔹 добавь это
 from django.shortcuts import render
 from basis.models import Order
 from django.http import JsonResponse
@@ -11,8 +11,9 @@ from collections import defaultdict
 from django.utils import timezone, translation
 from django.db.models import Sum
 from .utils import send_push_to_user
-
-
+from basis.models import Food_menu
+from django.core.cache import cache
+import datetime
 
 
 @login_required
@@ -47,42 +48,64 @@ def update_order_status(request):
 
         try:
             order = Order.objects.get(id=order_id)
-
+            old_status = order.status  # запоминаем старый статус
             if status in ['in_progress', 'completed', 'cancelled', 'called']:
-                order.status = status  # Обновление статуса курьера
+                if status == 'cancelled' and old_status != 'cancelled':
+                    if order.order_details:
+                        # пример строки: "Лагман (100 сом), 2 штук, итого 200 сом"
+                        lines = order.order_details.split('\n')
+                        for line in lines:
+                            match = re.search(r'(.+?) \(.+?\), (\d+) штук', line)
+                            if match:
+                                food_name = match.group(1)
+                                quantity = int(match.group(2))
+                                try:
+                                    food = Food_menu.objects.get(name=food_name, user=order.user)
+                                    food.quantity += quantity
+                                    # автоматически обновляем статус
+                                    if food.quantity > 0:
+                                        food.food_status = 'True'
+                                    food.save()
+                                    cache_key = f"foods_shuffle_{food.user.id}_{datetime.date.today()}"
+                                    cache.delete(cache_key)
+                                except Food_menu.DoesNotExist:
+                                    pass
+
+                    # обновляем статус заказа
+                order.status = status
                 order.save()
                 print(status)
                 print(order.order_delivery_status)
 
                 # Получаем все устройства для пуш-уведомлений
                 # devices = FCMDevice.objects.all()
-                devices = FCMDevice.objects.filter(user=order.user)
-                print("USEEEEEEEEER: ", devices)
+                # devices = FCMDevice.objects.filter(user=order.user)
+                # print("USEEEEEEEEER: ", devices)
 
                 # Определяем текст уведомления
-                if status == 'completed':
-                    if order.order_delivery_status == "Самовывоз":
-                        body_text = f"Ваш заказ {order.order_number} готов 🍽. Можете забрать его."
-                    else:
-                        body_text = f"Ваш заказ {order.order_number} готов 🚕. Курьер уже едет к вам."
-                else:
-                    body_text = f"Статус вашего заказа №{order.order_number} обновлён: {order.status}"
+                # if status == 'completed':
+                #     if order.order_delivery_status == "Самовывоз":
+                #         body_text = f"Ваш заказ {order.order_number} готов 🍽. Можете забрать его."
+                #     else:
+                #         body_text = f"Ваш заказ {order.order_number} готов 🚕. Курьер уже едет к вам."
+                # else:
+                #     body_text = f"Статус вашего заказа №{order.order_number} обновлён: {order.status}"
 
                 # Формируем сообщение
-                message = Message(
-                    notification=Notification(
-                        title="Статус заказа",
-                        body=body_text,
-                        image="https://i.imgur.com/zYIlgBl.png"  # Опционально
-                    ),
-                    # data={
-                    #     "order_id": str(order.id),
-                    #     "status": order.status
-                    # }
-                )
-
-                # Отправка только устройствам заказчика
-                devices.send_message(message)
+                # message = Message(
+                #     notification=Notification(
+                #         title="Статус заказа",
+                #         body=body_text,
+                #         image="https://i.imgur.com/zYIlgBl.png"  # Опционально
+                #     ),
+                #     # data={
+                #     #     "order_id": str(order.id),
+                #     #     "status": order.status
+                #     # }
+                # )
+                #
+                # # Отправка только устройствам заказчика
+                # devices.send_message(message)
 
                 return JsonResponse({'success': True})
             else:

@@ -113,6 +113,11 @@
     <div class="food" id="{{ food.id }}" data-category="{{ food.category.id }}">
         {% else %}
         <div class="food noactive" id="{{ food.id }}" data-category="{{ food.category.id }}">
+        {% endif %}
+            {% if food.quantity == 0 %}
+            <p class="food_quantity">Нет в наличии</p>
+            {% else %}
+            <p class="food_quantity">Осталось {{ food.quantity }} шт</p>
             {% endif %}
             <div class="img-container">
                 <div class="loader"></div>

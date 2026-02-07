@@ -55,6 +55,12 @@
                                 <input type="number" name="discount_percent" class="sale_input" value="{{ item.discount_percent|default:0 }}" 
                                 step="1" min="0" max="100">
                             </div>
+                            <div class="food-quantity">
+                                <p>Количество:</p>
+                                <input type="number" name="quantity" class="quantity_input"
+                                value="{{ item.quantity }}" min="0" step="1">
+                            </div>
+
                             <button type="submit" class="action-btn" data-item="{{ item.id }}"
                                 data-mode="delete">Удалить</button>
                         </div>
@@ -72,97 +78,35 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    function markAsChanged(form) {
-        const button = form.querySelector(".action-btn");
-        button.textContent = "Сохранить";
-        button.dataset.mode = "save";
-        button.style.backgroundColor = "#2fd419";
-    }
-
-    function resetToDelete(form) {
-        const button = form.querySelector(".action-btn");
-        button.textContent = "Удалить";
-        button.dataset.mode = "delete";
-        button.style.backgroundColor = "#cc1616";
-    }
-
-    document.querySelectorAll(".food-item form").forEach(form => {
-
+    document.querySelectorAll("form").forEach(form => {
         const button = form.querySelector(".action-btn");
 
-        const inputs = form.querySelectorAll(
-            "input[name='food_name'], input[name='description'], input[name='price'], select[name='food_status']"
+        // Все поля, которые должны триггерить "Сохранить"
+        const fields = form.querySelectorAll(
+            ".sale_checkbox, .sale_input, .quantity_input, input[name='food_name'], input[name='price'], select[name='food_status']"
         );
 
-        const fileInput = form.querySelector("input[type='file']");
-
-        // Сохраняем начальные значения
-        const initialValues = {};
-        inputs.forEach(input => {
-            initialValues[input.name] = input.value;
-        });
-
-        function checkChanges() {
-            let changed = false;
-
-            inputs.forEach(input => {
-                if (input.value !== initialValues[input.name]) {
-                    changed = true;
-                }
-            });
-
-            if (changed) {
-                markAsChanged(form);
-            } else {
-                resetToDelete(form);
-            }
-        }
-
-        // Слушаем текстовые поля
-        inputs.forEach(input => {
-            input.addEventListener("input", checkChanges);
-            input.addEventListener("change", checkChanges);
-        });
-
-        // 🔥 Слушаем изменение картинки
-        if (fileInput) {
-            fileInput.addEventListener("change", function () {
-                markAsChanged(form);
-            });
-        }
-
-        // Логика submit
-        form.addEventListener("submit", function (e) {
-            if (button.dataset.mode === "delete") {
-                e.preventDefault();
-                if (confirm("Удалить этот товар?")) {
-                    window.location.href = `/delete_food/${button.dataset.item}/`;
-                }
-            }
-        });
-
-    });
-});
-</script>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll(".discount-container").forEach(container => {
-        const form = container.closest("form");
-        const button = form.querySelector(".action-btn");
-
-        const checkbox = container.querySelector(".sale_checkbox");
-        const input = container.querySelector(".sale_input");
-
         // Сохраняем исходные значения
-        const initial = {
-            checked: checkbox.checked,
-            percent: input.value
-        };
+        const initial = {};
+        fields.forEach(field => {
+            if (field.type === "checkbox") {
+                initial[field.name] = field.checked;
+            } else {
+                initial[field.name] = field.value;
+            }
+        });
 
         function updateButton() {
-            const changed = checkbox.checked !== initial.checked || input.value !== initial.percent;
+            let changed = false;
+
+            fields.forEach(field => {
+                if (field.type === "checkbox") {
+                    if (initial[field.name] !== field.checked) changed = true;
+                } else {
+                    if (initial[field.name] !== field.value) changed = true;
+                }
+            });
+
             if (changed) {
                 button.textContent = "Сохранить";
                 button.dataset.mode = "save";
@@ -174,9 +118,23 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
-        checkbox.addEventListener("change", updateButton);
-        input.addEventListener("input", updateButton);
+        fields.forEach(field => {
+            field.addEventListener("input", updateButton);
+            field.addEventListener("change", updateButton);
+        });
+
+        // Логика удаления
+        form.addEventListener("submit", function (e) {
+            if (button.dataset.mode === "delete") {
+                e.preventDefault();
+                if (confirm("Удалить этот товар?")) {
+                    window.location.href = `/delete_food/${button.dataset.item}/`;
+                }
+            }
+        });
+
     });
+
 });
 </script>
 

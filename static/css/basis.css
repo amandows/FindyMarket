@@ -548,6 +548,10 @@ h6 {
   border-bottom: 1px solid #111111;
   background: #fff;
 }
+.body-container .carts .cart-products .food .food_quantity {
+  position: absolute;
+  display: none;
+}
 .body-container .carts .cart-products .food .img-container {
   width: 30%;
   padding: 0 0 29% 0;
@@ -621,10 +625,6 @@ h6 {
   font-weight: 700;
   color: #000;
   color: #727272;
-}
-.body-container .carts .cart-products .food .descrition-container .price-container .price__view::after {
-  content: "с";
-  margin-left: 2px;
 }
 .body-container .carts .cart-products .food .descrition-container .price-container .price__view span {
   text-decoration: line-through;
