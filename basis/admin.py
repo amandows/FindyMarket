@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from account.models import CustomUser, Courier
+from account.models import CustomUser, Courier, UserRating
 from basis.models import Food_menu, Order, FoodCategory
 
 @admin.register(Food_menu)
@@ -78,3 +78,20 @@ class OrderAdmin(admin.ModelAdmin):
         return obj.created_at
     created_at.short_description = 'Date Created'
 
+
+@admin.register(UserRating)
+class UserRatingAdmin(admin.ModelAdmin):
+    # Столбцы в списке всех записей
+    list_display = ('id', 'rated_by', 'user', 'score', 'created_at')
+
+    # Фильтры справа
+    list_filter = ('score', 'created_at')
+
+    # Поля, по которым работает поиск (username пользователей)
+    search_fields = ('user__username', 'rated_by__username')
+
+    # Даты создания/обновления нельзя редактировать вручную
+    readonly_fields = ('created_at', 'updated_at')
+
+    # Удобный выбор пользователей (особенно если их тысячи)
+    raw_id_fields = ('user', 'rated_by')

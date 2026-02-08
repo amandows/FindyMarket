@@ -362,18 +362,25 @@ h6 {
   font-size: 35px;
   cursor: pointer;
   color: #ccc;
+  -webkit-tap-highlight-color: transparent;
 }
 #successModal .modal-content .stars span {
   transition: 0.2s;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none; /* чтобы текст не выделялся */
+  -webkit-tap-highlight-color: transparent; /* убирает синий фон на мобилках */
+  outline: none; /* убирает фокус */
 }
 #successModal .modal-content .stars span.active {
   color: #ff9800;
+  outline: none;
+  background: transparent;
 }
 #successModal .modal-content .stars span:hover {
   color: #ff9800;
+  outline: none;
+  background: transparent;
 }
 #successModal .modal-content .checkmark {
   font-size: 50px;

@@ -167,6 +167,8 @@ function submitRating() {
         return;
     }
 
+    const userId = localStorage.getItem("rating_user_id");
+
     fetch("/submit-rating/", {
         method: "POST",
         headers: {
@@ -175,23 +177,18 @@ function submitRating() {
         },
         body: JSON.stringify({
             rating: selectedRating,
-            user_id: 8 // <-- id заведения
+            user_id: userId
         })
     })
-        .then(res => {
-            if (!res.ok) {
-                return res.text().then(t => {
-                    throw new Error("Ошибка " + res.status + ": " + t);
-                });
-            }
-            return res.json();
-        })
-        .then(data => {
-            console.log("Оценка сохранена:", data);
-            document.getElementById("successModal").style.display = "none";
-        })
-        .catch(err => console.error("Ошибка:", err));
+    .then(res => res.json())
+    .then(data => {
+        console.log("Оценка сохранена:", data);
+        document.getElementById("successModal").style.display = "none";
+    })
+    .catch(err => console.error("Ошибка:", err));
 }
+
+
 
 
 /////.......функция, которая будет отслеживать корзину и менять класс на кнопке футера cartBtn в зависимости от того, пустая корзина или нет..../////
@@ -627,7 +624,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 /////////////////// *** Фунция корзины localstorage из главной страницы*** ////////////////////
-
+function saveUserIdToLocal() {
+    const userId = document.querySelector(".user_id_raitingk").textContent.trim();
+    localStorage.setItem("rating_user_id", userId);
+}
 
 function toggleCart(button, foodId) {
     let cart = JSON.parse(localStorage.getItem('cart')) || {};
@@ -650,6 +650,7 @@ function toggleCart(button, foodId) {
             let cartUserName = tempElement.querySelector('.user-name').textContent.trim();
             return cartUserName !== foodUserName; // Сравниваем имена пользователей
         });
+        saveUserIdToLocal();
 
         if (otherUserInCart) {
             showErrorModal("Вы можете заказывать товары только у одного магазина одновременно.", "Предупреждение");

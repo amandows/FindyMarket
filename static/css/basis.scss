@@ -382,16 +382,23 @@ h6 {
             font-size: 35px;
             cursor: pointer;
             color: #ccc;
+            -webkit-tap-highlight-color: transparent;
             span {
                 transition: 0.2s;
                 user-select: none; /* чтобы текст не выделялся */
+                -webkit-tap-highlight-color: transparent; /* убирает синий фон на мобилках */
+                outline: none; /* убирает фокус */
             }
             span.active {
                 color: #ff9800;
+                outline: none;
+                background: transparent;
             }
 
             span:hover {
                 color: #ff9800;
+                outline: none;
+                background: transparent;
             }
         }
         .checkmark {
