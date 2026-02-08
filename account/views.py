@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import login
 from django.shortcuts import render, get_object_or_404
@@ -303,14 +305,17 @@ def update_avatar(request):
     if request.method == "POST" and request.FILES.get("avatar"):
         avatar = request.FILES["avatar"]
 
-        # Открываем изображение
+        # 🔥 Удаляем старый файл ДО сохранения нового
+        if request.user.user_logo:
+            old_path = request.user.user_logo.path
+            if os.path.exists(old_path):
+                os.remove(old_path)
+
         image = Image.open(avatar)
 
-        # Определяем новые размеры (квадратное обрезание 500x500)
         target_size = 500
         width, height = image.size
 
-        # Центрируем и обрезаем до квадрата
         if width > height:
             left = (width - height) / 2
             top = 0
@@ -325,12 +330,10 @@ def update_avatar(request):
         image_cropped = image.crop((left, top, right, bottom))
         image_resized = image_cropped.resize((target_size, target_size), Image.LANCZOS)
 
-        # Сохраняем в BytesIO
         output = BytesIO()
         image_resized.save(output, format='JPEG', quality=60)
         output.seek(0)
 
-        # Сохраняем обратно в поле user_logo
         request.user.user_logo.save(
             f"{request.user.username}_avatar.jpg",
             ContentFile(output.read()),
@@ -340,3 +343,4 @@ def update_avatar(request):
         return JsonResponse({"success": True, "avatar_url": request.user.user_logo.url})
 
     return JsonResponse({"success": False}, status=400)
+

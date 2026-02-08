@@ -28,6 +28,18 @@ class FoodCategory(models.Model):
         return self.name
 
 
+def ad_screen_img_path(instance, filename):
+    return os.path.join('static', 'media', 'foodimages', 'foodimg', filename)
+
+
+def food_image_one_path(instance, filename):
+    return os.path.join('static', 'media', 'foodimages', filename)
+
+
+def order_bank_check_path(instance, filename):
+    return os.path.join('static', 'media', 'orders_bank_check', filename)
+
+
 
 class Food_menu(models.Model):
     STATUS_FOOD = [
@@ -48,8 +60,8 @@ class Food_menu(models.Model):
         related_name='foods'
     )
     food_status = models.CharField(max_length=20, choices=STATUS_FOOD, default='True')
-    adscreenimg = models.ImageField(upload_to='static/media/foodimages/foodimg')
-    imageOne = models.ImageField(upload_to='static/media/foodimages')
+    adscreenimg = models.ImageField(upload_to=ad_screen_img_path)
+    imageOne = models.ImageField(upload_to=food_image_one_path)
     date_add = models.DateField(blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
@@ -149,7 +161,7 @@ class Order(models.Model):
     status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='in_progress')
     order_tel_number = models.CharField(max_length=14)
     order_adsress = models.CharField(max_length=100)
-    order_bank_check = models.ImageField(upload_to='static/media/orders_bank_check', blank=True, null=True)
+    order_bank_check = models.ImageField(upload_to=order_bank_check_path, blank=True, null=True)
     order_payment_status = models.CharField(max_length=100)
     order_delivery_status = models.CharField(max_length=100)
     order_city = models.CharField(max_length=14, blank=True)

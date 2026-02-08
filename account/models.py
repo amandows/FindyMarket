@@ -4,8 +4,23 @@ from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from basis.city_of_kg import CITY
-
+import os
 description_txt = ' Рабочий день: ПН-ВС \n Время работы: 08:00-23:00 \n Адресс: ул. Ленина 55 '
+
+def user_logo_path(instance, filename):
+    return os.path.join('static', 'media', 'user', 'logo', filename)
+
+
+def user_logo_mini_path(instance, filename):
+    return os.path.join('static', 'media', 'user', 'logo', filename)
+
+
+def user_mbank_qr_path(instance, filename):
+    return os.path.join('static', 'media', 'user', 'qr', filename)
+
+
+def user_rsk_qr_path(instance, filename):
+    return os.path.join('static', 'media', 'user', 'qr', filename)
 
 
 class UserInfo(models.Model):
@@ -60,8 +75,8 @@ class CustomUser(AbstractUser):
     user_description = models.CharField(max_length=500, default=description_txt, blank=True, null=True)
     user_phone_number = models.DecimalField(max_digits=9, decimal_places=0, blank=True, null=True)
     user_phone_number2 = models.DecimalField(max_digits=9, decimal_places=0, blank=True, null=True)
-    user_mbank_qr = models.ImageField(upload_to='static/media/user/logo/', blank=True, null=True)
-    user_rsk_qr = models.ImageField(upload_to='static/media/user/logo/', blank=True, null=True)
+    user_mbank_qr = models.ImageField(upload_to=user_mbank_qr_path, blank=True, null=True)
+    user_rsk_qr = models.ImageField(upload_to=user_rsk_qr_path, blank=True, null=True)
     user_mbank_link = models.CharField(max_length=500, blank=True, null=True)
     user_obank_link = models.CharField(max_length=500, blank=True, null=True)
     user_rsk_link = models.CharField(max_length=500, blank=True, null=True)
@@ -94,8 +109,8 @@ class CustomUser(AbstractUser):
         ('Offline', 'Оффлайн'),
     ]
     user_status = models.CharField(max_length=20, choices=USER_STATUS, default='', blank=True, null=True)
-    user_logo = models.ImageField(upload_to='static/media/user/logo/', blank=True, null=True)
-    user_logo_mini = models.ImageField(upload_to='static/media/user/logo/', blank=True, null=True)
+    user_logo = models.ImageField(upload_to=user_logo_path, blank=True, null=True)
+    user_logo_mini = models.ImageField(upload_to=user_logo_mini_path, blank=True, null=True)
 
     USER_BLOCKED = [
         ('', ''),
@@ -119,6 +134,25 @@ class CustomUser(AbstractUser):
         related_name='custom_user_set',  # Пример названия, которое можно выбрать
         related_query_name='user',
     )
+
+    def save(self, *args, **kwargs):
+        try:
+            old = CustomUser.objects.get(pk=self.pk)
+        except CustomUser.DoesNotExist:
+            old = None
+
+        super().save(*args, **kwargs)  # сначала сохранить НОВЫЙ файл
+
+        # ---------- Удаление старых файлов ----------
+        if old:
+            for field in ['user_logo', 'user_logo_mini']:
+                old_file = getattr(old, field)
+                new_file = getattr(self, field)
+
+                if old_file and old_file != new_file:
+                    if os.path.isfile(old_file.path):
+                        os.remove(old_file.path)
+
 
     def __str__(self):
         return self.username if self.username else "Unnamed User"
