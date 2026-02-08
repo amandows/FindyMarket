@@ -172,7 +172,7 @@ class Order(models.Model):
 # python manage.py runsslserver --certificate cert.pem --key key.pem
 # python manage.py runsslserver 192.168.0.101:8000 --certificate cert.pem --key key.pem
 # citizenfour0
-# underground0
+# underground023
 # & "C:/Users/Admin/PycharmProjects/Findy_store/venv/Scripts/activate.ps1"
 # cd fmarket
 # python manage.py runserver
