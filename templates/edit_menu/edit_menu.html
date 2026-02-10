@@ -6,8 +6,15 @@
 
 {% block main %}
 <main>
+    <div id="globalLoader" class="global-loader">
+        <div class="loader-spinner"></div>
+        <p>Сохраняем изменения...</p>
+    </div>
     <h1 class="title">Редактировать меню</h1>
-    <input type="search" class="menu_search" placeholder="Поиск товаров">
+    <div class="menu_search_container">
+        <input type="search" class="menu_search" placeholder="Поиск товаров">
+        <button class="full_save" style="display:none;">Сохранить всё</button>
+    </div>
     <div class="edit-menu">
         {% for category, items in categories %}
         <details class="category-details">
@@ -76,17 +83,30 @@
 
 {% block script %}
 <script>
+    function showLoader(text = "Сохраняем изменения...") {
+    const loader = document.getElementById("globalLoader");
+    loader.querySelector("p").textContent = text;
+    loader.classList.add("active");
+}
+
+function hideLoader() {
+    document.getElementById("globalLoader").classList.remove("active");
+}
+</script>
+
+<script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    document.querySelectorAll("form").forEach(form => {
+    const fullSaveBtn = document.querySelector(".full_save");
+    const changedForms = new Set();
+
+    document.querySelectorAll(".food-item form").forEach(form => {
         const button = form.querySelector(".action-btn");
 
-        // Все поля, которые должны триггерить "Сохранить"
         const fields = form.querySelectorAll(
-            ".sale_checkbox, .sale_input, .quantity_input, input[name='food_name'], input[name='price'], select[name='food_status']"
+            ".sale_checkbox, .sale_input, .quantity_input, input[name='food_name'], input[name='price'], select[name='food_status'], input[name='description'], input[type='file']"
         );
 
-        // Сохраняем исходные значения
         const initial = {};
         fields.forEach(field => {
             if (field.type === "checkbox") {
@@ -96,12 +116,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        function updateButton() {
+        function checkChanges() {
             let changed = false;
 
             fields.forEach(field => {
                 if (field.type === "checkbox") {
                     if (initial[field.name] !== field.checked) changed = true;
+                } else if (field.type === "file") {
+                    if (field.files.length > 0) changed = true;
                 } else {
                     if (initial[field.name] !== field.value) changed = true;
                 }
@@ -111,19 +133,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 button.textContent = "Сохранить";
                 button.dataset.mode = "save";
                 button.style.backgroundColor = "#2fd419";
+                changedForms.add(form);
             } else {
                 button.textContent = "Удалить";
                 button.dataset.mode = "delete";
                 button.style.backgroundColor = "#cc1616";
+                changedForms.delete(form);
+            }
+
+            // Показываем общую кнопку если изменено 2+
+            if (changedForms.size >= 2) {
+                fullSaveBtn.style.display = "block";
+            } else {
+                fullSaveBtn.style.display = "none";
             }
         }
 
         fields.forEach(field => {
-            field.addEventListener("input", updateButton);
-            field.addEventListener("change", updateButton);
+            field.addEventListener("input", checkChanges);
+            field.addEventListener("change", checkChanges);
         });
 
-        // Логика удаления
+        // Логика удаления как у тебя
         form.addEventListener("submit", function (e) {
             if (button.dataset.mode === "delete") {
                 e.preventDefault();
@@ -132,10 +163,44 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         });
-
     });
 
+    // 🔥 Сохранить ВСЕ изменённые формы
+    fullSaveBtn.addEventListener("click", async function () {
+
+    showLoader("Сохраняем все товары...");
+
+    fullSaveBtn.disabled = true;
+
+    const promises = [];
+
+    changedForms.forEach(form => {
+        const formData = new FormData(form);
+
+        promises.push(
+            fetch(form.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": form.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+        );
+    });
+
+    await Promise.all(promises);
+
+    showLoader("Готово! Обновляем страницу...");
+
+    setTimeout(() => {
+        location.reload();
+    }, 700);
 });
+
+
+
+});
+
 </script>
 
 
