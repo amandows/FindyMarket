@@ -272,7 +272,7 @@ main .order-table tbody .order .order-details-container .created-at {
   font-size: 14px;
   font-weight: 700;
 }
-main .order-table tbody .order .order-details-container .created-at .courier-notification {
+main .order-table tbody .order .order-details-container .courier-notification {
   padding: 4px 10px;
   margin-left: 15px;
   background-color: rgba(0, 89, 255, 0.9098039216);
@@ -282,33 +282,37 @@ main .order-table tbody .order .order-details-container .created-at .courier-not
   font-weight: 600;
   border-radius: 7px;
   transition: all 0.3s ease 0s;
+  margin-top: 5px;
+  width: 95%;
 }
-main .order-table tbody .order .order-details-container .created-at .courier-notification:hover {
+main .order-table tbody .order .order-details-container .courier-notification:hover {
   background-color: #0300a5;
   color: #fcfcfc;
 }
-main .order-table tbody .order .order-details-container .created-at span {
-  padding: 5px 10px;
+main .order-table tbody .order .order-details-container p {
+  padding: 6px 10px;
   margin-left: 15px;
   font-family: "Nunito";
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   border-radius: 7px;
   transition: all 0.3s ease 0s;
+  margin-top: 5px;
+  text-align: center;
 }
-main .order-table tbody .order .order-details-container .created-at .courier-called {
+main .order-table tbody .order .order-details-container .courier-called {
   background-color: #ffd000;
   color: #131313;
 }
-main .order-table tbody .order .order-details-container .created-at .courier-pick-up {
-  background-color: #0059ff;
-  color: #ffffff;
+main .order-table tbody .order .order-details-container .courier-pick-up {
+  background-color: #0de3ff;
+  color: #131313;
 }
-main .order-table tbody .order .order-details-container .created-at .courier-ontheway {
+main .order-table tbody .order .order-details-container .courier-ontheway {
   background-color: #ff0095;
   color: #ffffff;
 }
-main .order-table tbody .order .order-details-container .created-at .courier-delivered {
+main .order-table tbody .order .order-details-container .courier-delivered {
   background-color: #08e200;
   color: #131313;
 }
@@ -371,10 +375,15 @@ main .order-table tbody .order .order-status form select {
   transition: all 0.3s ease 0s;
   font-weight: 600;
   text-align: center;
-  background: #0050fc;
   padding: 8px 5px;
   border-radius: 5px;
   cursor: pointer;
+}
+main .order-table tbody .order .order-status .order-status_accept select {
+  background: #0cac2f;
+}
+main .order-table tbody .order .order-status .order-status_new select {
+  background: #0050fc;
 }
 main .order-table tbody .order .order-status .order-completed {
   width: 100%;
@@ -399,6 +408,9 @@ main .order-table tbody .order .order-status .order-cancelled {
   background: #e72e00;
   padding: 10px 15px;
   border-radius: 5px;
+}
+main .order-table tbody .order-accepted {
+  background-color: #d4edda;
 }
 main .table-pagination {
   display: flex;

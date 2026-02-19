@@ -2,12 +2,20 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from basis.models import Order
+from django.db.models import Q
 
 @login_required
 def get_orders(request):
     user_name = request.user.user_name
-    orders_count = Order.objects.filter(user_name=user_name, status='in_progress').count()
-    orders = Order.objects.filter(user_name=user_name, status='in_progress').order_by('-created_at').values(
+
+    orders = Order.objects.filter(
+        Q(user_name=user_name),
+        Q(status='in_progress') | Q(status='accept')
+    ).order_by('-created_at')
+
+    orders_count = orders.filter(status='in_progress').count()
+
+    orders = orders.values(
         'id', 'order_number',
         'created_at', 'order_details',
         'total_amount', 'status',
@@ -24,8 +32,11 @@ def get_orders(request):
         'courier_car_number',
         'courier_status'
     )
-    orders_list = list(orders)
-    return JsonResponse({'orders_count': orders_count, 'orders': orders_list})
+
+    return JsonResponse({
+        'orders_count': orders_count,
+        'orders': list(orders)
+    })
 
 
 

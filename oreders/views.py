@@ -49,7 +49,7 @@ def update_order_status(request):
         try:
             order = Order.objects.get(id=order_id)
             old_status = order.status  # запоминаем старый статус
-            if status in ['in_progress', 'completed', 'cancelled', 'called']:
+            if status in ['in_progress', 'accept', 'completed', 'cancelled', 'called']:
                 if status == 'cancelled' and old_status != 'cancelled':
                     if order.order_details:
                         # пример строки: "Лагман (100 сом), 2 штук, итого 200 сом"

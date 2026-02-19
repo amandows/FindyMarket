@@ -116,6 +116,7 @@ class Food_menu(models.Model):
 class Order(models.Model):
     ORDER_STATUS_CHOICES = [
         ('in_progress', 'В процессе'),
+        ('accept', 'Принято'),
         ('completed', 'Успешно'),
         ('cancelled', 'Отменен'),
     ]

@@ -135,7 +135,7 @@ main {
     }
     .order-search {
         border: 1px solid #202020;
-        font-family: 'Nunito';
+        font-family: "Nunito";
         font-size: 16px;
         font-weight: 500;
         padding: 5px 10px;
@@ -269,46 +269,50 @@ main {
                         font-family: "Nunito";
                         font-size: 14px;
                         font-weight: 700;
-                        .courier-notification {
-                            padding: 4px 10px;
-                            margin-left: 15px;
-                            background-color: #0059ffe8;
-                            font-family: "Nunito";
-                            font-size: 14px;
-                            color: #ffffff;
-                            font-weight: 600;
-                            border-radius: 7px;
-                            transition: all 0.3s ease 0s;
-                            &:hover {
-                                background-color: #0300a5;
-                                color: #fcfcfc;
-                            }
+                    }   
+                    .courier-notification {
+                        padding: 4px 10px;
+                        margin-left: 15px;
+                        background-color: #0059ffe8;
+                        font-family: "Nunito";
+                        font-size: 14px;
+                        color: #ffffff;
+                        font-weight: 600;
+                        border-radius: 7px;
+                        transition: all 0.3s ease 0s;
+                        margin-top: 5px;
+                        width: 95%;
+                        &:hover {
+                            background-color: #0300a5;
+                            color: #fcfcfc;
                         }
-                        span {
-                            padding: 5px 10px;
-                            margin-left: 15px;
-                            font-family: "Nunito";
-                            font-size: 13px;
-                            font-weight: 600;
-                            border-radius: 7px;
-                            transition: all 0.3s ease 0s;
-                        }
-                        .courier-called {
-                            background-color: #ffd000;
-                            color: #131313;
-                        }
-                        .courier-pick-up {
-                            background-color: #0059ff;
-                            color: #ffffff;
-                        }
-                        .courier-ontheway {
-                            background-color: #ff0095;
-                            color: #ffffff;
-                        }
-                        .courier-delivered {
-                            background-color: #08e200;
-                            color: #131313;
-                        }
+                    }
+                    p {
+                        padding: 6px 10px;
+                        margin-left: 15px;
+                        font-family: "Nunito";
+                        font-size: 14px;
+                        font-weight: 600;
+                        border-radius: 7px;
+                        transition: all 0.3s ease 0s;
+                        margin-top: 5px;
+                        text-align: center;
+                    }
+                    .courier-called {
+                        background-color: #ffd000;
+                        color: #131313;
+                    }
+                    .courier-pick-up {
+                        background-color: #0de3ff;
+                        color: #131313;
+                    }
+                    .courier-ontheway {
+                        background-color: #ff0095;
+                        color: #ffffff;
+                    }
+                    .courier-delivered {
+                        background-color: #08e200;
+                        color: #131313;
                     }
                 }
                 .total-amount-container {
@@ -370,10 +374,20 @@ main {
                             transition: all 0.3s ease 0s;
                             font-weight: 600;
                             text-align: center;
-                            background: #0050fc;
                             padding: 8px 5px;
                             border-radius: 5px;
                             cursor: pointer;
+                            // background-color: #cf0b2c;
+                        }
+                    }
+                    .order-status_accept {
+                        select {
+                            background: #0cac2f;
+                        }
+                    }
+                    .order-status_new {
+                        select {
+                            background: #0050fc;
                         }
                     }
                     .order-completed {
@@ -401,6 +415,9 @@ main {
                         border-radius: 5px;
                     }
                 }
+            }
+            .order-accepted {
+                background-color: #d4edda;
             }
         }
     }

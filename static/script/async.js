@@ -47,22 +47,30 @@ $(document).ready(function () {
                 }
                 // Обновляем список заказов
                 newOrders.forEach(function (order) {
+                    let rowClass = '';
                     let statusOptions;
+                    // if (order.status === 'accept') {
+                    //     rowClass = 'order-accepted';
+                    // }
                     if (order.status === 'in_progress') {
                         statusOptions = `
-                            <form action="" class="order-status">
+                            <form action="" class="order-status_new">
                                 <select name="order-status" data-order-id="${order.id}">
-                                    <option value="in_progress">В процессе</option>
-                                    <option value="completed">Успешно</option>
-                                    <option value="cancelled">Отменён</option>
+                                    <option value="in_progress" selected>Новый</option>
+                                    <option value="accept">Принять</option>
+                                    <option value="cancelled">Отменить</option>
                                 </select>
                             </form>`;
-                    } else if (order.status === 'completed') {
+                    }
+                    if (order.status === 'accept') {
+                        rowClass = 'order-accepted';
                         statusOptions = `
-                            <p class="order-completed">Успешно</p>`;
-                    } else if (order.status === 'cancelled') {
-                        statusOptions = `
-                            <p class="order-cancelled">Неудачно</p>`;
+                            <form action="" class="order-status_accept">
+                                <select name="order-status" data-order-id="${order.id}">
+                                    <option value="accept" selected>Принято</option>
+                                    <option value="completed">Успешно</option>
+                                </select>
+                            </form>`;
                     }
 
                     // Статус курьера pick_up
@@ -72,25 +80,25 @@ $(document).ready(function () {
                         <button class="courier-notification">Вызвать курьера</button>`
                     } else if (order.courier_status === 'called') {
                         CourierStatus = `
-                        <span class="courier-called">Ожидание ответа...</span>`
-                    }else if (order.courier_status === 'pick_up') {
+                        <p class="courier-called">Ожидание ответа...</p>`
+                    } else if (order.courier_status === 'pick_up') {
                         CourierStatus = `
-                        <span class="courier-pick-up">Курьер в пути...</span>`
+                        <p class="courier-pick-up">Курьер в пути...</p>`
                     } else if (order.courier_status === 'on_the_way') {
                         CourierStatus = `
-                        <span class="courier-ontheway">Доставляет заказ</span>`
+                        <p class="courier-ontheway">Доставляет заказ</p>`
                     } else if (order.courier_status === 'delivered') {
                         CourierStatus = `
-                        <span class="courier-delivered">Заказ доставлен!!!</span>`
+                        <p class="courier-delivered">Заказ доставлен!!!</p>`
                     } else if (order.courier_status === 'canceled') {
                         CourierStatus = `
-                        <span class="courier-canceled">Заказ не доставлен!</span>`
+                        <p class="courier-canceled">Заказ не доставлен!</p>`
                     }
 
 
 
                     const orderElement = `
-                            <tr class="order">
+                            <tr class="order ${rowClass}">
                                 <td class="order-number-container">
                                     <p class="order-number">${order.order_number}</p>
                                 </td>
@@ -102,28 +110,29 @@ $(document).ready(function () {
                                 <td class="order-details-container">
                                     <ol id="myList-${order.id}" class="order-details-list">
                                         ${order.order_details
-                                            .split('\n')
-                                            .map(line => `<li>${line}</li>`)
-                                            .join('')}
+                            .split('\n')
+                            .map(line => `<li>${line}</li>`)
+                            .join('')}
                                     </ol>
-                                    <p class="created-at">Дата: ${new Date(order.created_at).toLocaleString()} ${CourierStatus}</p>
+                                    <p class="created-at">Дата: ${new Date(order.created_at).toLocaleString()}</p>
+                                    ${CourierStatus}
                                 </td>
                                 <td class="total-amount-container">
                                     <p class="total-amount">${order.total_amount} сом</p>
                                 </td>
                                 <td class="payment">
                                     ${order.order_payment_status === 'Онлайн'
-                                            ? `
+                            ? `
                                             <div class="payment-online">
                                                 <p>Оплачено онлайн</p>
                                                 ${order.order_bank_check
-                                                ? `<button onclick="viewReceipt('${order.order_bank_check}')">Посмотреть чек</button>`
-                                                : `<p>Чек отсутствует</p>`
-                                            }
+                                ? `<button onclick="viewReceipt('${order.order_bank_check}')">Посмотреть чек</button>`
+                                : `<p>Чек отсутствует</p>`
+                            }
                                             </div>
                                         `
-                                            : `<p>Наличными</p>`
-                                        }
+                            : `<p>Наличными</p>`
+                        }
                                 </td>
                                 <td class="order-status">
                                     ${statusOptions}
@@ -175,7 +184,7 @@ document.addEventListener('click', async function (e) {
             });
 
             if (response.ok) {
-                alert('Курьер вызван!');
+                // alert('Курьер вызван!');
                 location.reload();  // Обновляем страницу
             } else {
                 alert('Не удалось вызвать курьера');
@@ -222,36 +231,51 @@ function getCsrfToken() {
     return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 }
 
-
 function reloadPage() {
     location.reload();
 }
 
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
+
+    const loader = document.getElementById("global-loader");
+
+    function showLoader() {
+        loader.classList.add("active");
+    }
+
+    function hideLoader() {
+        loader.classList.remove("active");
+    }
+
     $(document).on('change', 'select[name="order-status"]', function () {
+
+        showLoader();  // 🔥 ВОТ ГДЕ НУЖНО
+
         let selectedStatus = $(this).val();
         let orderId = $(this).data('order-id');
 
         $.ajax({
-            url: '/update-order-status/',  // URL для POST-запроса
+            url: '/update-order-status/',
             type: 'POST',
             data: {
                 'order_id': orderId,
                 'status': selectedStatus
             },
             headers: {
-                'X-CSRFToken': getCsrfToken()  // Передаем CSRF токен в заголовке
+                'X-CSRFToken': getCsrfToken()
             },
             success: function (response) {
-                console.log('Status updated successfully:', response);
-                reloadPage()
+                reloadPage();
             },
             error: function (xhr, status, error) {
+                hideLoader(); // если ошибка — убираем loader
                 console.error('Error updating status:', error);
             }
         });
     });
+
 });
+
 
 
 
@@ -309,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', function () {
     ion.sound({
         sounds: [
-            {name: "notification"}
+            { name: "notification" }
         ],
         path: "/static/media/", // Укажите путь до папки с файлами звуков
         preload: true,
