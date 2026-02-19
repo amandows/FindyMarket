@@ -2,8 +2,50 @@ main {
     max-width: 1280px;
     margin: 0 auto;
     margin-top: 60px;
+    .global-loader {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(3px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 99999;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s ease;
+    }
+
+    .global-loader.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .loader-spinner {
+        width: 70px;
+        height: 70px;
+        border: 6px solid #fff;
+        border-top: 6px solid transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-bottom: 15px;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .global-loader p {
+        color: #fff;
+        font-size: 18px;
+        font-family: Nunito, sans-serif;
+    }
+
     .title {
-        font-family: 'Open Sans';
+        font-family: "Open Sans";
         font-size: 17px;
         font-weight: 700;
         margin-bottom: 20px;
@@ -11,20 +53,35 @@ main {
         border-bottom: 1px solid #141414;
         &::after {
             display: block;
-            content: '';
+            content: "";
             width: 20px;
             height: 15px;
             background: url("/static/icons/orders.svg") center/cover no-repeat;
         }
     }
-    .menu_search {
-        border: 1px solid #202020;
-        font-family: 'Nunito';
-        font-size: 16px;
-        font-weight: 500;
-        padding: 5px 10px;
-        border-radius: 5px;
-        width: 300px;
+    .menu_search_container {
+        display: flex;
+        align-items: center;
+        .menu_search {
+            border: 1px solid #202020;
+            font-family: "Nunito";
+            font-size: 16px;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .full_save {
+            font-family: "Nunito";
+            font-size: 16px;
+            font-weight: 500;
+            padding: 6px 10px;
+            border-radius: 5px;
+            width: 200px;
+            background-color: #47d80d;
+            margin-left: 20px;
+            color: #ffffff;
+        }
     }
     .edit-menu {
         width: 100%;
@@ -41,14 +98,14 @@ main {
                 height: 100%;
                 width: 100%;
                 position: relative;
-                font-family: 'Nunito';
+                font-family: "Nunito";
                 font-size: 16px;
                 font-weight: 700;
                 padding: 12px 0px 12px 20px;
                 border-radius: 10px;
                 &::before {
                     position: absolute;
-                    content: '';
+                    content: "";
                     left: -3%;
                     top: 50%;
                     transform: translateY(-50%);
@@ -96,7 +153,7 @@ main {
                                 transform: translate(-50%, -50%);
                                 padding: 7px 15px;
                                 border-radius: 8px;
-                                font-family: 'Nunito';
+                                font-family: "Nunito";
                                 font-size: 13px;
                                 font-weight: 700;
                                 background-color: #000000bb;
@@ -124,7 +181,7 @@ main {
                             display: flex;
                             flex-direction: column;
                             button {
-                                font-family: 'Nunito';
+                                font-family: "Nunito";
                                 font-size: 14px;
                                 font-weight: 600;
                                 color: #ffffff;
@@ -141,19 +198,25 @@ main {
                             .action-btn {
                                 background-color: #cc1616;
                             }
-                            .food-name, .food-description, .food-price, .food-status, .food-new-img, .discount-container, .food-quantity {
+                            .food-name,
+                            .food-description,
+                            .food-price,
+                            .food-status,
+                            .food-new-img,
+                            .discount-container,
+                            .food-quantity {
                                 display: flex;
                                 align-items: center;
                                 width: 100%;
                                 p {
-                                    font-family: 'Nunito';
+                                    font-family: "Nunito";
                                     font-size: 14px;
                                     font-weight: 600;
                                     color: #00000063;
                                     position: relative;
                                     &::before {
                                         position: absolute;
-                                        content: '';
+                                        content: "";
                                         left: -10px;
                                         top: 50%;
                                         transform: translateY(-50%);
@@ -163,8 +226,9 @@ main {
                                         border-radius: 50%;
                                     }
                                 }
-                                input, select {
-                                    font-family: 'Open Sans';
+                                input,
+                                select {
+                                    font-family: "Open Sans";
                                     font-size: 14px;
                                     font-weight: 600;
                                     color: #0e0e0e;
@@ -189,14 +253,14 @@ main {
                                     width: 20px;
                                 }
                                 h4 {
-                                    font-family: 'Nunito';
+                                    font-family: "Nunito";
                                     font-size: 14px;
                                     font-weight: 600;
                                     color: #000000;
                                     margin-left: 15px;
                                 }
                                 h3 {
-                                    font-family: 'Nunito';
+                                    font-family: "Nunito";
                                     font-size: 14px;
                                     font-weight: 700;
                                     color: #1f8107;
@@ -210,4 +274,3 @@ main {
         }
     }
 }
-

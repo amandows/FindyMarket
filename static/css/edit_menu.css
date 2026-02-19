@@ -4,6 +4,44 @@ main {
   margin: 0 auto;
   margin-top: 60px;
 }
+main .global-loader {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+}
+main .global-loader.active {
+  opacity: 1;
+  pointer-events: all;
+}
+main .loader-spinner {
+  width: 70px;
+  height: 70px;
+  border: 6px solid #fff;
+  border-top: 6px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+main .global-loader p {
+  color: #fff;
+  font-size: 18px;
+  font-family: Nunito, sans-serif;
+}
 main .title {
   font-family: "Open Sans";
   font-size: 17px;
@@ -19,7 +57,11 @@ main .title::after {
   height: 15px;
   background: url("/static/icons/orders.svg") center/cover no-repeat;
 }
-main .menu_search {
+main .menu_search_container {
+  display: flex;
+  align-items: center;
+}
+main .menu_search_container .menu_search {
   border: 1px solid #202020;
   font-family: "Nunito";
   font-size: 16px;
@@ -27,6 +69,17 @@ main .menu_search {
   padding: 5px 10px;
   border-radius: 5px;
   width: 300px;
+}
+main .menu_search_container .full_save {
+  font-family: "Nunito";
+  font-size: 16px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 5px;
+  width: 200px;
+  background-color: #47d80d;
+  margin-left: 20px;
+  color: #ffffff;
 }
 main .edit-menu {
   width: 100%;
@@ -150,19 +203,37 @@ main .edit-menu details .food-items .food-item form .container button:hover {
 main .edit-menu details .food-items .food-item form .container .action-btn {
   background-color: #cc1616;
 }
-main .edit-menu details .food-items .food-item form .container .food-name, main .edit-menu details .food-items .food-item form .container .food-description, main .edit-menu details .food-items .food-item form .container .food-price, main .edit-menu details .food-items .food-item form .container .food-status, main .edit-menu details .food-items .food-item form .container .food-new-img, main .edit-menu details .food-items .food-item form .container .discount-container, main .edit-menu details .food-items .food-item form .container .food-quantity {
+main .edit-menu details .food-items .food-item form .container .food-name,
+main .edit-menu details .food-items .food-item form .container .food-description,
+main .edit-menu details .food-items .food-item form .container .food-price,
+main .edit-menu details .food-items .food-item form .container .food-status,
+main .edit-menu details .food-items .food-item form .container .food-new-img,
+main .edit-menu details .food-items .food-item form .container .discount-container,
+main .edit-menu details .food-items .food-item form .container .food-quantity {
   display: flex;
   align-items: center;
   width: 100%;
 }
-main .edit-menu details .food-items .food-item form .container .food-name p, main .edit-menu details .food-items .food-item form .container .food-description p, main .edit-menu details .food-items .food-item form .container .food-price p, main .edit-menu details .food-items .food-item form .container .food-status p, main .edit-menu details .food-items .food-item form .container .food-new-img p, main .edit-menu details .food-items .food-item form .container .discount-container p, main .edit-menu details .food-items .food-item form .container .food-quantity p {
+main .edit-menu details .food-items .food-item form .container .food-name p,
+main .edit-menu details .food-items .food-item form .container .food-description p,
+main .edit-menu details .food-items .food-item form .container .food-price p,
+main .edit-menu details .food-items .food-item form .container .food-status p,
+main .edit-menu details .food-items .food-item form .container .food-new-img p,
+main .edit-menu details .food-items .food-item form .container .discount-container p,
+main .edit-menu details .food-items .food-item form .container .food-quantity p {
   font-family: "Nunito";
   font-size: 14px;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.3882352941);
   position: relative;
 }
-main .edit-menu details .food-items .food-item form .container .food-name p::before, main .edit-menu details .food-items .food-item form .container .food-description p::before, main .edit-menu details .food-items .food-item form .container .food-price p::before, main .edit-menu details .food-items .food-item form .container .food-status p::before, main .edit-menu details .food-items .food-item form .container .food-new-img p::before, main .edit-menu details .food-items .food-item form .container .discount-container p::before, main .edit-menu details .food-items .food-item form .container .food-quantity p::before {
+main .edit-menu details .food-items .food-item form .container .food-name p::before,
+main .edit-menu details .food-items .food-item form .container .food-description p::before,
+main .edit-menu details .food-items .food-item form .container .food-price p::before,
+main .edit-menu details .food-items .food-item form .container .food-status p::before,
+main .edit-menu details .food-items .food-item form .container .food-new-img p::before,
+main .edit-menu details .food-items .food-item form .container .discount-container p::before,
+main .edit-menu details .food-items .food-item form .container .food-quantity p::before {
   position: absolute;
   content: "";
   left: -10px;
@@ -173,7 +244,20 @@ main .edit-menu details .food-items .food-item form .container .food-name p::bef
   background: #0f0f0f;
   border-radius: 50%;
 }
-main .edit-menu details .food-items .food-item form .container .food-name input, main .edit-menu details .food-items .food-item form .container .food-name select, main .edit-menu details .food-items .food-item form .container .food-description input, main .edit-menu details .food-items .food-item form .container .food-description select, main .edit-menu details .food-items .food-item form .container .food-price input, main .edit-menu details .food-items .food-item form .container .food-price select, main .edit-menu details .food-items .food-item form .container .food-status input, main .edit-menu details .food-items .food-item form .container .food-status select, main .edit-menu details .food-items .food-item form .container .food-new-img input, main .edit-menu details .food-items .food-item form .container .food-new-img select, main .edit-menu details .food-items .food-item form .container .discount-container input, main .edit-menu details .food-items .food-item form .container .discount-container select, main .edit-menu details .food-items .food-item form .container .food-quantity input, main .edit-menu details .food-items .food-item form .container .food-quantity select {
+main .edit-menu details .food-items .food-item form .container .food-name input,
+main .edit-menu details .food-items .food-item form .container .food-name select,
+main .edit-menu details .food-items .food-item form .container .food-description input,
+main .edit-menu details .food-items .food-item form .container .food-description select,
+main .edit-menu details .food-items .food-item form .container .food-price input,
+main .edit-menu details .food-items .food-item form .container .food-price select,
+main .edit-menu details .food-items .food-item form .container .food-status input,
+main .edit-menu details .food-items .food-item form .container .food-status select,
+main .edit-menu details .food-items .food-item form .container .food-new-img input,
+main .edit-menu details .food-items .food-item form .container .food-new-img select,
+main .edit-menu details .food-items .food-item form .container .discount-container input,
+main .edit-menu details .food-items .food-item form .container .discount-container select,
+main .edit-menu details .food-items .food-item form .container .food-quantity input,
+main .edit-menu details .food-items .food-item form .container .food-quantity select {
   font-family: "Open Sans";
   font-size: 14px;
   font-weight: 600;
@@ -181,31 +265,73 @@ main .edit-menu details .food-items .food-item form .container .food-name input,
   margin-left: 2px;
   padding: 5px 7px;
 }
-main .edit-menu details .food-items .food-item form .container .food-name input[type=text], main .edit-menu details .food-items .food-item form .container .food-description input[type=text], main .edit-menu details .food-items .food-item form .container .food-price input[type=text], main .edit-menu details .food-items .food-item form .container .food-status input[type=text], main .edit-menu details .food-items .food-item form .container .food-new-img input[type=text], main .edit-menu details .food-items .food-item form .container .discount-container input[type=text], main .edit-menu details .food-items .food-item form .container .food-quantity input[type=text] {
+main .edit-menu details .food-items .food-item form .container .food-name input[type=text],
+main .edit-menu details .food-items .food-item form .container .food-description input[type=text],
+main .edit-menu details .food-items .food-item form .container .food-price input[type=text],
+main .edit-menu details .food-items .food-item form .container .food-status input[type=text],
+main .edit-menu details .food-items .food-item form .container .food-new-img input[type=text],
+main .edit-menu details .food-items .food-item form .container .discount-container input[type=text],
+main .edit-menu details .food-items .food-item form .container .food-quantity input[type=text] {
   width: 100%;
 }
-main .edit-menu details .food-items .food-item form .container .food-name input[type=number], main .edit-menu details .food-items .food-item form .container .food-description input[type=number], main .edit-menu details .food-items .food-item form .container .food-price input[type=number], main .edit-menu details .food-items .food-item form .container .food-status input[type=number], main .edit-menu details .food-items .food-item form .container .food-new-img input[type=number], main .edit-menu details .food-items .food-item form .container .discount-container input[type=number], main .edit-menu details .food-items .food-item form .container .food-quantity input[type=number] {
+main .edit-menu details .food-items .food-item form .container .food-name input[type=number],
+main .edit-menu details .food-items .food-item form .container .food-description input[type=number],
+main .edit-menu details .food-items .food-item form .container .food-price input[type=number],
+main .edit-menu details .food-items .food-item form .container .food-status input[type=number],
+main .edit-menu details .food-items .food-item form .container .food-new-img input[type=number],
+main .edit-menu details .food-items .food-item form .container .discount-container input[type=number],
+main .edit-menu details .food-items .food-item form .container .food-quantity input[type=number] {
   width: 20%;
 }
-main .edit-menu details .food-items .food-item form .container .food-name select, main .edit-menu details .food-items .food-item form .container .food-description select, main .edit-menu details .food-items .food-item form .container .food-price select, main .edit-menu details .food-items .food-item form .container .food-status select, main .edit-menu details .food-items .food-item form .container .food-new-img select, main .edit-menu details .food-items .food-item form .container .discount-container select, main .edit-menu details .food-items .food-item form .container .food-quantity select {
+main .edit-menu details .food-items .food-item form .container .food-name select,
+main .edit-menu details .food-items .food-item form .container .food-description select,
+main .edit-menu details .food-items .food-item form .container .food-price select,
+main .edit-menu details .food-items .food-item form .container .food-status select,
+main .edit-menu details .food-items .food-item form .container .food-new-img select,
+main .edit-menu details .food-items .food-item form .container .discount-container select,
+main .edit-menu details .food-items .food-item form .container .food-quantity select {
   width: 30%;
 }
-main .edit-menu details .food-items .food-item form .container .food-name .sale_checkbox, main .edit-menu details .food-items .food-item form .container .food-description .sale_checkbox, main .edit-menu details .food-items .food-item form .container .food-price .sale_checkbox, main .edit-menu details .food-items .food-item form .container .food-status .sale_checkbox, main .edit-menu details .food-items .food-item form .container .food-new-img .sale_checkbox, main .edit-menu details .food-items .food-item form .container .discount-container .sale_checkbox, main .edit-menu details .food-items .food-item form .container .food-quantity .sale_checkbox {
+main .edit-menu details .food-items .food-item form .container .food-name .sale_checkbox,
+main .edit-menu details .food-items .food-item form .container .food-description .sale_checkbox,
+main .edit-menu details .food-items .food-item form .container .food-price .sale_checkbox,
+main .edit-menu details .food-items .food-item form .container .food-status .sale_checkbox,
+main .edit-menu details .food-items .food-item form .container .food-new-img .sale_checkbox,
+main .edit-menu details .food-items .food-item form .container .discount-container .sale_checkbox,
+main .edit-menu details .food-items .food-item form .container .food-quantity .sale_checkbox {
   width: 18px;
   height: 18px;
   margin-left: 10px;
 }
-main .edit-menu details .food-items .food-item form .container .food-name .sale_input, main .edit-menu details .food-items .food-item form .container .food-description .sale_input, main .edit-menu details .food-items .food-item form .container .food-price .sale_input, main .edit-menu details .food-items .food-item form .container .food-status .sale_input, main .edit-menu details .food-items .food-item form .container .food-new-img .sale_input, main .edit-menu details .food-items .food-item form .container .discount-container .sale_input, main .edit-menu details .food-items .food-item form .container .food-quantity .sale_input {
+main .edit-menu details .food-items .food-item form .container .food-name .sale_input,
+main .edit-menu details .food-items .food-item form .container .food-description .sale_input,
+main .edit-menu details .food-items .food-item form .container .food-price .sale_input,
+main .edit-menu details .food-items .food-item form .container .food-status .sale_input,
+main .edit-menu details .food-items .food-item form .container .food-new-img .sale_input,
+main .edit-menu details .food-items .food-item form .container .discount-container .sale_input,
+main .edit-menu details .food-items .food-item form .container .food-quantity .sale_input {
   width: 20px;
 }
-main .edit-menu details .food-items .food-item form .container .food-name h4, main .edit-menu details .food-items .food-item form .container .food-description h4, main .edit-menu details .food-items .food-item form .container .food-price h4, main .edit-menu details .food-items .food-item form .container .food-status h4, main .edit-menu details .food-items .food-item form .container .food-new-img h4, main .edit-menu details .food-items .food-item form .container .discount-container h4, main .edit-menu details .food-items .food-item form .container .food-quantity h4 {
+main .edit-menu details .food-items .food-item form .container .food-name h4,
+main .edit-menu details .food-items .food-item form .container .food-description h4,
+main .edit-menu details .food-items .food-item form .container .food-price h4,
+main .edit-menu details .food-items .food-item form .container .food-status h4,
+main .edit-menu details .food-items .food-item form .container .food-new-img h4,
+main .edit-menu details .food-items .food-item form .container .discount-container h4,
+main .edit-menu details .food-items .food-item form .container .food-quantity h4 {
   font-family: "Nunito";
   font-size: 14px;
   font-weight: 600;
   color: #000000;
   margin-left: 15px;
 }
-main .edit-menu details .food-items .food-item form .container .food-name h3, main .edit-menu details .food-items .food-item form .container .food-description h3, main .edit-menu details .food-items .food-item form .container .food-price h3, main .edit-menu details .food-items .food-item form .container .food-status h3, main .edit-menu details .food-items .food-item form .container .food-new-img h3, main .edit-menu details .food-items .food-item form .container .discount-container h3, main .edit-menu details .food-items .food-item form .container .food-quantity h3 {
+main .edit-menu details .food-items .food-item form .container .food-name h3,
+main .edit-menu details .food-items .food-item form .container .food-description h3,
+main .edit-menu details .food-items .food-item form .container .food-price h3,
+main .edit-menu details .food-items .food-item form .container .food-status h3,
+main .edit-menu details .food-items .food-item form .container .food-new-img h3,
+main .edit-menu details .food-items .food-item form .container .discount-container h3,
+main .edit-menu details .food-items .food-item form .container .food-quantity h3 {
   font-family: "Nunito";
   font-size: 14px;
   font-weight: 700;
