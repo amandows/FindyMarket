@@ -1065,7 +1065,7 @@ h6 {
 .body-container .carts .form-container form .banks_link::-webkit-scrollbar {
   width: 0;
 }
-.body-container .carts .form-container form .banks_link a {
+.body-container .carts .form-container form .banks_link button {
   min-width: 40%;
   display: flex;
   flex-direction: column;
@@ -1082,7 +1082,7 @@ h6 {
   justify-content: flex-end;
   z-index: 5;
 }
-.body-container .carts .form-container form .banks_link a img {
+.body-container .carts .form-container form .banks_link button img {
   position: absolute;
   top: 0;
   left: 0;
@@ -1094,7 +1094,7 @@ h6 {
   transition: all 0.3s ease 0s;
   z-index: 6;
 }
-.body-container .carts .form-container form .banks_link a .bank_name {
+.body-container .carts .form-container form .banks_link button .bank_name {
   position: relative;
   font-family: "Raleway";
   font-size: clamp(10px, 3vw, 16px);
@@ -1106,7 +1106,7 @@ h6 {
   color: #fff;
   z-index: 8;
 }
-.body-container .carts .form-container form .banks_link a .gradient {
+.body-container .carts .form-container form .banks_link button .gradient {
   opacity: 80%;
   position: absolute;
   top: 0;

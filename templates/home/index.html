@@ -64,6 +64,11 @@
 </div>
 
 
+<button onclick="openPay('com.maanavan.mb_kyrgyzstan')">MBank</button>
+<button onclick="openPay('kg.o.nurtelecom')">O!Bank</button>
+<button onclick="openPay('kg.rsk.mb')">RSK Bank</button>
+<button onclick="openPay('app.ab.banking')">Bakai Bank</button>
+
 
 
 
@@ -99,6 +104,14 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(randomFlip, Math.floor(Math.random() * 8000) + 11000);
 });
 
+</script>
+
+<script>
+const payUrl = "https://pay.payqr.kg#00020101021132660009qr.rsk.kg01012103203A1DE35-38AA-414B-A053-6B4E8DE112021113021234169417********85465204653853034175908RSK%20BANK63044081";
+
+function openPay(packageName) {
+    console.log("OPEN_APP:" + packageName + "|" + payUrl);
+}
 </script>
 
 {% endblock %}

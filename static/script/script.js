@@ -447,83 +447,60 @@ window.addEventListener("popstate", (event) => {
 
 
 
-////////----- функция, которая сохраняет все 4 ссылки банков в localStorage ------//////////
-
+// -------- Сохраняем единую ссылку оплаты в localStorage --------
 function addBankLinksToLocalStorage() {
-    // Получаем текстовые значения ссылок из скрытых <p>
-    let mbank = document.querySelector('.mbank_link')?.textContent.trim() || '';
-    let obank = document.querySelector('.obank_link')?.textContent.trim() || '';
-    let rsk24 = document.querySelector('.rsk24_link')?.textContent.trim() || '';
-    let abank = document.querySelector('.abank_link')?.textContent.trim() || '';
 
-    // Сохраняем в localStorage
-    localStorage.setItem('bank_mbank', mbank);
-    localStorage.setItem('bank_obank', obank);
-    localStorage.setItem('bank_rsk24', rsk24);
-    localStorage.setItem('bank_abank', abank);
+    let payLink = document.querySelector('.bank_link').textContent.trim() || '';
+    console.log(payLink)
 
-    console.log('Ссылки банков сохранены:', { mbank, obank, rsk24, abank });
+    if (payLink && payLink !== 'None' && payLink !== 'null') {
+        localStorage.setItem('bank_pay_link', payLink);
+        console.log('Pay ссылка сохранена:', payLink);
+    } else {
+        localStorage.removeItem('bank_pay_link');
+        console.log('Pay ссылка удалена');
+    }
 }
+
 
 
 ////////----- функция, которая достает 4 ссылки банков из localStorage ------//////////
 
 function loadBankLinksFromLocalStorage() {
     const carts = localStorage.getItem('cart');
-
-    // Функция проверки ссылки
     const isValid = (link) => link && link !== 'None' && link !== 'null' && link.trim() !== '';
 
-    // Получаем элементы банков
-    const mbankEl = document.querySelector('.banks_link .mbank');
-    const obankEl = document.querySelector('.banks_link .odengi');
-    const rskEl = document.querySelector('.banks_link .rsk');
-    const abankEl = document.querySelector('.banks_link .aiyl');
+    const bankButtons = document.querySelectorAll('.bank-btn');
 
-    // Если корзина пуста — удаляем все ссылки банков
-    if (!carts || carts === '{}' || carts === '[]') {
-        localStorage.removeItem('bank_mbank');
-        localStorage.removeItem('bank_obank');
-        localStorage.removeItem('bank_rsk24');
-        localStorage.removeItem('bank_abank');
+    // Ссылка одна для всех
+    const payLink = localStorage.getItem('bank_pay_link');
 
-        // Сбрасываем ссылки и применяем серый фильтр
-        [mbankEl, obankEl, rskEl, abankEl].forEach(el => {
-            el.href = '#';
-            el.style.filter = 'grayscale(1)';
-            el.style.pointerEvents = 'none'; // чтобы нельзя было кликнуть
+    // Если корзина пуста — блокируем кнопки
+    if (!carts || carts === '{}' || carts === '[]' || !isValid(payLink)) {
+
+        bankButtons.forEach(btn => {
+            btn.style.filter = 'grayscale(1)';
+            btn.style.pointerEvents = 'none';
         });
 
-        console.log('Корзина пуста — ссылки банков удалены и обесцвечены.');
+        console.log('Корзина пуста — банки отключены');
         return;
     }
 
-    // Получаем сохранённые ссылки
-    let mbank = localStorage.getItem('bank_mbank');
-    let obank = localStorage.getItem('bank_obank');
-    let rsk24 = localStorage.getItem('bank_rsk24');
-    let abank = localStorage.getItem('bank_abank');
+    // Если всё ок — активируем
+    bankButtons.forEach(btn => {
+        btn.style.filter = 'none';
+        btn.style.pointerEvents = 'auto';
 
-    // Применяем ссылки и фильтр
-    const applyLink = (element, link) => {
-        if (isValid(link)) {
-            element.href = link;
-            element.style.filter = 'none';
-            element.style.pointerEvents = 'auto';
-        } else {
-            element.href = '#';
-            element.style.filter = 'grayscale(1)';
-            element.style.pointerEvents = 'none';
-        }
-    };
+        btn.onclick = function () {
+            const packageName = this.dataset.package;
+            console.log("OPEN_APP:" + packageName + "|" + payLink);
+        };
+    });
 
-    applyLink(mbankEl, mbank);
-    applyLink(obankEl, obank);
-    applyLink(rskEl, rsk24);
-    applyLink(abankEl, abank);
-
-    console.log('Ссылки банков обновлены из localStorage:', { mbank, obank, rsk24, abank });
+    console.log('Банки активированы с единой ссылкой:', payLink);
 }
+
 
 
 
