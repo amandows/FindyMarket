@@ -31,6 +31,7 @@ AUTH_USER_MODEL = 'account.CustomUser'
 
 
 INSTALLED_APPS = [
+    'taxi_del',
     'account',
     'basis',
     'home',

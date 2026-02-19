@@ -233,6 +233,28 @@
             <!-- <button id="open2GisButton">Открыть маршрут в 2ГИС</button> -->
         </div>
     </div>
+
+
+    <!-- Модальное окно заказа -->
+<div id="orderModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Информация о заказе</h2>
+    <p><strong>Водитель:</strong> <span class="driver_name"></span></p>
+    <p><strong>Машина:</strong> <span class="vehicle_info"></span></p>
+    <p><strong>Статус заказа:</strong> <span class="order_status">В пути</span></p>
+
+    <hr>
+
+    <h3>Жалоба / комментарий</h3>
+    <textarea class="complaint_text" placeholder="Введите жалобу или комментарий"></textarea>
+    <button class="submit_complaint">Отправить жалобу</button>
+  </div>
+</div>
+
+
+
+
     <script src="https://mapgl.2gis.com/api/js/v1"></script>
     <script src="https://unpkg.com/@2gis/mapgl-directions@^2/dist/directions.js"></script>
     <script src="/static/script/2_gis.js"></script>

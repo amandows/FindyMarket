@@ -194,3 +194,4 @@ class Order(models.Model):
 # amandows@mail.ru citizenfour0
 # pip install
 #         android:networkSecurityConfig="@xml/network_security_config"
+# pip install channels channels_redis
