@@ -1149,8 +1149,9 @@ h6 {
                             @include fontdescription();
                             display: inline-block;
                             z-index: 3;
-                            padding-left: 10px;
                             margin-bottom: 10px;
+                            margin-left: 10px;
+                            text-align: left;
                             color: #fff;
                             z-index: 8;
                         }

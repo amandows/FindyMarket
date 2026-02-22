@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from account.models import CustomUser, Courier, UserRating
 from basis.models import Food_menu, Order, FoodCategory
+from taxi_del.models import OrderTaxi, Driver
 
 @admin.register(Food_menu)
 class FoodMenuAdmin(admin.ModelAdmin):
@@ -95,3 +96,80 @@ class UserRatingAdmin(admin.ModelAdmin):
 
     # Удобный выбор пользователей (особенно если их тысячи)
     raw_id_fields = ('user', 'rated_by')
+
+
+@admin.register(Driver)
+class DriverAdmin(admin.ModelAdmin):
+    # Что отображаем в списке
+    list_display = ('user', 'vehicle_number', 'car_class', 'status', 'rating', 'balance', 'is_active')
+
+    # По каким полям можно фильтровать (правая колонка)
+    list_filter = ('status', 'car_class', 'role', 'is_active')
+
+    # Поиск (по логину юзера, номеру авто или телефону)
+    search_fields = ('user__username', 'user__first_name', 'vehicle_number', 'phone')
+
+    # Поля только для чтения (рейтинг и баланс лучше менять через логику, а не руками)
+    readonly_fields = ('rating', 'trips_count', 'created_at')
+
+    # Группировка полей в форме редактирования
+    fieldsets = (
+        ("Личные данные", {
+            'fields': ('user', 'phone', 'role', 'is_active')
+        }),
+        ("Автомобиль", {
+            'fields': ('vehicle_model', 'vehicle_number', 'vehicle_color', 'car_class')
+        }),
+        ("Статус и Локация", {
+            'fields': ('status', 'latitude', 'longitude', 'last_location_update', 'online_at')
+        }),
+        ("Финансы и Рейтинг", {
+            'fields': ('balance', 'rating', 'trips_count', 'bank_link')
+        }),
+    )
+
+
+@admin.register(OrderTaxi)
+class OrderTaxiAdmin(admin.ModelAdmin):
+    # Основные поля в списке
+    list_display = ('order_number', 'customer', 'driver', 'status', 'car_class', 'price', 'created_at')
+
+    # Фильтры
+    list_filter = ('status', 'car_class', 'payment_type', 'created_at')
+
+    # Поиск по номеру заказа или именам участников
+    search_fields = ('order_number', 'customer__username', 'driver__user__username', 'pickup_address')
+
+    # Запрещаем редактировать ключевые поля вручную
+    readonly_fields = (
+    'order_number', 'created_at', 'updated_at', 'accepted_at', 'arrived_at', 'started_at', 'finished_at')
+
+    # Организация интерфейса
+    fieldsets = (
+        ("Основная информация", {
+            'fields': ('order_number', 'status', 'order_type', 'car_class')
+        }),
+        ("Участники", {
+            'fields': ('customer', 'driver')
+        }),
+        ("Маршрут", {
+            'fields': ('pickup_address', ('pickup_latitude', 'pickup_longitude'),
+                       'destination_address', ('destination_latitude', 'destination_longitude'))
+        }),
+        ("Оплата", {
+            'fields': ('price', 'tips', 'payment_type')
+        }),
+        ("Таймлайн и Отмена", {
+            'fields': (
+            'created_at', 'accepted_at', 'arrived_at', 'started_at', 'finished_at', 'canceled_at', 'cancel_reason'),
+            'classes': ('collapse',)  # Скрываем по умолчанию для чистоты интерфейса
+        }),
+        ("Отзыв", {
+            'fields': ('rating', 'review_text')
+        }),
+    )
+
+    # Метод для автоматической подстановки иконок или цвета в будущем (опционально)
+    def save_model(self, request, obj, form, change):
+        # Здесь можно добавить логику, если что-то нужно сделать при сохранении из админки
+        super().save_model(request, obj, form, change)

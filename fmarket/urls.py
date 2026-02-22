@@ -19,13 +19,19 @@ from basis_admin.views import toggle_user_status
 from courier.views import courier_page, register_or_login, get_courier_orders, pickup_order, get_orders_by_ids, courier_update_order_status
 from shop_list.views import user_list
 from dynamic_search.views import search_food_menu
-from taxi_del.views import taxi
+from taxi_del.views import taxi, CreateOrderView, OrderStatusView, CancelOrderView
 from taxi_driver.views import taxi_driver
 from my_orders.views import my_orders, update_order_result_ajax, my_orders_ajax
 from firebase_push.views import save_fcm_token
 
 
 urlpatterns = [
+    # Маршрут для создания заказа: /api/orders/create/
+    path('api/orders/create/', CreateOrderView.as_view(), name='order-create'),
+    # Маршрут для проверки статуса: /api/orders/15/status/
+    path('api/orders/<int:order_id>/status/', OrderStatusView.as_view(), name='order-status'),
+    # Новый маршрут для отмены
+    path('api/orders/<int:order_id>/cancel/', CancelOrderView.as_view(), name='order-cancel'),
     path('save-fcm-token/', save_fcm_token, name='save_fcm_token'),
     path('my-orders/', my_orders, name='my_orders'),
     path('my-orders-ajax/', my_orders_ajax, name='my_orders_ajax'),

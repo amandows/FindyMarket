@@ -1,3 +1,12 @@
+// Ключ для хранения в localStorage
+const LS_ORDER_KEY = "active_taxi_order";
+
+// --- 1. ПРОВЕРКА ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ---
+document.addEventListener("DOMContentLoaded", function () {
+
+});
+
+
 window.addEventListener("load", function () {
     document.getElementById("preloader").style.display = "none";
 });
@@ -901,12 +910,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const orderTaxiGoCancelBtn = document.querySelector(".order_taxi_cancel")
 
     function removeTaxiDriversMarkers() {
-    taxiDriverMarkers.forEach(marker => {
-        marker.destroy();
-    });
+        taxiDriverMarkers.forEach(marker => {
+            marker.destroy();
+        });
 
-    taxiDriverMarkers = [];
-}
+        taxiDriverMarkers = [];
+    }
 
 
 
@@ -925,27 +934,295 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
+
+    //*********** создание заказа такси доставки ******////////////
+
+    let orderPollingInterval = null; // Переменная для хранения таймера опроса
+    let currentOrderId = null; // ID текущего заказа
+
     document.querySelector(".order_taxi_go").addEventListener("click", function () {
-        // Удаляем значения из localStorage
-        // localStorage.removeItem("point_a");
-        // localStorage.removeItem("point_b");
         const pointA = JSON.parse(localStorage.getItem('point_a'));
-        console.log(pointA.lon + pointA.lat + " ETO POINT A")
+        const pointB = JSON.parse(localStorage.getItem('point_b'));
+
+        if (!pointA || !pointB) {
+            alert("Пожалуйста, выберите точку А и точку Б");
+            return;
+        }
+
+        // 1. Получаем выбранный тариф и цену
+        const activeCategory = document.querySelector('.taxi_category.active, .delivery_category.active');
+        const carClass = activeCategory ? activeCategory.id : 'economy';
+        const priceText = activeCategory.querySelector('.price').innerText;
+        const priceValue = parseFloat(priceText.replace(/[^0-9.]/g, '')); // Извлекаем только число
+
+        // 2. Визуальные эффекты (твои функции)
         searchWaveMArker(pointA.lat, pointA.lon);
-        getCenter(pointA.lon, pointA.lat, 15.5)
-        // placeTaxiDriversMarkers()
-        taxiOrderGo()
-        // console.log("point_a и point_b удалены из localStorage"); // Проверка в консоли
+        getCenter(pointA.lon, pointA.lat, 15.5);
+        taxiOrderGo();
+
+        // 3. Отправляем данные на сервер
+        createOrderOnServer({
+            pointA,
+            pointB,
+            carClass,
+            price: priceValue,
+            orderType: activeCategory.classList.contains('delivery_category') ? 'delivery' : 'taxi'
+        });
     });
 
-    orderTaxiGoCancelBtn.addEventListener("click", function () {
-        searchWave.destroy();
-        taxiOrderCancel()
-        // removeTaxiDriversMarkers()
-        // console.log("point_a и point_b удалены из localStorage"); // Проверка в консоли
+    // Кнопка отмены
+    document.querySelector(".order_taxi_cancel").addEventListener("click", function () {
+        if (searchWave) searchWave.destroy();
+        stopPolling(); // Останавливаем пинг-понг
+
+        if (currentOrderId) {
+            cancelOrderOnServer(currentOrderId);
+        }
+
+        taxiOrderCancel();
     });
+
+    // Функция создания заказа
+    async function createOrderOnServer(data) {
+        try {
+            const response = await fetch('/api/orders/create/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Не забудь про CSRF
+                },
+                body: JSON.stringify({
+                    pickup_address: data.pointA.full_address,
+                    pickup_latitude: data.pointA.lat,
+                    pickup_longitude: data.pointA.lon,
+                    destination_address: data.pointB.full_address,
+                    destination_latitude: data.pointB.lat,
+                    destination_longitude: data.pointB.lon,
+                    car_class: data.carClass,
+                    price: data.price,
+                    order_type: data.orderType
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.id) {
+                currentOrderId = result.id;
+                startPolling(result.id); // Начинаем Пинг-Понг
+            }
+        } catch (error) {
+            console.error("Ошибка при создании заказа:", error);
+        }
+    }
+
+    // Функция отмены заказа
+    async function cancelOrderOnServer(orderId) {
+        try {
+            const response = await fetch(`/api/orders/${orderId}/cancel/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ reason: "Отменено пользователем" })
+            });
+
+            if (response.ok) {
+                console.log("Заказ успешно отменен на сервере");
+                currentOrderId = null; // Сбрасываем ID, так как заказа больше нет
+            } else {
+                console.error("Не удалось отменить заказ");
+            }
+        } catch (error) {
+            console.error("Ошибка при запросе отмены:", error);
+        }
+    }
+
+    // --- 2. ПОИСК ВОДИТЕЛЯ (PENDING -> ACCEPTED) ---
+    function startPolling(orderId) {
+        orderPollingInterval = setInterval(async () => {
+            try {
+                const response = await fetch(`/api/orders/${orderId}/status/`);
+                const data = await response.json();
+
+                if (data.status === 'accepted') {
+                    stopPolling();
+
+                    // Собираем все данные для сохранения
+                    const orderData = {
+                        order_id: orderId,
+                        order_number: data.order_number,
+                        driver_name: data.driver_name,
+                        driver_photo: data.driver_photo,
+                        rating: data.rating,
+                        vehicle_model: data.vehicle_model,
+                        vehicle_number: data.vehicle_number,
+                        vehicle_color: data.vehicle_color,
+                        bank_link: data.bank_link,
+                        phone: data.phone,
+                        status: data.status
+                    };
+
+                    // Сохраняем в LS
+                    localStorage.setItem(LS_ORDER_KEY, JSON.stringify(orderData));
+
+                    // Открываем модалку
+                    openOrderStatusModal(orderData);
+
+                    // Запускаем мониторинг (чтобы узнать, когда заказ завершится)
+                    startActiveOrderPolling(orderId);
+                }
+            } catch (e) {
+                console.error("Ошибка опроса поиска:", e);
+            }
+        }, 3000);
+    }
+
+    // --- 3. МОНИТОРИНГ УЖЕ ПРИНЯТОГО ЗАКАЗА ---
+    // Словарь статусов для отображения пользователю
+    const statusTranslations = {
+        "pending": "Поиск водителя...",
+        "accepted": "Водитель принял заказ",
+        "on_way": "Водитель едет к вам",
+        "arrived": "Водитель ожидает на месте",
+        "in_progress": "Вы в пути",
+        "completed": "Поездка завершена",
+        "canceled": "Заказ отменен"
+    };
+
+    function startActiveOrderPolling(orderId) {
+        stopPolling();
+
+        orderPollingInterval = setInterval(async () => {
+            try {
+                const response = await fetch(`/api/orders/${orderId}/status/`);
+                const data = await response.json();
+
+                // 1. Получаем текущие данные из LocalStorage
+                let savedOrder = JSON.parse(localStorage.getItem(LS_ORDER_KEY));
+
+                // 2. Проверка на завершение/отмену
+                if (data.status === 'completed' || data.status === 'canceled') {
+                    console.log("Заказ завершен или отменен сервером");
+                    finishOrderUI();
+
+                    // Используем перевод для алерта
+                    const finalStatus = statusTranslations[data.status] || "Заказ завершен";
+                    alert(finalStatus);
+                    return;
+                }
+
+                // 3. Обновляем LocalStorage и UI, если статус изменился
+                // Добавляем проверку: если в сохраненном заказе вообще нет статуса, тоже обновляем
+                if (savedOrder && (!savedOrder.status || savedOrder.status !== data.status)) {
+                    console.log(`Статус изменился: ${savedOrder.status} -> ${data.status}`);
+
+                    // Обновляем объект данных в памяти (сохраняем технический ключ "on_way")
+                    savedOrder.status = data.status;
+                    localStorage.setItem(LS_ORDER_KEY, JSON.stringify(savedOrder));
+
+                    // Обновляем текст в модалке через переводчик
+                    const statusElement = document.querySelector("#modal_status");
+                    if (statusElement) {
+                        // Берем красивый текст из словаря по ключу
+                        statusElement.innerText = statusTranslations[data.status] || data.status;
+
+                        // Дополнительный визуальный эффект: если водитель на месте, выделим цветом
+                        if (data.status === 'arrived') {
+                            statusElement.style.color = "#ffc107"; // Желтый/Золотой
+                        } else if (data.status === 'in_progress') {
+                            statusElement.style.color = "#28a745"; // Зеленый
+                        } else {
+                            statusElement.style.color = ""; // Сброс цвета
+                        }
+                    }
+                }
+
+            } catch (e) {
+                console.error("Ошибка мониторинга активного заказа:", e);
+            }
+        }, 5000);
+    }
+
+    // --- 4. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
+    function openOrderStatusModal(data) {
+        const modal = document.querySelector(".order_status");
+        if (!modal) return;
+
+        const photoImg = document.getElementById("modal_driver_photo");
+        if (photoImg && data.driver_photo) {
+            photoImg.src = data.driver_photo;
+        }
+        const statusElement = document.querySelector("#modal_status");
+        if (statusElement) {
+            // Берем значение из словаря по ключу (например, data.status = "on_way")
+            // Если ключа в словаре нет, выведет само значение как запасной вариант
+            statusElement.innerText = statusTranslations[data.status] || data.status;
+        }
+        // Заполняем данные в модалке (убедись, что у тебя есть эти ID в HTML)
+        if (document.querySelector("#modal_order_number")) document.querySelector("#modal_order_number").innerText = data.order_number;
+        if (document.querySelector("#modal_driver_name")) document.querySelector("#modal_driver_name").innerText = data.driver_name;
+        if (document.querySelector("#modal_vehicle")) document.querySelector("#modal_vehicle").innerText = `${data.vehicle_color} ${data.vehicle_model}`;
+        if (document.querySelector("#modal_number")) document.querySelector("#modal_number").innerText = data.vehicle_number;
+        if (document.querySelector("#modal_phone")) document.querySelector("#modal_phone").href = `tel:${data.phone}`;
+        if (document.querySelector("#modal_driver_rating")) document.querySelector("#modal_driver_rating").innerText = data.rating;
+        if (document.querySelector("#modal_driver_bank")) document.querySelector("#modal_driver_bank").innerText = data.bank_link;
+
+        modal.classList.add("actives"); // Показываем модалку
+        // Если есть анимация поиска — скрываем её
+        if (typeof taxiOrderCancel === "function") taxiOrderCancel();
+    }
+
+    // Функция для кнопки "Завершить" (на стороне клиента)
+    document.querySelector(".finish_order_btn")?.addEventListener("click", function () {
+        finishOrderUI();
+    });
+
+    function finishOrderUI() {
+        stopPolling();
+        localStorage.removeItem(LS_ORDER_KEY); // Очищаем LS
+        currentOrderId = null;
+        document.querySelector(".order_status").classList.remove("actives");
+        alert("Заказ завершен");
+    }
+
+    const savedOrder = JSON.parse(localStorage.getItem(LS_ORDER_KEY));
+    if (savedOrder) {
+        console.log("Найден активный заказ в локальном хранилище:", savedOrder);
+        currentOrderId = savedOrder.order_id;
+        openOrderStatusModal(savedOrder); // Открываем модалку с данными
+        startActiveOrderPolling(savedOrder.order_id); // Запускаем мониторинг статуса
+    }
+
+
+    function stopPolling() {
+        if (orderPollingInterval) {
+            clearInterval(orderPollingInterval);
+            orderPollingInterval = null;
+        }
+    }
+
+    // Вспомогательная функция для CSRF (стандарт для Django)
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
 });
+
+
+
 
 ///****функция для выбора категории такси или доставки */
 document.addEventListener("DOMContentLoaded", function () {
@@ -1023,6 +1300,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+// Выбор оплаты корзина
+document.addEventListener("DOMContentLoaded", function () {
+    const banksLink = document.querySelector(".banks_link");
+    const fileGroup = document.querySelector(".file-group");
+    const paymentButtons = document.querySelectorAll(".payment_buttons");
+    const paymentSelect = document.getElementById("payment");
+    const accordionTitle = document.querySelector(".accordion_title");
+    const accordionInput = document.getElementById("acc1"); // чекбокс аккордеона
+
+    paymentButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            // Убираем 'active' у всех кнопок
+            paymentButtons.forEach(btn => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            // Меняем состояние в зависимости от типа
+            if (this.classList.contains("type_online")) {
+                paymentSelect.value = "Онлайн";
+                banksLink.classList.add("active");
+                // fileGroup.classList.add("active");
+                // banksLink.style.display = "flex";
+                accordionTitle.textContent = "Cпособ оплаты онлайн";
+            } else {
+                paymentSelect.value = "Наличными";
+                banksLink.classList.remove("active");
+                // fileGroup.classList.remove("active");
+                // banksLink.style.display = "none";
+                accordionTitle.textContent = "Cпособ оплаты наличными";
+            }
+
+            // ✅ Закрываем аккордеон (снимаем галочку с чекбокса)
+            if (accordionInput && accordionInput.checked) {
+                setTimeout(() => { accordionInput.checked = false; }, 500);
+                // accordionInput.checked = false;
+            }
+        });
+    });
+});
 
 
 

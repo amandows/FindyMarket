@@ -406,7 +406,6 @@ main .step_one {
   background-color: #fff;
   border-radius: 20px 20px 0px 0px;
   grid-gap: 15px;
-  /* Анимации */
 }
 main .step_one .findy_title {
   position: relative;
@@ -472,12 +471,13 @@ main .step_one .radar-btn {
   grid-column-end: 2;
   grid-row-start: 2;
   grid-row-end: 4;
-  /* Волны радара */
-  /* Вращающийся луч */
 }
 main .step_one .radar-btn .label {
   z-index: 10;
   pointer-events: none;
+}
+main .step_one .radar-btn {
+  /* Волны радара */
 }
 main .step_one .radar-btn .rings {
   position: absolute;
@@ -495,6 +495,9 @@ main .step_one .radar-btn .rings::before, main .step_one .radar-btn .rings::afte
 }
 main .step_one .radar-btn .rings::after {
   animation-delay: 0.8s;
+}
+main .step_one .radar-btn {
+  /* Вращающийся луч */
 }
 main .step_one .radar-btn .sweep {
   position: absolute;
@@ -538,6 +541,9 @@ main .step_one .options {
   align-items: center;
   box-shadow: 0px 5px 10px rgba(8, 8, 8, 0.3764705882);
   background: url("/static/icons/settings.png") center/cover no-repeat;
+}
+main .step_one {
+  /* Анимации */
 }
 @keyframes ring-wave {
   0% {

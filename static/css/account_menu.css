@@ -235,7 +235,6 @@
   align-items: start;
   justify-content: space-between;
   width: 68%;
-  /* Добавьте дополнительные стили для кроссбраузерной совместимости */
 }
 .user-products .food .descrition-container .price-container {
   position: relative;
@@ -290,6 +289,9 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.user-products .food .descrition-container {
+  /* Добавьте дополнительные стили для кроссбраузерной совместимости */
 }
 @supports (-webkit-line-clamp: 2) {
   .user-products .food .descrition-container .food_name {
@@ -416,8 +418,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.65);
-  -webkit-backdrop-filter: blur(6px);
-          backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   justify-content: center;
   align-items: center;
   z-index: 2000;

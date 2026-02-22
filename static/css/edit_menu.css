@@ -8,8 +8,7 @@ main .global-loader {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;

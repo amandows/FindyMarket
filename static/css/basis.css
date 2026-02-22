@@ -189,8 +189,7 @@ h6 {
   height: 100vh;
   inset: 0;
   background: rgba(255, 255, 255, 0.95);
-  -webkit-backdrop-filter: blur(6px);
-          backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   display: none; /* показывать только при необходимости */
   align-items: center;
   justify-content: center;
@@ -452,8 +451,7 @@ h6 {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
-  -webkit-backdrop-filter: blur(2px);
-          backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   transition: opacity 0.3s ease;
 }
 .error-modal .modal-content {
@@ -597,7 +595,6 @@ h6 {
   align-items: start;
   justify-content: space-between;
   width: 68%;
-  /* Добавьте дополнительные стили для кроссбраузерной совместимости */
 }
 .body-container .carts .cart-products .food .descrition-container .price-container {
   position: relative;
@@ -648,6 +645,9 @@ h6 {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.body-container .carts .cart-products .food .descrition-container {
+  /* Добавьте дополнительные стили для кроссбраузерной совместимости */
 }
 @supports (-webkit-line-clamp: 2) {
   .body-container .carts .cart-products .food .descrition-container .food_name {
@@ -721,7 +721,6 @@ h6 {
   flex-direction: column;
   align-items: center;
   gap: clamp(10px, 3.5vw, 20px);
-  /* reset input */
 }
 .body-container .carts .form-container form .form__group {
   position: relative;
@@ -817,14 +816,6 @@ h6 {
   transition: 0.2s;
   color: #5e5e5e;
 }
-.body-container .carts .form-container form .form__field:focus {
-  padding-bottom: 6px;
-  font-weight: 500;
-  border-width: 3px;
-  -o-border-image: linear-gradient(to right, #11998e, #38ef7d);
-     border-image: linear-gradient(to right, #11998e, #38ef7d);
-  border-image-slice: 1;
-}
 .body-container .carts .form-container form .form__field:focus ~ .form__label {
   position: absolute;
   top: 0;
@@ -833,6 +824,17 @@ h6 {
   font-size: clamp(10px, 4vw, 20px);
   color: #11998e;
   font-weight: 600;
+}
+.body-container .carts .form-container form .form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 500;
+  border-width: 3px;
+  -o-border-image: linear-gradient(to right, #11998e, #38ef7d);
+     border-image: linear-gradient(to right, #11998e, #38ef7d);
+  border-image-slice: 1;
+}
+.body-container .carts .form-container form {
+  /* reset input */
 }
 .body-container .carts .form-container form .form__field:required, .body-container .carts .form-container form .form__field:invalid {
   box-shadow: none;
@@ -1101,8 +1103,9 @@ h6 {
   font-weight: 600;
   display: inline-block;
   z-index: 3;
-  padding-left: 10px;
   margin-bottom: 10px;
+  margin-left: 10px;
+  text-align: left;
   color: #fff;
   z-index: 8;
 }
