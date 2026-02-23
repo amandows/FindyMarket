@@ -983,6 +983,20 @@ document.addEventListener("DOMContentLoaded", function () {
         taxiOrderCancel();
     });
 
+    // Кнопка отмены
+    document.querySelector(".cancell_order_btn").addEventListener("click", function () {
+        if (searchWave) searchWave.destroy();
+        stopPolling(); // Останавливаем пинг-понг
+
+        if (currentOrderId) {
+            cancelOrderOnServer(currentOrderId);
+        }
+
+        taxiOrderCancel();
+        finishOrderUI()
+    });
+
+
     // Функция создания заказа
     async function createOrderOnServer(data) {
         try {
@@ -1099,43 +1113,54 @@ document.addEventListener("DOMContentLoaded", function () {
                 const response = await fetch(`/api/orders/${orderId}/status/`);
                 const data = await response.json();
 
-                // 1. Получаем текущие данные из LocalStorage
                 let savedOrder = JSON.parse(localStorage.getItem(LS_ORDER_KEY));
 
-                // 2. Проверка на завершение/отмену
-                if (data.status === 'completed' || data.status === 'canceled') {
-                    console.log("Заказ завершен или отменен сервером");
-                    finishOrderUI();
+                // Находим кнопки в DOM
+                const cancelBtn = document.querySelector(".cancell_order_btn");
+                const finishBtn = document.querySelector(".finish_order_btn");
+                const statusElement = document.querySelector("#modal_status");
+                const accordion = document.querySelector(".accordion");
+                const jaloba = document.querySelector(".jaloba");
 
-                    // Используем перевод для алерта
-                    const finalStatus = statusTranslations[data.status] || "Заказ завершен";
-                    alert(finalStatus);
-                    return;
-                }
-
-                // 3. Обновляем LocalStorage и UI, если статус изменился
-                // Добавляем проверку: если в сохраненном заказе вообще нет статуса, тоже обновляем
-                if (savedOrder && (!savedOrder.status || savedOrder.status !== data.status)) {
+                // 1. Проверяем изменение статуса
+                if (savedOrder && (savedOrder.status !== data.status)) {
                     console.log(`Статус изменился: ${savedOrder.status} -> ${data.status}`);
 
-                    // Обновляем объект данных в памяти (сохраняем технический ключ "on_way")
                     savedOrder.status = data.status;
                     localStorage.setItem(LS_ORDER_KEY, JSON.stringify(savedOrder));
 
-                    // Обновляем текст в модалке через переводчик
-                    const statusElement = document.querySelector("#modal_status");
+                    // Обновляем текст статуса
                     if (statusElement) {
-                        // Берем красивый текст из словаря по ключу
                         statusElement.innerText = statusTranslations[data.status] || data.status;
+                    }
 
-                        // Дополнительный визуальный эффект: если водитель на месте, выделим цветом
-                        if (data.status === 'arrived') {
-                            statusElement.style.color = "#ffc107"; // Желтый/Золотой
-                        } else if (data.status === 'in_progress') {
-                            statusElement.style.color = "#28a745"; // Зеленый
-                        } else {
-                            statusElement.style.color = ""; // Сброс цвета
+                    // --- ЛОГИКА ПЕРЕКЛЮЧЕНИЯ КНОПОК ---
+
+                    // Если поездка началась, завершена или отменена водителем
+                    const isFinalOrProgress = ['in_progress', 'completed', 'canceled'].includes(data.status);
+
+                    if (isFinalOrProgress) {
+                        // Скрываем кнопку отмены
+                        if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
+                        // Показываем кнопку "Завершить"
+                        if (finishBtn) finishBtn.style.display = "block";
+                        if (accordion) accordion.style.display = "block";
+                        if (jaloba) jaloba.style.display = "block";
+
+                        // Цветовая индикация
+                        if (statusElement) {
+                            if (data.status === 'in_progress') statusElement.style.color = "#28a745"; // Зеленый
+                            if (data.status === 'completed') statusElement.style.color = "#007bff";   // Синий
+                            if (data.status === 'canceled') statusElement.style.color = "#dc3545";    // Красный
                         }
+
+                        // Если заказ завершен/отменен сервером, можно остановить опрос (поллинг), 
+                        // так как статус больше не изменится, ждем только клика юзера.
+                        if (data.status === 'completed' || data.status === 'canceled') {
+                            stopPolling();
+                        }
+                    } else if (data.status === 'arrived') {
+                        if (statusElement) statusElement.style.color = "#ffc107"; // Желтый
                     }
                 }
 
@@ -1150,17 +1175,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const modal = document.querySelector(".order_status");
         if (!modal) return;
 
+        // ... (ваш старый код заполнения данных: фото, имя, машина и т.д.)
         const photoImg = document.getElementById("modal_driver_photo");
-        if (photoImg && data.driver_photo) {
-            photoImg.src = data.driver_photo;
-        }
+        if (photoImg && data.driver_photo) photoImg.src = data.driver_photo;
+
         const statusElement = document.querySelector("#modal_status");
         if (statusElement) {
-            // Берем значение из словаря по ключу (например, data.status = "on_way")
-            // Если ключа в словаре нет, выведет само значение как запасной вариант
             statusElement.innerText = statusTranslations[data.status] || data.status;
         }
-        // Заполняем данные в модалке (убедись, что у тебя есть эти ID в HTML)
+
+        // Заполнение остальных полей
         if (document.querySelector("#modal_order_number")) document.querySelector("#modal_order_number").innerText = data.order_number;
         if (document.querySelector("#modal_driver_name")) document.querySelector("#modal_driver_name").innerText = data.driver_name;
         if (document.querySelector("#modal_vehicle")) document.querySelector("#modal_vehicle").innerText = `${data.vehicle_color} ${data.vehicle_model}`;
@@ -1169,14 +1193,44 @@ document.addEventListener("DOMContentLoaded", function () {
         if (document.querySelector("#modal_driver_rating")) document.querySelector("#modal_driver_rating").innerText = data.rating;
         if (document.querySelector("#modal_driver_bank")) document.querySelector("#modal_driver_bank").innerText = data.bank_link;
 
-        modal.classList.add("actives"); // Показываем модалку
-        // Если есть анимация поиска — скрываем её
+        // --- НОВАЯ ЛОГИКА ПРОВЕРКИ КНОПОК ПРИ ОТКРЫТИИ ---
+        const cancelBtn = document.querySelector(".cancell_order_btn");
+        const finishBtn = document.querySelector(".finish_order_btn");
+        const accordion = document.querySelector(".accordion");
+        const jaloba = document.querySelector(".jaloba");
+
+        // Список статусов, при которых заказ нельзя отменить, но нужно завершить
+        const finalOrProgress = ['in_progress', 'completed', 'canceled'].includes(data.status);
+
+        if (finalOrProgress) {
+            // Скрываем отмену, показываем завершение
+            if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
+            if (finishBtn) finishBtn.style.display = "block";
+            if (accordion) accordion.style.display = "block";
+            if (jaloba) jaloba.style.display = "block";
+
+            // Устанавливаем цвета для восстановленного состояния
+            if (statusElement) {
+                if (data.status === 'in_progress') statusElement.style.color = "#28a745";
+                if (data.status === 'completed') statusElement.style.color = "#007bff";
+                if (data.status === 'canceled') statusElement.style.color = "#dc3545";
+            }
+        } else {
+            // Статусы ожидания (pending, accepted, arrived)
+            if (cancelBtn) cancelBtn.classList.add('cancell_order_btn_active');
+            if (finishBtn) finishBtn.style.display = "none";
+            if (statusElement && data.status === 'arrived') statusElement.style.color = "#ffc107";
+        }
+
+        modal.classList.add("actives");
+
         if (typeof taxiOrderCancel === "function") taxiOrderCancel();
     }
 
     // Функция для кнопки "Завершить" (на стороне клиента)
-    document.querySelector(".finish_order_btn")?.addEventListener("click", function () {
-        finishOrderUI();
+    document.querySelector('.finish_order_btn').addEventListener('click', () => {
+        finishOrderUI(); // Ваша функция, которая закрывает модалку и чистит LS
+        location.reload(); // Опционально, для обновления страницы
     });
 
     function finishOrderUI() {

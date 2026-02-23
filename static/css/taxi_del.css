@@ -182,46 +182,52 @@ h6 {
   position: fixed;
   z-index: 9998;
   background: #f5f5f5;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .order_status .order_status_content {
   width: 95%;
-  height: 100%;
+  min-height: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   padding: 20px 0px;
   gap: 15px;
 }
 .order_status .order_status_content #modal_order_number {
   text-align: left;
   font-family: "Nunito";
-  font-size: clamp(8px, 4vw, 16px);
+  font-size: clamp(8px, 3.5vw, 16px);
   color: #ffffff;
   font-weight: 700;
-  padding: 5px 10px;
-  margin-bottom: 15px;
-  background: #215ece;
+  padding: 5px 5%;
+  margin-bottom: 0px;
 }
 .order_status .order_status_content #modal_order_number::before {
-  content: "Заказ № ";
+  content: "№ ";
 }
-.order_status .order_status_content #modal_status {
-  font-family: "Nunito";
-  font-size: clamp(8px, 4.5vw, 18px);
-  color: #008006;
-  font-weight: 700;
-  margin: 0 auto;
-  padding: 0 0 30px 0;
+.order_status .order_status_content .driver_content {
+  width: 100%;
+  height: 50%;
+  position: relative;
+  padding: 10px 0;
+  background: url("/static/icons/car_wallpaper.jpg") top/cover no-repeat;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
-.order_status .order_status_content .driver_photo_container {
-  width: clamp(120px, 30vw, 150px);
-  height: clamp(120px, 30vw, 150px);
+.order_status .order_status_content .driver_content .driver_photo_container {
+  width: clamp(80px, 30vw, 150px);
+  height: clamp(80px, 30vw, 150px);
   position: relative;
   overflow: hidden;
   border-radius: 50%;
   margin: 0 auto;
+  border: 2px solid #b3b3b3;
 }
-.order_status .order_status_content .driver_photo_container img {
+.order_status .order_status_content .driver_content .driver_photo_container img {
   position: absolute;
   top: 0;
   left: 0;
@@ -230,7 +236,14 @@ h6 {
   -o-object-fit: cover;
      object-fit: cover;
 }
-.order_status .order_status_content #modal_driver_rating {
+.order_status .order_status_content .driver_content #modal_driver_name {
+  font-family: "Nunito";
+  font-size: clamp(6px, 6vw, 20px);
+  color: #fdfdfd;
+  font-weight: 800;
+  margin: 0 auto;
+}
+.order_status .order_status_content .driver_content #modal_driver_rating {
   font-family: "Nunito";
   font-size: clamp(8px, 4vw, 16px);
   color: #ffffff;
@@ -240,61 +253,69 @@ h6 {
   border-radius: 5px;
   margin: 0 auto;
 }
-.order_status .order_status_content #modal_driver_rating::before {
+.order_status .order_status_content .driver_content #modal_driver_rating::before {
   content: "Рейтинг ";
 }
-.order_status .order_status_content #modal_driver_name {
+.order_status .order_status_content .driver_content #modal_status {
   font-family: "Nunito";
-  font-size: clamp(8px, 6vw, 20px);
-  color: #080808;
-  font-weight: 800;
+  font-size: clamp(8px, 4.5vw, 18px);
+  color: #008006;
+  font-weight: 700;
   margin: 0 auto;
+  padding: 0 0 15px 0;
 }
-.order_status .order_status_content .car_content {
+.order_status .order_status_content .driver_content .car_content {
   width: 100%;
-  padding: 0 0 30% 0;
-  overflow: hidden;
-  position: relative;
-  border-radius: 15px;
-}
-.order_status .order_status_content .car_content img {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  bottom: 5%;
+  right: 5%;
 }
-.order_status .order_status_content .car_content .car_info {
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  transform: translate(-120%, -50%);
+.order_status .order_status_content .driver_content .car_content .car_info {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   gap: 15px;
 }
-.order_status .order_status_content .car_content .car_info #modal_vehicle {
+.order_status .order_status_content .driver_content .car_content .car_info #modal_vehicle {
   white-space: nowrap;
-  font-family: "Nunito";
-  font-size: clamp(8px, 4.5vw, 20px);
+  font-family: "Montserrat";
+  font-size: clamp(8px, 4vw, 20px);
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 500;
 }
-.order_status .order_status_content .car_content .car_info #modal_number {
+.order_status .order_status_content .driver_content .car_content .car_info #modal_number {
   white-space: nowrap;
   font-family: "Nunito";
-  font-size: clamp(8px, 4vw, 18px);
-  color: #080808;
-  font-weight: 700;
-  background-color: #ececec;
-  border: 1px solid #ececec;
-  padding: 5px 10px;
+  font-size: clamp(8px, 3.7vw, 18px);
+  color: #f7f7f7;
+  font-weight: 600;
+  padding: 5px 7px;
   border-radius: 5px;
+  border: 1px solid #fff;
+}
+.order_status .order_status_content .buttons_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.order_status .order_status_content .buttons_container button {
+  width: 33.3%;
+  padding: 1.15em 1.45em 1.15em 1.45em;
+  background-color: #0e0e0e;
+  font-family: "Nunito";
+  font-size: clamp(8px, 3.8vw, 18px);
+  font-weight: 600;
+  color: #fff;
+}
+.order_status .order_status_content .buttons_container .grade {
+  border-radius: 12px 0 0 12px;
+}
+.order_status .order_status_content .buttons_container .complaint {
+  border-radius: 0 12px 12px 0;
 }
 .order_status .order_status_content .jaloba {
+  display: none;
   width: 100%;
   height: clamp(50px, 13vw, 80px);
   padding: 5px 10px;
@@ -304,30 +325,38 @@ h6 {
   font-family: "Nunito";
   font-size: clamp(8px, 3.5vw, 16px);
 }
-.order_status .order_status_content .finish_order_btn {
+.order_status .order_status_content .finish_order_btn,
+.order_status .order_status_content .cancell_order_btn {
   width: 70%;
-  height: clamp(50px, 13vw, 80px);
-  background-color: #f7a307;
   font-family: "Nunito";
   font-size: clamp(8px, 4vw, 18px);
   color: #ffffff;
   font-weight: 600;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   border-radius: 15px;
   margin: 0 auto;
 }
+.order_status .order_status_content .finish_order_btn {
+  background-color: #1dac1d;
+  height: clamp(25px, 13vw, 60px);
+}
+.order_status .order_status_content .cancell_order_btn_active {
+  background-color: #be1d1d;
+  display: flex;
+  height: clamp(25px, 13vw, 60px);
+}
 .order_status .order_status_content .accordion {
-  margin-top: 20px;
+  display: none;
+  margin-top: 5px;
   width: 100%;
   border-radius: 12px;
   overflow: hidden;
-  background: #fff;
+  background: #0e0e0e;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid #222222;
 }
-.order_status .order_status_content .accordion * {
+.order_status .order_status_content .accordion Убираем синий клик-эффект на всех устройствах * {
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
@@ -346,14 +375,14 @@ h6 {
   align-items: center;
   padding: 1.2em 1.5em 1.2em 1.5em;
   cursor: pointer;
-  background: #f9f9f9;
+  background: #0e0e0e;
   transition: background 0.3s ease;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
 }
 .order_status .order_status_content .accordion .accordion-item .accordion-header:hover {
-  background: #f2f2f2;
+  background: #0e0e0e;
 }
 .order_status .order_status_content .accordion .accordion-item .accordion-header h3 {
   font-family: "Nunito";
@@ -361,7 +390,7 @@ h6 {
   font-weight: 600;
   text-align: left;
   margin: 0;
-  color: #333;
+  color: #f8f8f8;
   font-weight: 500;
 }
 .order_status .order_status_content .accordion .accordion-item .accordion-header .arrow {
@@ -374,7 +403,7 @@ h6 {
   width: 100%;
   max-height: 0;
   overflow: hidden;
-  background: #fff;
+  background: #0e0e0e;
   transition: max-height 0.4s ease, padding 0.3s ease;
   padding: 0 0;
 }
@@ -405,10 +434,10 @@ h6 {
 }
 .order_status .order_status_content .accordion .accordion-item .accordion-content .payment_buttons.pressed {
   transform: none;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #0e0e0e;
 }
 .order_status .order_status_content .accordion .accordion-item .accordion-content .payment_buttons p {
-  color: #0a0a0a;
+  color: #f8f8f8;
   font-family: "Inter Tight", sans-serif;
   font-size: clamp(10px, 3.6vw, 20px);
 }
@@ -508,6 +537,7 @@ h6 {
   display: flex;
   flex-direction: column;
   position: fixed;
+  justify-content: center;
   z-index: 9998;
 }
 

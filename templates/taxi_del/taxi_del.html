@@ -39,20 +39,28 @@
     </div>
     <div class="order_status">
         <div class="order_status_content">
-            <p id="modal_order_number"></p>
-            <div class="driver_photo_container">
-                <img src="" id="modal_driver_photo" alt="Фото водителя">
-            </div>
-            <p id="modal_driver_name"></p>
-            <p class="" id="modal_driver_rating"></p>
-            <p id="modal_status"></p>
-            <div class="car_content">
-                <img src="/static/icons/car_wallpaper.jpg" alt="">
-                <div class="car_info">
-                    <p id="modal_vehicle"></p>
-                    <p id="modal_number"></p>
+            <div class="driver_content">
+                <p id="modal_order_number"></p>
+                <div class="driver_photo_container">
+                    <img src="" id="modal_driver_photo" alt="Фото водителя">
+                </div>
+                <p id="modal_driver_name"></p>
+                <p class="" id="modal_driver_rating"></p>
+                <p id="modal_status"></p>
+                <div class="car_content">
+                    <div class="car_info">
+                        <p id="modal_vehicle"></p>
+                        <p id="modal_number"></p>
+                    </div>
                 </div>
             </div>
+
+            <div class="buttons_container">
+                <button class="grade">Оценка</button>
+                <button class="review">Отзыв</button>
+                <button class="complaint">Жалоба</button>
+            </div>
+
 
             <div class="accordion">
                 <div class="accordion-item">
@@ -111,7 +119,8 @@
                 </button>
             </div>
             <input class="jaloba" type="text" placeholder="Напишите жалобу, если есть претензии к водителю">
-            <button class="finish_order_btn">Завершить</button>
+            <button class="finish_order_btn" style="display: none;">Закрыть заказ.</button>
+            <button class="cancell_order_btn cancell_order_btn_active">Отменить заказ.</button>
         </div>
     </div>
     <div class="taxi_container">
