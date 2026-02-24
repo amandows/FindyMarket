@@ -1394,8 +1394,23 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+//////*******Этот скрипт будет переключать классы при нажатии. */
+document.querySelectorAll('.buttons_container button').forEach(button => {
+    button.addEventListener('click', function() {
+        // 1. Убираем active у всех кнопок в контейнере
+        document.querySelectorAll('.buttons_container button').forEach(btn => btn.classList.remove('button_active'));
+        
+        // 2. Добавляем active нажатой кнопке
+        this.classList.add('button_active');
 
+        // 3. Скрываем все блоки контента
+        document.querySelectorAll('.tab_content').forEach(content => content.classList.remove('tab_content_active'));
 
+        // 4. Показываем нужный блок по ID из data-target
+        const targetId = this.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('tab_content_active');
+    });
+});
 
 
 

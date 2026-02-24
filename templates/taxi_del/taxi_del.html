@@ -56,9 +56,21 @@
             </div>
 
             <div class="buttons_container">
-                <button class="grade">Оценка</button>
-                <button class="review">Отзыв</button>
-                <button class="complaint">Жалоба</button>
+                <button class="grade button_active" data-target="content_grade">Оценка</button>
+                <button class="review" data-target="content_review">Отзыв</button>
+                <button class="complaint" data-target="content_complaint">Жалоба</button>
+            </div>
+
+            <div id="content_grade" class="tab_content tab_content_active">
+                <p>Поставьте оценку водителю</p>
+            </div>
+
+            <div id="content_review" class="tab_content">
+                <textarea placeholder="Напишите ваш отзыв..."></textarea>
+            </div>
+
+            <div id="content_complaint" class="tab_content">
+                <p>Выберите причину жалобы</p>
             </div>
 
 
@@ -118,7 +130,6 @@
                     <p class="bank_name">Abank</p>
                 </button>
             </div>
-            <input class="jaloba" type="text" placeholder="Напишите жалобу, если есть претензии к водителю">
             <button class="finish_order_btn" style="display: none;">Закрыть заказ.</button>
             <button class="cancell_order_btn cancell_order_btn_active">Отменить заказ.</button>
         </div>

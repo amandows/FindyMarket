@@ -191,7 +191,7 @@ h6 {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 20px 0px;
   gap: 15px;
 }
@@ -307,12 +307,25 @@ h6 {
   font-size: clamp(8px, 3.8vw, 18px);
   font-weight: 600;
   color: #fff;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+.order_status .order_status_content .buttons_container button.button_active {
+  background-color: #ffc107;
+  color: #000;
 }
 .order_status .order_status_content .buttons_container .grade {
   border-radius: 12px 0 0 12px;
 }
 .order_status .order_status_content .buttons_container .complaint {
   border-radius: 0 12px 12px 0;
+}
+.order_status .order_status_content .tab_content {
+  display: none;
+  padding: 20px 0;
+}
+.order_status .order_status_content .tab_content.tab_content_active {
+  display: block;
 }
 .order_status .order_status_content .jaloba {
   display: none;
