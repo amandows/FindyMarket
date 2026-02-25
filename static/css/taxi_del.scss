@@ -186,8 +186,8 @@ h6 {
 
 .order_status {
     width: 100%;
-    height: 100%;
-    top: 0;
+    height: 60%;
+    bottom: 0;
     left: 0;
     display: none;
     position: fixed;
@@ -204,72 +204,82 @@ h6 {
         justify-content: flex-start;
         padding: 20px 0px;
         gap: 15px;
-        #modal_order_number {
-            text-align: left;
-            font-family: "Nunito";
-            font-size: clamp(8px, 3.5vw, 16px);
-            color: #ffffff;
-            font-weight: 700;
-            padding: 5px 5%;
-            margin-bottom: 0px;
-            &::before {
-                content: "№ ";
-            }
-        }
         .driver_content {
             width: 100%;
-            height: 50%;
+            height: 40%;
             position: relative;
-            padding: 10px 0;
+            padding: 10px 5%;
             background: url("/static/icons/car_wallpaper.jpg") top/cover no-repeat;
             border-radius: 15px;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            .driver_photo_container {
-                width: clamp(80px, 30vw, 150px);
-                height: clamp(80px, 30vw, 150px);
-                position: relative;
-                overflow: hidden;
-                border-radius: 50%;
-                margin: 0 auto;
-                border: 2px solid #b3b3b3;
-                img {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-            }
-            #modal_driver_name {
+            #modal_order_number {
+                text-align: left;
                 font-family: "Nunito";
-                font-size: clamp(6px, 6vw, 20px);
-                color: #fdfdfd;
-                font-weight: 800;
-                margin: 0 auto;
-            }
-            #modal_driver_rating {
-                font-family: "Nunito";
-                font-size: clamp(8px, 4vw, 16px);
+                font-size: clamp(8px, 3.5vw, 16px);
                 color: #ffffff;
                 font-weight: 700;
-                padding: 5px 10px;
-                background-color: #f7a307;
-                border-radius: 5px;
-                margin: 0 auto;
+                margin-bottom: 0px;
                 &::before {
-                    content: "Рейтинг ";
+                    content: "№ ";
                 }
             }
-            #modal_status {
-                font-family: "Nunito";
-                font-size: clamp(8px, 4.5vw, 18px);
-                color: #008006;
-                font-weight: 700;
-                margin: 0 auto;
-                padding: 0 0 15px 0;
+            .driver_photo_name {
+                width: 100%;
+                height:50%;
+                display: flex;
+                gap: 5%;
+                justify-content: flex-start;
+                align-items: flex-start;
+                .driver_photo_container {
+                    width: clamp(50px, 15vw, 60px);
+                    height: clamp(50px, 15vw, 60px);
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 50%;
+                    border: 2px solid #b3b3b3;
+                    img {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+                .driver_name_status_content {
+                    width: 60vw;
+                    height: clamp(50px, 15vw, 60px);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    #modal_driver_name {
+                        font-family: "Nunito";
+                        font-size: clamp(6px, 4vw, 16px);
+                        color: #fdfdfd;
+                        font-weight: 700;
+                    }
+                    #modal_driver_rating {
+                        font-family: "Nunito";
+                        font-size: clamp(6px, 4vw, 16px);
+                        color: #ffffff;
+                        font-weight: 500;
+                        // padding: 5px 10px;
+                        // background-color: #f7a307;
+                        border-radius: 5px;
+                        &::before {
+                            content: "Рейтинг ";
+                        }
+                    }
+                    #modal_status {
+                        font-family: "Nunito";
+                        font-size: clamp(6px, 4vw, 16px);
+                        color: #0ddb17;
+                        font-weight: 700;
+                    }
+                }
             }
             .car_content {
                 width: 100%;
@@ -280,18 +290,18 @@ h6 {
                     display: flex;
                     flex-direction: column;
                     align-items: flex-end;
-                    gap: 15px;
+                    gap: 10px;
                     #modal_vehicle {
                         white-space: nowrap;
                         font-family: "Montserrat";
-                        font-size: clamp(8px, 4vw, 20px);
+                        font-size: clamp(6px, 3.5vw, 16px);
                         color: #ffffff;
                         font-weight: 500;
                     }
                     #modal_number {
                         white-space: nowrap;
                         font-family: "Nunito";
-                        font-size: clamp(8px, 3.7vw, 18px);
+                        font-size: clamp(6px, 3.2vw, 16px);
                         color: #f7f7f7;
                         font-weight: 600;
                         // background-color: #ececec;
@@ -309,10 +319,10 @@ h6 {
             align-items: center;
             button {
                 width: 33.3%;
-                padding: 1.15em 1.45em 1.15em 1.45em;
+                padding: 0.7em 1em 0.7em 1em;
                 background-color: #0e0e0e;
                 font-family: "Nunito";
-                font-size: clamp(8px, 3.8vw, 18px);
+                font-size: clamp(8px, 3.5vw, 16px);
                 font-weight: 600;
                 color: #fff;
                 border: 1px solid transparent; // Чтобы кнопка не прыгала при активации границы
