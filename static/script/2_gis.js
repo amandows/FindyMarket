@@ -1120,7 +1120,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const finishBtn = document.querySelector(".finish_order_btn");
                 const statusElement = document.querySelector("#modal_status");
                 const accordion = document.querySelector(".accordion");
-                const jaloba = document.querySelector(".jaloba");
+                const buttonsContainer = document.querySelector(".buttons_container");
+                const contentGrade = document.querySelector("#tab_content");
+                const modal = document.querySelector(".order_status");
 
                 // 1. Проверяем изменение статуса
                 if (savedOrder && (savedOrder.status !== data.status)) {
@@ -1141,11 +1143,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (isFinalOrProgress) {
                         // Скрываем кнопку отмены
+                        modal.style.cssText = 'height: 70%;'
                         if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
                         // Показываем кнопку "Завершить"
                         if (finishBtn) finishBtn.style.display = "block";
                         if (accordion) accordion.style.display = "block";
-                        if (jaloba) jaloba.style.display = "block";
+                        if (buttonsContainer) buttonsContainer.style.display = "flex";
+                        if (contentGrade) contentGrade.classList.add('tab_content_active')
 
                         // Цветовая индикация
                         if (statusElement) {
@@ -1197,17 +1201,20 @@ document.addEventListener("DOMContentLoaded", function () {
         const cancelBtn = document.querySelector(".cancell_order_btn");
         const finishBtn = document.querySelector(".finish_order_btn");
         const accordion = document.querySelector(".accordion");
-        const jaloba = document.querySelector(".jaloba");
+        const buttonsContainer = document.querySelector(".buttons_container");
+        const contentGrade = document.querySelector("#tab_content");
 
         // Список статусов, при которых заказ нельзя отменить, но нужно завершить
         const finalOrProgress = ['in_progress', 'completed', 'canceled'].includes(data.status);
 
         if (finalOrProgress) {
+            modal.style.cssText = 'height: 70%;'
             // Скрываем отмену, показываем завершение
             if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
             if (finishBtn) finishBtn.style.display = "block";
             if (accordion) accordion.style.display = "block";
-            if (jaloba) jaloba.style.display = "block";
+            if (buttonsContainer) buttonsContainer.style.display = "flex";
+            if (contentGrade) contentGrade.classList.add('tab_content_active')
 
             // Устанавливаем цвета для восстановленного состояния
             if (statusElement) {
