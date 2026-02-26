@@ -14,31 +14,27 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+// Обработка сообщений в фоновом режиме
 messaging.onBackgroundMessage((payload) => {
-    console.log('[firebase-messaging-sw.js] Received background message ', payload);
+    // Удаляем или комментируем console.log(payload)
+    
+    const bodyText = payload.notification?.body || payload.data?.body || "Обновление заказа";
 
-    // Если уведомление пришло в payload.notification — FCM сам покажет его
-    if (payload.notification) {
-        return; // ничего не делаем, избегаем дубликатов
-    }
-
-    // Если уведомление пришло только в data — тогда показываем вручную
-    const notificationTitle = payload.data.title || "Уведомление";
-    const { body, icon, image } = payload.data;
-
-    const notificationOptions = {
-        body: body,
-        icon: icon,
-        image: image
-    };
-
-    self.registration.showNotification(notificationTitle, notificationOptions);
+    // Передаем только строку body на страницу
+    self.clients.matchAll({type: 'window', includeUncontrolled: true}).then(clients => {
+        clients.forEach(client => {
+            client.postMessage({
+                type: 'PUSH_RECEIVED',
+                text: bodyText
+            });
+        });
+    });
 });
 
+// Получение токена
 messaging.getToken({ vapidKey: "BPnPE1b8pwh5LesoRwLcdNL4144DdYfPQ25a3d8r77q8gE1b-Ljtlfv-UsupEv_dJWj-S1firTlLtpWhKtmlInQ" })
 .then((fcmToken) => {
     console.log("FCM Token (web):", fcmToken);
-    // Передаем токен в Android
     if (typeof AndroidBridge !== "undefined") {
         AndroidBridge.sendTokenToAndroid(fcmToken);
     }

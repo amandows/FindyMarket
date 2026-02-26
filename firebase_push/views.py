@@ -15,17 +15,17 @@ def save_fcm_token(request):
             if not token:
                 return JsonResponse({"success": False, "error": "No token provided"})
 
-            # Сохраняем или обновляем токен с привязкой к пользователю
-            device, created = FCMDevice.objects.get_or_create(
-                registration_id=token,
-                defaults={"user": request.user, "type": "web"}
-            )
+            # 1. ОЧИСТКА: Удаляем все дубликаты этого токена в базе,
+            # чтобы осталась только одна чистая запись
+            FCMDevice.objects.filter(registration_id=token).delete()
 
-            # Если токен уже существовал, обновим пользователя на текущего
-            if not created:
-                if device.user != request.user:
-                    device.user = request.user
-                    device.save()
+            # 2. СОЗДАНИЕ: Теперь создаем одну уникальную запись
+            FCMDevice.objects.create(
+                registration_id=token,
+                user=request.user if request.user.is_authenticated else None,
+                type="web",
+                active=True
+            )
 
             return JsonResponse({"success": True})
 

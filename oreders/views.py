@@ -78,34 +78,51 @@ def update_order_status(request):
                 print(order.order_delivery_status)
 
                 # Получаем все устройства для пуш-уведомлений
-                # devices = FCMDevice.objects.all()
-                # devices = FCMDevice.objects.filter(user=order.user)
-                # print("USEEEEEEEEER: ", devices)
+                devices = FCMDevice.objects.filter(user=order.user)
+                print("USEEEEEEEEER: ", devices)
 
                 # Определяем текст уведомления
-                # if status == 'completed':
-                #     if order.order_delivery_status == "Самовывоз":
-                #         body_text = f"Ваш заказ {order.order_number} готов 🍽. Можете забрать его."
-                #     else:
-                #         body_text = f"Ваш заказ {order.order_number} готов 🚕. Курьер уже едет к вам."
-                # else:
-                #     body_text = f"Статус вашего заказа №{order.order_number} обновлён: {order.status}"
+                if status == 'completed':
+                    if order.order_delivery_status == "Самовывоз":
+                        body_text = f"Ваш заказ {order.order_number} готов 🍽. Можете забрать его."
+                    else:
+                        body_text = f"Ваш заказ {order.order_number} готов 🚕. Курьер уже едет к вам."
+
+                # ДОБАВЛЯЕМ ЗДЕСЬ:
+                elif status == 'accept':
+                    body_text = f"Ваш заказ №{order.order_number} принят в работу! 👨‍🍳"
+
+                else:
+                    # Переводим технические статусы на человеческий язык
+                    status_map = {
+                        'in_progress': 'готовится',
+                        'cancelled': 'отменён',
+                        'called': 'ожидает звонка'
+                    }
+                    nice_status = status_map.get(status, status)
+                    body_text = f"Статус вашего заказа №{order.order_number} обновлён: {nice_status}"
 
                 # Формируем сообщение
-                # message = Message(
-                #     notification=Notification(
-                #         title="Статус заказа",
-                #         body=body_text,
-                #         image="https://i.imgur.com/zYIlgBl.png"  # Опционально
-                #     ),
-                #     # data={
-                #     #     "order_id": str(order.id),
-                #     #     "status": order.status
-                #     # }
-                # )
-                #
-                # # Отправка только устройствам заказчика
-                # devices.send_message(message)
+                message = Message(
+                    notification=Notification(
+                        title="Статус заказа",
+                        body=body_text,
+                        image="https://i.imgur.com/zYIlgBl.png"  # Опционально
+                    ),
+                    # data={
+                    #     "order_id": str(order.id),
+                    #     "status": order.status
+                    # }
+                )
+
+                # Отправка только устройствам заказчика
+                devices.send_message(message)
+                return JsonResponse({
+                    'success': True,
+                    'notification_text': body_text,  # Передаем текст в JS
+                    'order_id': order.id,
+                    'status': status
+                })
 
                 return JsonResponse({'success': True})
             else:

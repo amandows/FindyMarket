@@ -189,7 +189,7 @@ class Order(models.Model):
 # & "C:/Users/Admin/PycharmProjects/Findy_store/venv/Scripts/activate.ps1"
 # cd fmarket
 # python manage.py runserver
-# python manage.py runserver 192.168.0.105:8000
+# python manage.py runserver 192.168.0.100:8000
 # python manage.py createsuperuser source venv/bin/activate pip install -r req.txt
 # amandows@mail.ru citizenfour0
 # pip install

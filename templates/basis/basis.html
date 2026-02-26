@@ -396,105 +396,102 @@
         </footer>
     </div>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging.js"
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    // Добавили onMessage в импорт
+    import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDZkTrPVYDi4xw1QC3CxgSwvLypUUWEFvg",
-            authDomain: "findymarket.firebaseapp.com",
-            projectId: "findymarket",
-            storageBucket: "findymarket.firebasestorage.app",
-            messagingSenderId: "502625114209",
-            appId: "1:502625114209:web:ae9a04d7604b7362c4b220",
-            measurementId: "G-18RT40CK0E"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyDZkTrPVYDi4xw1QC3CxgSwvLypUUWEFvg",
+        authDomain: "findymarket.firebaseapp.com",
+        projectId: "findymarket",
+        storageBucket: "findymarket.firebasestorage.app",
+        messagingSenderId: "502625114209",
+        appId: "1:502625114209:web:ae9a04d7604b7362c4b220",
+        measurementId: "G-18RT40CK0E"
+    };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const messaging = getMessaging(app);
-        const vapidKey = 'BPnPE1b8pwh5LesoRwLcdNL4144DdYfPQ25a3d8r77q8gE1b-Ljtlfv-UsupEv_dJWj-S1firTlLtpWhKtmlInQ'
-        const btn = document.getElementById('enable-notifications');
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+    const vapidKey = 'BPnPE1b8pwh5LesoRwLcdNL4144DdYfPQ25a3d8r77q8gE1b-Ljtlfv-UsupEv_dJWj-S1firTlLtpWhKtmlInQ';
 
-        // Get CSRF token from cookie
-        const getCSRF = () => {
-            const match = document.cookie.match(/csrftoken=([^;]+)/);
-            return match ? match[1] : null;
-        };
+    // --- НОВЫЙ БЛОК: Обработка уведомлений при открытой вкладке ---
+    onMessage(messaging, (payload) => {
+        // УБЕРИТЕ console.log(payload) если он тут есть!
+        const bodyText = payload.notification?.body || payload.data?.body || "Обновление статуса";
+        
+        // Вот эта строка — единственное, что должен видеть Android
+        console.log("PUSH_NOTIFY:" + bodyText); 
+    });
+    // -------------------------------------------------------------
+    // Слушатель сообщений от Service Worker (если вкладка была в фоне)
+    navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'PUSH_RECEIVED') {
+            const bodyText = event.data.text;
+            
+            // Пытаемся вызвать нативный мост (для Android)
+            if (window.AndroidBridge && window.AndroidBridge.sendPush) {
+                window.AndroidBridge.sendPush(bodyText);
+            }
+            
+            // Оставляем для обычного браузера
+            console.log("PUSH_NOTIFY:" + bodyText);
+        }
+    });
+    const getCSRF = () => {
+        const match = document.cookie.match(/csrftoken=([^;]+)/);
+        return match ? match[1] : null;
+    };
 
-        const saveToken = (token) => {
-            fetch('/save-fcm-token/', { // Here update the API endpoint as per your setup.
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRF(),
-                },
-                credentials: 'include',
-                body: JSON.stringify({ token })
+    const saveToken = (token) => {
+        fetch('/save-fcm-token/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRF(),
+            },
+            credentials: 'include',
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => console.log('Token saved:', data))
+        .catch(err => console.error('Save failed:', err));
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!('Notification' in window)) {
+            console.warn('Ваш браузер не поддерживает уведомления.');
+            return;
+        }
+
+        if (Notification.permission === 'granted') {
+            console.log('Уведомления уже разрешены.');
+            initializeFCM();
+        } else if (Notification.permission !== 'denied') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    console.log('Пользователь разрешил уведомления.');
+                    initializeFCM();
+                }
+            });
+        }
+    });
+
+    function initializeFCM() {
+        navigator.serviceWorker.register('/static/firebase-messaging-sw.js')
+            .then(registration => {
+                console.log('Service Worker зарегистрирован');
+                getToken(messaging, { vapidKey, serviceWorkerRegistration: registration })
+                    .then(token => {
+                        if (token) {
+                            console.log('FCM Token:', token);
+                            saveToken(token);
+                        }
+                    })
+                    .catch(err => console.error('Ошибка получения токена:', err));
             })
-                .then(res => res.json())
-                .then(data => console.log('Token saved:', data))
-                .catch(err => console.error('Save failed:', err));
-        };
-
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Проверяем поддержку уведомлений
-            if (!('Notification' in window)) {
-                console.warn('Ваш браузер не поддерживает уведомления.');
-                return;
-            }
-
-            // Проверяем текущее разрешение
-            if (Notification.permission === 'granted') {
-                console.log('Уведомления уже разрешены.');
-                initializeFCM();
-            } else if (Notification.permission !== 'denied') {
-                // Запрашиваем разрешение
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        console.log('Пользователь разрешил уведомления.');
-                        initializeFCM();
-                    } else {
-                        console.warn('Пользователь запретил уведомления.');
-                    }
-                });
-            } else {
-                console.warn('Пользователь ранее запретил уведомления.');
-            }
-        });
-
-
-        function initializeFCM() {
-            const app = initializeApp(firebaseConfig);
-            const messaging = getMessaging(app);
-
-            // Регистрируем service worker и получаем токен
-            navigator.serviceWorker.register('/static/firebase-messaging-sw.js')
-                .then(registration => {
-                    console.log('Service Worker зарегистрирован');
-                    getToken(messaging, { vapidKey, serviceWorkerRegistration: registration })
-                        .then(token => {
-                            if (token) {
-                                console.log('FCM Token:', token);
-                                // Отправка токена на сервер
-                                saveToken(token);
-                            }
-                        })
-                        .catch(err => console.error('Ошибка получения токена:', err));
-                })
-                .catch(err => console.error('Ошибка регистрации SW:', err));
-        }
-
-        // Получение CSRF из cookie
-        function getCookie(name) {
-            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-            return match ? match[2] : null;
-        }
-
-
-
-    </script>
+            .catch(err => console.error('Ошибка регистрации SW:', err));
+    }
+</script>
     <script src="/static/script/script.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
