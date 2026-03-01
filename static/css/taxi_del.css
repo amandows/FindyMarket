@@ -368,7 +368,7 @@ h6 {
 }
 .order_status .order_status_content .buttons_container button {
   width: 33.3%;
-  padding: 1em 1.5em 1em 1.5em;
+  padding: 1.2em 1.5em 1.2em 1.5em;
   background-color: #0e0e0e;
   font-family: "Nunito";
   font-size: clamp(8px, 3.5vw, 16px);
@@ -376,6 +376,8 @@ h6 {
   color: #fff;
   border: 1px solid transparent;
   transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 .order_status .order_status_content .buttons_container button.button_active {
   background-color: #ffc107;
@@ -418,14 +420,11 @@ h6 {
 }
 .order_status .order_status_content .accordion {
   display: none;
-  margin-top: 5px;
   width: 100%;
   border-radius: 12px;
   overflow: hidden;
   background: #0e0e0e;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-}
-.order_status .order_status_content .accordion Убираем синий клик-эффект на всех устройствах * {
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }

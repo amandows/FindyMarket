@@ -435,7 +435,7 @@ main {
                 position: absolute;
                 top: 50%;
                 left: -100%;
-                transform: translateY(-50%)
+                transform: translateY(-50%);
             }
             p {
                 font-family: "Inter Tight", sans-serif;
@@ -443,7 +443,7 @@ main {
                 font-weight: 600;
             }
         }
-        .my_statistic, 
+        .my_statistic,
         .options {
             position: relative;
             p {

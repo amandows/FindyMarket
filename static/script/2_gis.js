@@ -1053,6 +1053,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+
+
     // --- 2. ПОИСК ВОДИТЕЛЯ (PENDING -> ACCEPTED) ---
     function startPolling(orderId) {
         orderPollingInterval = setInterval(async () => {
@@ -1149,12 +1151,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     const isFinalOrProgress = ['in_progress', 'completed', 'canceled'].includes(data.status);
 
                     if (isFinalOrProgress) {
-                        if (modal) modal.style.cssText = 'height: 70%;';
+                        if (modal) modal.style.cssText = 'height: 85%;';
                         if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
                         if (finishBtn) finishBtn.style.display = "block";
                         if (accordion) accordion.style.display = "block";
                         if (buttonsContainer) buttonsContainer.style.display = "flex";
                         if (contentGrade) contentGrade.classList.add('tab_content_active');
+                        loadBankLinksFromLocalStorage()
 
                         // Цветовая индикация
                         if (statusElement) {
@@ -1196,9 +1199,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (document.querySelector("#modal_driver_name")) document.querySelector("#modal_driver_name").innerText = data.driver_name;
         if (document.querySelector("#modal_vehicle")) document.querySelector("#modal_vehicle").innerText = `${data.vehicle_color} ${data.vehicle_model}`;
         if (document.querySelector("#modal_number")) document.querySelector("#modal_number").innerText = data.vehicle_number;
-        if (document.querySelector("#modal_phone")) document.querySelector("#modal_phone").href = `tel:${data.phone}`;
+        if (document.querySelector("#modal_phone")) document.querySelector("#modal_phone").value = data.phone;
         if (document.querySelector("#modal_driver_rating")) document.querySelector("#modal_driver_rating").innerText = data.rating;
-        if (document.querySelector("#modal_driver_bank")) document.querySelector("#modal_driver_bank").innerText = data.bank_link;
+        if (document.querySelector("#modal_driver_bank")) document.querySelector("#modal_driver_bank").value = data.bank_link;
 
         // --- НОВАЯ ЛОГИКА ПРОВЕРКИ КНОПОК ПРИ ОТКРЫТИИ ---
         const cancelBtn = document.querySelector(".cancell_order_btn");
@@ -1211,13 +1214,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const finalOrProgress = ['in_progress', 'completed', 'canceled'].includes(data.status);
 
         if (finalOrProgress) {
-            modal.style.cssText = 'height: 70%;'
+            modal.style.cssText = 'height: 85%;'
             // Скрываем отмену, показываем завершение
             if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
             if (finishBtn) finishBtn.style.display = "block";
             if (accordion) accordion.style.display = "block";
             if (buttonsContainer) buttonsContainer.style.display = "flex";
-            if (contentGrade) contentGrade.classList.add('tab_content_active')
+            if (contentGrade) contentGrade.classList.add('tab_content_active');
+            loadBankLinksFromLocalStorage();
 
             // Устанавливаем цвета для восстановленного состояния
             if (statusElement) {
@@ -1423,10 +1427,77 @@ document.querySelectorAll('.buttons_container button').forEach(button => {
 });
 
 
+function loadBankLinksFromLocalStorage() {
+    // 2. Ищем элемент, в который динамически подставляется ссылка
+    const bankLinkElement = document.getElementById('modal_driver_bank');
+    
+    // Берем текст из элемента (если элемент найден)
+    const payLink = bankLinkElement.value;
+
+    const bankButtons = document.querySelectorAll('.bank-btn');
+
+    // Если корзина пуста ИЛИ ссылка в элементе невалидна — блокируем кнопки
+    if (bankLinkElement == "") {
+        bankButtons.forEach(btn => {
+            btn.style.filter = 'grayscale(1)';
+            btn.style.pointerEvents = 'none';
+        });
+
+        console.log('Корзина пуста или ссылка отсутствует — банки отключены');
+        return;
+    }
+
+    // Если всё ок — активируем кнопки
+    bankButtons.forEach(btn => {
+        btn.style.filter = 'none';
+        btn.style.pointerEvents = 'auto';
+
+        btn.onclick = function () {
+            const packageName = this.dataset.package;
+            // Передаем полученную из HTML ссылку в нативный код Android
+            console.log("OPEN_APP:" + packageName + "|" + payLink);
+        };
+    });
+
+    console.log('Банки активированы. Ссылка из HTML:', payLink);
+}
 
 
+// 1. Находим кнопки в блоке .call_driver
+const telBtn = document.querySelector(".tel_number");
+const whatsappBtn = document.querySelector(".whatsapp_number");
+const phoneInput = document.querySelector("#modal_phone");
 
+// При клике на кнопку звонка
+if (telBtn) {
+    telBtn.onclick = function() {
+        // Берем значение именно в момент клика
+        const currentNumber = phoneInput ? phoneInput.value : "";
+        
+        if (currentNumber && currentNumber.trim() !== "") {
+            window.location.href = `tel:${currentNumber}`;
+            console.log("Calling:", currentNumber);
+        } else {
+            console.log("Номер телефона пуст");
+        }
+    };
+}
 
+// При клике на кнопку WhatsApp
+if (whatsappBtn) {
+    whatsappBtn.onclick = function() {
+        const currentNumber = phoneInput ? phoneInput.value : "";
+        
+        if (currentNumber && currentNumber.trim() !== "") {
+            // Очищаем от всего, кроме цифр
+            const cleanPhone = currentNumber.replace(/\D/g, '');
+            window.location.href = `https://wa.me/${cleanPhone}`;
+            console.log("WhatsApp to:", cleanPhone);
+        } else {
+            console.log("Номер для WhatsApp пуст");
+        }
+    };
+}
 
 
 

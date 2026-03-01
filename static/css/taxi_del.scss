@@ -382,7 +382,7 @@ h6 {
             align-items: center;
             button {
                 width: 33.3%;
-                padding: 1.0em 1.5em 1.0em 1.5em;
+                padding: 1.2em 1.5em 1.2em 1.5em;
                 background-color: #0e0e0e;
                 font-family: "Nunito";
                 font-size: clamp(8px, 3.5vw, 16px);
@@ -390,6 +390,8 @@ h6 {
                 color: #fff;
                 border: 1px solid transparent; // Чтобы кнопка не прыгала при активации границы
                 transition: all 0.3s ease;
+                -webkit-tap-highlight-color: transparent;
+                outline: none;
                 &.button_active {
                     background-color: #ffc107; // Например, желтый цвет для активной кнопки
                     color: #000;
@@ -434,16 +436,13 @@ h6 {
         }
         .accordion {
             display: none;
-            margin-top: 5px;
             width: 100%;
             border-radius: 12px;
             overflow: hidden;
             background: #0e0e0e;
             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-            Убираем синий клик-эффект на всех устройствах * {
-                -webkit-tap-highlight-color: transparent;
-                outline: none;
-            }
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
 
             .accordion-item {
                 border-bottom: 1px solid #eee;
@@ -493,8 +492,8 @@ h6 {
                     overflow: hidden;
                     background: #0e0e0e;
                     transition:
-                        max-height 0.4s ease,
-                        padding 0.3s ease;
+                    max-height 0.4s ease,
+                    padding 0.3s ease;
                     padding: 0 0;
                     .payment_buttons {
                         transition: all 0.3s ease 0s;
