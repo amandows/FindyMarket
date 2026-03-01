@@ -1115,7 +1115,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let savedOrder = JSON.parse(localStorage.getItem(LS_ORDER_KEY));
 
-                // Находим кнопки в DOM
+                // Находим элементы в DOM
                 const cancelBtn = document.querySelector(".cancell_order_btn");
                 const finishBtn = document.querySelector(".finish_order_btn");
                 const statusElement = document.querySelector("#modal_status");
@@ -1126,45 +1126,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // 1. Проверяем изменение статуса
                 if (savedOrder && (savedOrder.status !== data.status)) {
+
+                    // --- НОВАЯ ЛОГИКА ДЛЯ WEBVIEW ---
+                    const statusText = statusTranslations[data.status] || data.status;
+                    const notifyMessage = `FindyTaxi: ${statusText}`;
+
+                    // Отправляем в консоль для перехвата Android-мостом
+                    console.log("PUSH_NOTIFY:" + notifyMessage);
+                    // --------------------------------
+
                     console.log(`Статус изменился: ${savedOrder.status} -> ${data.status}`);
 
                     savedOrder.status = data.status;
                     localStorage.setItem(LS_ORDER_KEY, JSON.stringify(savedOrder));
 
-                    // Обновляем текст статуса
+                    // Обновляем текст статуса в UI
                     if (statusElement) {
-                        statusElement.innerText = statusTranslations[data.status] || data.status;
+                        statusElement.innerText = statusText;
                     }
 
                     // --- ЛОГИКА ПЕРЕКЛЮЧЕНИЯ КНОПОК ---
-
-                    // Если поездка началась, завершена или отменена водителем
                     const isFinalOrProgress = ['in_progress', 'completed', 'canceled'].includes(data.status);
 
                     if (isFinalOrProgress) {
-                        // Скрываем кнопку отмены
-                        modal.style.cssText = 'height: 70%;'
+                        if (modal) modal.style.cssText = 'height: 70%;';
                         if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
-                        // Показываем кнопку "Завершить"
                         if (finishBtn) finishBtn.style.display = "block";
                         if (accordion) accordion.style.display = "block";
                         if (buttonsContainer) buttonsContainer.style.display = "flex";
-                        if (contentGrade) contentGrade.classList.add('tab_content_active')
+                        if (contentGrade) contentGrade.classList.add('tab_content_active');
 
                         // Цветовая индикация
                         if (statusElement) {
-                            if (data.status === 'in_progress') statusElement.style.color = "#28a745"; // Зеленый
-                            if (data.status === 'completed') statusElement.style.color = "#007bff";   // Синий
-                            if (data.status === 'canceled') statusElement.style.color = "#dc3545";    // Красный
+                            if (data.status === 'in_progress') statusElement.style.color = "#28a745";
+                            if (data.status === 'completed') statusElement.style.color = "#007bff";
+                            if (data.status === 'canceled') statusElement.style.color = "#dc3545";
                         }
 
-                        // Если заказ завершен/отменен сервером, можно остановить опрос (поллинг), 
-                        // так как статус больше не изменится, ждем только клика юзера.
                         if (data.status === 'completed' || data.status === 'canceled') {
                             stopPolling();
                         }
                     } else if (data.status === 'arrived') {
-                        if (statusElement) statusElement.style.color = "#ffc107"; // Желтый
+                        if (statusElement) statusElement.style.color = "#ffc107";
                     }
                 }
 
@@ -1403,10 +1406,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //////*******Этот скрипт будет переключать классы при нажатии. */
 document.querySelectorAll('.buttons_container button').forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
         // 1. Убираем active у всех кнопок в контейнере
         document.querySelectorAll('.buttons_container button').forEach(btn => btn.classList.remove('button_active'));
-        
+
         // 2. Добавляем active нажатой кнопке
         this.classList.add('button_active');
 

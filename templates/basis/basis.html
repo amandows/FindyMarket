@@ -393,11 +393,11 @@
                 </button>
             </div>
             <button id="enable-notifications" style="display: none;">Enable notifications</button>
+            <button id="trigger-push-btn" style="display:none;" onclick="runNativeLog()"></button>
         </footer>
     </div>
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-    // Добавили onMessage в импорт
     import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging.js";
 
     const firebaseConfig = {
@@ -406,43 +406,60 @@
         projectId: "findymarket",
         storageBucket: "findymarket.firebasestorage.app",
         messagingSenderId: "502625114209",
-        appId: "1:502625114209:web:ae9a04d7604b7362c4b220",
-        measurementId: "G-18RT40CK0E"
+        appId: "1:502625114209:web:ae9a04d7604b7362c4b220"
     };
 
     const app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
     const vapidKey = 'BPnPE1b8pwh5LesoRwLcdNL4144DdYfPQ25a3d8r77q8gE1b-Ljtlfv-UsupEv_dJWj-S1firTlLtpWhKtmlInQ';
 
-    // --- НОВЫЙ БЛОК: Обработка уведомлений при открытой вкладке ---
+    // ДЕЛАЕМ ФУНКЦИИ ГЛОБАЛЬНЫМИ
+    window.runNativeLog = function() {
+        const btn = document.getElementById('trigger-push-btn');
+        const message = btn.getAttribute('data-message');
+        if (message) {
+            console.log("PUSH_NOTIFY:" + message);
+        }
+    };
+
+    window.simulateNativeClick = function(text) {
+        const elem = document.getElementById('trigger-push-btn');
+        if (elem) {
+            elem.setAttribute('data-message', text);
+            let event = new Event("click");
+            elem.dispatchEvent(event);
+            console.log("Native click simulated for:", text);
+        }
+    };
+
+    // Слушаем сообщения (Активная вкладка)
     onMessage(messaging, (payload) => {
-        // УБЕРИТЕ console.log(payload) если он тут есть!
-        const bodyText = payload.notification?.body || payload.data?.body || "Обновление статуса";
-        
-        // Вот эта строка — единственное, что должен видеть Android
-        console.log("PUSH_NOTIFY:" + bodyText); 
+        console.log("Foreground push received");
+        const body = payload.notification?.body || payload.data?.body || "Новое сообщение";
+        window.simulateNativeClick(body);
     });
-    // -------------------------------------------------------------
-    // Слушатель сообщений от Service Worker (если вкладка была в фоне)
+
+    // Слушаем Service Worker (Фоновый режим)
     navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'PUSH_RECEIVED') {
-            const bodyText = event.data.text;
-            
-            // Пытаемся вызвать нативный мост (для Android)
-            if (window.AndroidBridge && window.AndroidBridge.sendPush) {
-                window.AndroidBridge.sendPush(bodyText);
-            }
-            
-            // Оставляем для обычного браузера
-            console.log("PUSH_NOTIFY:" + bodyText);
+            console.log("Background push received via SW bridge");
+            window.simulateNativeClick(event.data.text);
         }
     });
+
     const getCSRF = () => {
         const match = document.cookie.match(/csrftoken=([^;]+)/);
         return match ? match[1] : null;
     };
 
-    const saveToken = (token) => {
+    window.saveToken = (token) => {
+        console.log("Сохранение токена, полученного из Java:", token);
+        
+        const getCSRF = () => {
+            const match = document.cookie.match(/csrftoken=([^;]+)/);
+            return match ? match[1] : null;
+        };
+
         fetch('/save-fcm-token/', {
             method: 'POST',
             headers: {
@@ -453,25 +470,47 @@
             body: JSON.stringify({ token })
         })
         .then(res => res.json())
-        .then(data => console.log('Token saved:', data))
-        .catch(err => console.error('Save failed:', err));
+        .then(data => console.log('Токен успешно сохранен в БД:', data))
+        .catch(err => console.error('Ошибка сохранения токена:', err));
     };
 
+    // const saveToken = (token) => {
+    //     fetch('/save-fcm-token/', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRFToken': getCSRF(),
+    //         },
+    //         credentials: 'include',
+    //         body: JSON.stringify({ token })
+    //     })
+    //     .then(res => res.json())
+    //     .then(data => console.log('Token saved:', data))
+    //     .catch(err => console.error('Save failed:', err));
+    // };
+
     document.addEventListener('DOMContentLoaded', () => {
-        if (!('Notification' in window)) {
+        // 1. Проверяем, открыто ли это в нашем Android-приложении
+        const isAndroidApp = (window.AndroidBridge !== undefined) || (window.FCMBridge !== undefined);
+
+        if (!('Notification' in window) && !isAndroidApp) {
             console.warn('Ваш браузер не поддерживает уведомления.');
             return;
         }
 
+        // 2. Если мы в приложении, сразу инициализируем FCM, не спрашивая браузер
+        if (isAndroidApp) {
+            console.log('Запущено в WebView: используем нативный мост.');
+            initializeFCM();
+            return;
+        }
+
+        // 3. Логика для обычных браузеров (Chrome, Safari и т.д.)
         if (Notification.permission === 'granted') {
-            console.log('Уведомления уже разрешены.');
             initializeFCM();
         } else if (Notification.permission !== 'denied') {
             Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                    console.log('Пользователь разрешил уведомления.');
-                    initializeFCM();
-                }
+                if (permission === 'granted') initializeFCM();
             });
         }
     });
