@@ -247,9 +247,13 @@ document.addEventListener("DOMContentLoaded", function () {
         loader.classList.remove("active");
     }
 
+    // 🔥 удаляем старый обработчик
+    $(document).off('change', 'select[name="order-status"]');
+
+    // 🔥 добавляем новый
     $(document).on('change', 'select[name="order-status"]', function () {
 
-        showLoader();  // 🔥 ВОТ ГДЕ НУЖНО
+        showLoader();
 
         let selectedStatus = $(this).val();
         let orderId = $(this).data('order-id');
@@ -264,14 +268,15 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: {
                 'X-CSRFToken': getCsrfToken()
             },
-            success: function (response) {
+            success: function () {
                 reloadPage();
             },
             error: function (xhr, status, error) {
-                hideLoader(); // если ошибка — убираем loader
+                hideLoader();
                 console.error('Error updating status:', error);
             }
         });
+
     });
 
 });

@@ -79,7 +79,11 @@ def update_order_status(request):
 
                 # Получаем все устройства для пуш-уведомлений
                 devices = FCMDevice.objects.filter(user=order.user)
-                print("USEEEEEEEEER: ", devices)
+                print("DEVICES COUNT:", devices.count())
+                if devices.count() > 1:
+                    devices.exclude(id=devices.first().id).delete()
+
+                device = devices.first()
 
                 # Определяем текст уведомления
                 if status == 'completed':
@@ -116,7 +120,8 @@ def update_order_status(request):
                 )
 
                 # Отправка только устройствам заказчика
-                devices.send_message(message)
+                if device:
+                    device.send_message(message)
                 return JsonResponse({
                     'success': True,
                     'notification_text': body_text,  # Передаем текст в JS
