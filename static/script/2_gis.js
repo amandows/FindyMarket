@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const locationTwoGo = document.querySelector('.location_two_go')
     const backBtn = document.querySelector('.back_btn')
     const backBtn2 = document.querySelector('.back_btn2')
-    const apiKey = "67e4c6fc-408e-4a7d-a53d-9a428bbedac1";
+    const apiKey = "c65cccec-a214-41b7-affc-24511bd3fcb1";
     const econom = document.getElementById('price_econom')
     const comfort = document.getElementById('price_comfort')
     const comfortPlus = document.getElementById('price_comfort_plus')

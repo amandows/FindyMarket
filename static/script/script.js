@@ -1114,7 +1114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Функция получения адреса по координатам
 function getAddressFromCoordinates(latitude, longitude) {
-    const apiKey = "67e4c6fc-408e-4a7d-a53d-9a428bbedac1";
+    const apiKey = "c65cccec-a214-41b7-affc-24511bd3fcb1";
     const url = `https://catalog.api.2gis.com/3.0/items?q=${latitude},${longitude}&fields=items.full_address&key=${apiKey}`;
 
     fetch(url)
