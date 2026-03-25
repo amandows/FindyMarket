@@ -111,12 +111,8 @@ def update_order_status(request):
                     notification=Notification(
                         title="Статус заказа",
                         body=body_text,
-                        image="https://i.imgur.com/zYIlgBl.png"  # Опционально
+                        image="/static/icons/1024x500.png'"  # Опционально
                     ),
-                    # data={
-                    #     "order_id": str(order.id),
-                    #     "status": order.status
-                    # }
                 )
 
                 # Отправка только устройствам заказчика

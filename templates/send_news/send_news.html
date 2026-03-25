@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    </head>
+    
+    <body>
+        <form id="newsForm">
+            <input type="text" id="title" placeholder="Заголовок новости" required>
+            <textarea id="message" placeholder="Текст новости" required></textarea>
+    
+            <select id="city">
+                {% for city_value, city_name in cities %}
+                <option value="{{ city_value }}">{{ city_name }}</option>
+                {% endfor %}
+            </select>
+    
+            <button type="submit">Разослать жителям города</button>
+        </form>
+    
+        <script>
+            document.getElementById('newsForm').onsubmit = function (e) {
+                e.preventDefault();
+
+                fetch('/send-city-news/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: new URLSearchParams({
+                        'title': document.getElementById('title').value,
+                        'message': document.getElementById('message').value,
+                        'city': document.getElementById('city').value
+                    })
+                })
+                    .then(res => res.json())
+                    .then(data => alert(data.success ? "Успешно отправлено!" : "Ошибка: " + data.error));
+            };
+        </script>
+    </body>
+    
+    </html>

@@ -31,6 +31,42 @@ messaging.onBackgroundMessage((payload) => {
     });
 });
 
+// Добавьте это в начало или замените существующий обработчик
+messaging.onBackgroundMessage((payload) => {
+    console.log('SW: Received message', payload);
+
+    const bodyText = payload.data?.body || payload.notification?.body || "Обновление заказа";
+
+    // 1. Рассылаем сообщение всем вкладкам (чтобы сработал navigator.serviceWorker.onmessage)
+    self.clients.matchAll({type: 'window', includeUncontrolled: true}).then(clients => {
+        clients.forEach(client => {
+            client.postMessage({
+                type: 'PUSH_RECEIVED',
+                text: bodyText,
+                image: '/static/icons/1024x500.png',
+            });
+        });
+    });
+
+    // 2. Если вы хотите, чтобы ДАЖЕ при открытой вкладке всплывало СИСТЕМНОЕ уведомление (баннер сверху):
+    // Внимание: Chrome может блокировать баннер при активной вкладке, но это поможет в WebView
+    const notificationTitle = payload.data?.title || "Findy Market";
+    const notificationOptions = {
+        body: bodyText,
+        image: '/static/icons/1024x500.png', // Укажите ваш путь к иконке
+    };
+
+    return self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+// Добавляем общий слушатель push событий (страховка для активного режима)
+self.addEventListener('push', function(event) {
+    if (event.data) {
+        console.log('Push event received', event.data.json());
+        // Здесь можно продублировать логику отправки postMessage
+    }
+});
+
 // Получение токена
 messaging.getToken({ vapidKey: "BPnPE1b8pwh5LesoRwLcdNL4144DdYfPQ25a3d8r77q8gE1b-Ljtlfv-UsupEv_dJWj-S1firTlLtpWhKtmlInQ" })
 .then((fcmToken) => {

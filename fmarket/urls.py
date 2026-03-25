@@ -23,14 +23,16 @@ from taxi_del.views import taxi, CreateOrderView, OrderStatusView, CancelOrderVi
 from taxi_driver.views import taxi_driver
 from my_orders.views import my_orders, update_order_result_ajax, my_orders_ajax
 from firebase_push.views import save_fcm_token
+from send_news.views import send_city_news
 
 
 urlpatterns = [
-    # Маршрут для создания заказа: /api/orders/create/
+    # Маршрут для создания заказа taxi: /api/orders/create/
     path('api/orders/create/', CreateOrderView.as_view(), name='order-create'),
-    # Маршрут для проверки статуса: /api/orders/15/status/
+    # Маршрут для проверки статуса taxi: /api/orders/15/status/
     path('api/orders/<int:order_id>/status/', OrderStatusView.as_view(), name='order-status'),
     # Новый маршрут для отмены
+    path('send-city-news/', send_city_news, name='send_city_news'),
     path('api/orders/<int:order_id>/cancel/', CancelOrderView.as_view(), name='order-cancel'),
     path('save-fcm-token/', save_fcm_token, name='save_fcm_token'),
     path('my-orders/', my_orders, name='my_orders'),
