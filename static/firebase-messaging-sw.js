@@ -14,6 +14,31 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+
+// Добавляем этот код в самый верх
+self.addEventListener('push', function(event) {
+    if (event.data) {
+        const payload = event.data.json();
+        console.log('SW: Экстренный перехват пуша:', payload);
+
+        const bodyText = payload.data?.body || payload.notification?.body || "Обновление заказа";
+        const orderId = payload.data?.order_id;
+        const pushType = payload.data?.order_type;
+
+        // Рассылаем всем открытым вкладкам (WebView это тоже касается)
+        self.clients.matchAll({type: 'window', includeUncontrolled: true}).then(clients => {
+            clients.forEach(client => {
+                client.postMessage({
+                    type: 'PUSH_RECEIVED', // Наш кастомный тип
+                    text: bodyText,
+                    orderId: orderId,
+                    pushType: pushType
+                });
+            });
+        });
+    }
+});
+
 // Обработка сообщений в фоновом режиме
 messaging.onBackgroundMessage((payload) => {
     // Удаляем или комментируем console.log(payload)
@@ -31,29 +56,32 @@ messaging.onBackgroundMessage((payload) => {
     });
 });
 
-// Добавьте это в начало или замените существующий обработчик
 messaging.onBackgroundMessage((payload) => {
     console.log('SW: Received message', payload);
 
     const bodyText = payload.data?.body || payload.notification?.body || "Обновление заказа";
+    
+    // 🔥 Извлекаем данные, чтобы передать их на страницу
+    const orderId = payload.data?.order_id;
+    const pushType = payload.data?.order_type; 
 
-    // 1. Рассылаем сообщение всем вкладкам (чтобы сработал navigator.serviceWorker.onmessage)
     self.clients.matchAll({type: 'window', includeUncontrolled: true}).then(clients => {
         clients.forEach(client => {
             client.postMessage({
                 type: 'PUSH_RECEIVED',
                 text: bodyText,
-                image: '/static/icons/1024x500.png',
+                orderId: orderId,   // 🔥 Передаем ID
+                pushType: pushType, // 🔥 Передаем Тип
+                icon: '/static/icons/1024x500.png',
             });
         });
     });
 
-    // 2. Если вы хотите, чтобы ДАЖЕ при открытой вкладке всплывало СИСТЕМНОЕ уведомление (баннер сверху):
-    // Внимание: Chrome может блокировать баннер при активной вкладке, но это поможет в WebView
+    // Показ системного уведомления
     const notificationTitle = payload.data?.title || "Findy Market";
     const notificationOptions = {
         body: bodyText,
-        image: '/static/icons/1024x500.png', // Укажите ваш путь к иконке
+        icon: '/static/icons/1024x500.png',
     };
 
     return self.registration.showNotification(notificationTitle, notificationOptions);
