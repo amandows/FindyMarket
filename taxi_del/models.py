@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 import uuid
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from django.db.models import JSONField # Для хранения списка ID
 
 class Driver(models.Model):
     # --- Перечисления ---
@@ -17,7 +17,7 @@ class Driver(models.Model):
         BOTH = "both", "Такси и Доставка"
 
     class CarClass(models.TextChoices):
-        ECONOMY = "economy", "Эконом"
+        ECONOMY = "econom", "Эконом"
         COMFORT = "comfort", "Комфорт"
         BUSINESS = "business", "Бизнес"
 
@@ -75,6 +75,8 @@ class Driver(models.Model):
 
 
 class OrderTaxi(models.Model):
+
+    excluded_drivers = models.ManyToManyField('Driver', blank=True, related_name='excluded_orders')
     # --- Перечисления (Choices) ---
     class Status(models.TextChoices):
         PENDING = "pending", "Ожидание (поиск водителя)"
@@ -95,7 +97,7 @@ class OrderTaxi(models.Model):
         WALLET = "wallet", "Личный баланс"
 
     class CarClass(models.TextChoices):
-        ECONOMY = "economy", "Эконом"
+        ECONOMY = "econom", "Эконом"
         COMFORT = "comfort", "Комфорт"
         BUSINESS = "business", "Бизнес"
 
@@ -138,7 +140,8 @@ class OrderTaxi(models.Model):
     price = models.DecimalField("Стоимость", max_digits=10, decimal_places=2, default=0)
     tips = models.DecimalField("Чаевые", max_digits=10, decimal_places=2, default=0)
     payment_type = models.CharField("Тип оплаты", max_length=10, choices=PaymentType.choices, default=PaymentType.CASH)
-    distance = models.DecimalField("Расстояние (км)", max_digits=7, decimal_places=2, default=0)
+    distance = models.CharField("Дистанция", max_length=50, blank=True, null=True)
+    duration = models.CharField("Длительность", max_length=50, blank=True, null=True)
 
     # --- Временные метки (Таймлайны) ---
     created_at = models.DateTimeField("Создан", auto_now_add=True)
@@ -148,6 +151,10 @@ class OrderTaxi(models.Model):
     started_at = models.DateTimeField("Поездка началась", null=True, blank=True)
     finished_at = models.DateTimeField("Поездка завершена", null=True, blank=True)
     canceled_at = models.DateTimeField("Отменен", null=True, blank=True)
+    # Время, когда заказ был предложен текущему водителю
+    offered_at = models.DateTimeField(null=True, blank=True)
+    # Поле для хранения очереди ID водителей: [5, 4, 12]
+    search_history = JSONField(default=list, blank=True)
 
     # --- Дополнительно ---
     cancel_reason = models.TextField("Причина отмены", blank=True, null=True)

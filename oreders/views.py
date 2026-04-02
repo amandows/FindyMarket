@@ -88,13 +88,13 @@ def update_order_status(request):
                 # Определяем текст уведомления
                 if status == 'completed':
                     if order.order_delivery_status == "Самовывоз":
-                        body_text = f"Ваш заказ {order.order_number} готов 🍽. Можете забрать его."
+                        body_text = f"Ваш заказ готов. Можете забрать его."
                     else:
-                        body_text = f"Ваш заказ {order.order_number} готов 🚕. Курьер уже едет к вам."
+                        body_text = f"Ваш заказ готов. Курьер уже едет к вам."
 
                 # ДОБАВЛЯЕМ ЗДЕСЬ:
                 elif status == 'accept':
-                    body_text = f"Ваш заказ №{order.order_number} принят в работу! 👨‍🍳"
+                    body_text = f"Ваш заказ принят в работу!"
 
                 else:
                     # Переводим технические статусы на человеческий язык
@@ -109,9 +109,9 @@ def update_order_status(request):
                 # Формируем сообщение
                 message = Message(
                     notification=Notification(
-                        title="Статус заказа",
+                        title="FindyGo",
                         body=body_text,
-                        image="/static/icons/1024x500.png'"  # Опционально
+                        # image="/static/icons/1024x500.png'"  # Опционально
                     ),
                 )
 

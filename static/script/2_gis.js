@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const locationTwoGo = document.querySelector('.location_two_go')
     const backBtn = document.querySelector('.back_btn')
     const backBtn2 = document.querySelector('.back_btn2')
-    const apiKey = "c65cccec-a214-41b7-affc-24511bd3fcb1";
+    const apiKey = "1ce1a8b0-243c-4085-a6d7-e7a9a2769dd4";
     const econom = document.getElementById('price_econom')
     const comfort = document.getElementById('price_comfort')
     const comfortPlus = document.getElementById('price_comfort_plus')
@@ -955,6 +955,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const carClass = activeCategory ? activeCategory.id : 'economy';
         const priceText = activeCategory.querySelector('.price').innerText;
         const priceValue = parseFloat(priceText.replace(/[^0-9.]/g, '')); // Извлекаем только число
+        const durationText = document.querySelector(".duration").innerText;
+        const distanceText = document.querySelector(".distance").innerText;
+        
 
         // 2. Визуальные эффекты (твои функции)
         searchWaveMArker(pointA.lat, pointA.lon);
@@ -967,6 +970,8 @@ document.addEventListener("DOMContentLoaded", function () {
             pointB,
             carClass,
             price: priceValue,
+            duration: durationText, // <--- Добавили
+            distance: distanceText, // <--- Добавили
             orderType: activeCategory.classList.contains('delivery_category') ? 'delivery' : 'taxi'
         });
     });
@@ -1015,7 +1020,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     destination_longitude: data.pointB.lon,
                     car_class: data.carClass,
                     price: data.price,
-                    order_type: data.orderType
+                    order_type: data.orderType,
+                    duration: data.duration,
+                    distance: data.distance
                 })
             });
 
@@ -1088,11 +1095,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Запускаем мониторинг (чтобы узнать, когда заказ завершится)
                     startActiveOrderPolling(orderId);
+                } 
+                if (data.status === 'canceled') {
+                    alert("К сожалению, свободных водителей не нашлось или никто не принял заказ.");
+                    location.href = '/taxi/'; // Возврат на главную
                 }
             } catch (e) {
                 console.error("Ошибка опроса поиска:", e);
             }
-        }, 3000);
+        }, 5000);
     }
 
     // --- 3. МОНИТОРИНГ УЖЕ ПРИНЯТОГО ЗАКАЗА ---
@@ -1430,7 +1441,7 @@ document.querySelectorAll('.buttons_container button').forEach(button => {
 function loadBankLinksFromLocalStorage() {
     // 2. Ищем элемент, в который динамически подставляется ссылка
     const bankLinkElement = document.getElementById('modal_driver_bank');
-    
+
     // Берем текст из элемента (если элемент найден)
     const payLink = bankLinkElement.value;
 
@@ -1470,10 +1481,10 @@ const phoneInput = document.querySelector("#modal_phone");
 
 // При клике на кнопку звонка
 if (telBtn) {
-    telBtn.onclick = function() {
+    telBtn.onclick = function () {
         // Берем значение именно в момент клика
         const currentNumber = phoneInput ? phoneInput.value : "";
-        
+
         if (currentNumber && currentNumber.trim() !== "") {
             window.location.href = `tel:${currentNumber}`;
             console.log("Calling:", currentNumber);
@@ -1485,9 +1496,9 @@ if (telBtn) {
 
 // При клике на кнопку WhatsApp
 if (whatsappBtn) {
-    whatsappBtn.onclick = function() {
+    whatsappBtn.onclick = function () {
         const currentNumber = phoneInput ? phoneInput.value : "";
-        
+
         if (currentNumber && currentNumber.trim() !== "") {
             // Очищаем от всего, кроме цифр
             const cleanPhone = currentNumber.replace(/\D/g, '');

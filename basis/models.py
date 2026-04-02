@@ -189,6 +189,9 @@ class Order(models.Model):
 # & "C:/Users/Admin/PycharmProjects/Findy_store/venv/Scripts/activate.ps1"
 # cd fmarket
 # python manage.py runserver
+# ..\venv\Scripts\python.exe manage.py runserver
+# cd C:\Users\Admin\PycharmProjects\Findy_store\venv\Scripts activate
+# python -m celery -A fmarket worker --loglevel=info -P solo
 # python manage.py runserver 192.168.0.100:8000
 # python manage.py createsuperuser source venv/bin/activate pip install -r req.txt
 # amandows@mail.ru citizenfour0

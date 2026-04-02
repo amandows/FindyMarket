@@ -28,6 +28,22 @@ AUTH_USER_MODEL = 'account.CustomUser'
 
 # Application definition
 
+# settings.py
+
+# settings.py
+
+# settings.py
+
+# Указываем Celery использовать базу данных как брокер
+# Для SQLite это выглядит так:
+CELERY_BROKER_URL = 'sqla+sqlite:///db.sqlite3'
+
+# Если уже перейдешь на PostgreSQL, будет так:
+# CELERY_BROKER_URL = 'sqla+postgresql://user:pass@localhost/dbname'
+
+# Сохраняем результаты выполнения задач в базу данных Django
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
 
 
 INSTALLED_APPS = [

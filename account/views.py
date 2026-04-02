@@ -123,7 +123,8 @@ def SignUp(request):
                 user = CustomUser.objects.create_user(
                     username=username,
                     user_phone_number=user_phone_number,
-                    password=password_1
+                    password=password_1,
+                    city="Кара-Куль"
                 )
                 user.save()
 

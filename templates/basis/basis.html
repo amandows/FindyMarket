@@ -86,6 +86,14 @@
         </div>
     </div>
 
+    <div id="geo-loader-modal" class="geo-modal-overlay" style="display: none;">
+        <div class="geo-modal-content">
+            <div class="spinner"></div>
+            <p>Обновление спутников...</p>
+            <span id="geo-status-text">Определяем координаты</span>
+        </div>
+    </div>
+
     <div class="body-container">
         <header>
             <div class="header-top">
@@ -323,7 +331,7 @@
                 <a href="" class="edit_phone_number">
                     <p>Изменить номер</p>
                 </a>
-                <a href="{% url 'taxi_driver' %}" class="go_line">
+                <a href="{% url 'driver_dashboard' %}" class="go_line">
                     <p>На линию</p>
                 </a>
                 <form action="{% url 'logout' %}" method="post" style="display: inline;" class="logout_form">
@@ -396,6 +404,8 @@
             <button id="trigger-push-btn" style="display:none;" onclick="runNativeLog()"></button>
         </footer>
     </div>
+    {% block scripttaxidriver %}
+    {% endblock %}
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
     import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging.js";
@@ -435,26 +445,34 @@
     // Слушаем сообщения (Активная вкладка)
     onMessage(messaging, (payload) => {
         console.log("Foreground push received");
+        console.log("Order data:", payload.data);
+
+        console.log("Foreground push (Desktop/Active)");
+        const orderData = payload.data;
+        handleOrderPush(orderData.order_id, orderData.order_type);
 
         const title = payload.notification?.title || "Новое уведомление";
         const body = payload.notification?.body || payload.data?.body || "Новое сообщение";
-
         // 🔥 Показываем системное уведомление
         if (Notification.permission === 'granted') {
             new Notification(title, {
                 body: body,
-                // image: '/static/icons/1024x500.png' // можешь указать свою иконку
+                icon: '/static/icons/1024x500.png' // можешь указать свою иконку
             });
         }
-
         // твоя логика
         window.simulateNativeClick(body);
     });
 
-    // Слушаем Service Worker (Фоновый режим)
+    // Слушаем Service Worker (Фоновый режим и мост для WebView)
     navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'PUSH_RECEIVED') {
             console.log("Background push received via SW bridge");
+
+            // 🔥 ДОБАВЛЯЕМ ЛОГИКУ ОБРАБОТКИ ЗАКАЗА ЗДЕСЬ
+            handleOrderPush(event.data.orderId, event.data.pushType);
+
+            // Вызов нативного клика (твой старый код)
             window.simulateNativeClick(event.data.text);
         }
     });
@@ -485,6 +503,22 @@
         .then(data => console.log('Токен успешно сохранен в БД:', data))
         .catch(err => console.error('Ошибка сохранения токена:', err));
     };
+
+    // Функция-обработчик (чтобы не дублировать код)
+    function handleOrderPush(orderId, pushType) {
+        if (pushType === 'ready_to_accept') {
+            localStorage.setItem('my_active_order', orderId);
+            const event = new CustomEvent('newOrderArrived', { detail: { orderId: orderId } });
+            document.dispatchEvent(event);
+            console.log("Логика 'Новый заказ' сработала");
+        } 
+        else if (pushType === 'canceled') {
+            localStorage.removeItem('my_active_order');
+            const event = new CustomEvent('orderCancelledByClient', { detail: { orderId: orderId } });
+            document.dispatchEvent(event);
+            console.log("Логика 'Отмена' сработала");
+        }
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
         // 1. Проверяем, открыто ли это в нашем Android-приложении

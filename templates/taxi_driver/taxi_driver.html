@@ -1,100 +1,179 @@
-{% load static %}
+{% extends 'basis/basis.html' %}
 {% load humanize %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Водитель</title>
-    <link rel="stylesheet" href="/static/css/taxi_driver.css">
-</head>
+{% block linkcss %}
+<link rel="stylesheet" href="/static/css/taxi_driver.css">
+{% endblock %}
 
-<body>
-    {% csrf_token %}
-    <header>
-        <div class="header-top">
-            <div class="menu-btn">
-                <button class="aside-btn"></button>
+{% block title %}Я водитель{% endblock %}
+
+{% block main %}
+{% csrf_token %}
+<button class="radar-btn" id="goBtn">
+    <span class="label">Go</span>
+    <div class="rings"></div>
+    <div class="sweep"></div>
+</button>
+<div class="maps" id="map_container"></div>
+<div class="step_one">
+    <!-- <div class="findy_title">
+        <p>Findy Водитель</p>
+        <img src="/static/icons/taxi-svgrepo-com.svg" alt="" class="title_logo">
+    </div> -->
+    <div id="driver-app">
+        <div class="city">
+            <div class="city_icon"></div>
+            <p class="my_city" id="my_city"></p>
+        </div>
+        <div class="status-panel">
+            <div class="status_content">
+                <p class="stat-item" id="role">Статус</p>
+                <p id="status-label">Вы оффлайн</p>
             </div>
-            <a href="{% url 'taxi_driver' %}" class="logo">
-                <p>FindyTaxi</p>
-            </a>
-            {% if request.user.is_authenticated %}
-            <p class="user_name">{{ request.user.username }}</p>
-            {% else %}
-            <!-- <a href="{% url 'registration_sms' %}" class="login">
-                    <p>Гость</p>
-                </a> -->
-            <a href="https://2gis.ru/routeSearch/rsType/car/from/-/to/72.73369215,41.64324689" class="login">
-                <p>Гость</p>
-            </a>
-            {% endif %}
-            <div class="aside-menu">
-                <div class="administrator">
-                    <div class="text-content">
-                        <h2 class="name">{{ request.user.user_name }}</h2>
-                        <p class="info">{{ request.user.get_user_type_display }}</p>
-                    </div>
-                    <div class="image-contaiener">
-                        <img src="{{ request.user.user_logo.url }}" alt="">
-                    </div>
-                </div>
-
-                <div class="aside-content">
-                </div>
-                <div class="footer">
-                    <div class="soccial">
-                        <a href="" class="facebook"></a>
-                        <a href="" class="instagram"></a>
-                        <a href="" class="twitter"></a>
-                        <a href="" class="youtube"></a>
-                    </div>
-                    <div class="footer-text">
-                        <p>ⓒ 2026 FindyMarket</p>
-                        <p>Все права защищены</p>
-                    </div>
-                </div>
+            <div class="status_icon"></div>
+        </div>
+        <div class="car_info_panel">
+            <div class="icons cars_icon"></div>
+            <div class="car_content">
+                <p class="stat_info" id="drv-car-class"></p>
+                <p class="stat-item" id="drv-car-details"></p>
             </div>
         </div>
-    </header>
-    <main>
-        <div class="maps" id="map_container"></div>
-        <div class="step_one">
-            <div class="findy_title">
-                <p>Я Водитель</p>
-                <img src="/static/icons/taxi-svgrepo-com.svg" alt="" class="title_logo">
+        <div class="driver_raiting_panel">
+            <div class="icons raiting_icon"></div>
+            <div class="raiting_content">
+                <p class="stat_info" id="drv-rating">0.0</p>
+                <p class="stat-item">Рейтинг</p>
+            </div> 
+        </div>
+        <div class="driver_balance_panel">
+            <div class="icons balance_icon"></div>
+            <div class="balance_content">
+                <p class="stat_info" id="drv-balance">0.0</p>
+                <p class="stat-item">Баланс</p>
             </div>
-            <button class="radar-btn" id="goBtn">
-                <span class="label">На линию</span>
-                <div class="rings"></div>
-                <div class="sweep"></div>
+        </div>
+        <div class="driver_trips_panel">
+            <div class="icons trips_icon"></div>
+            <div class="trips_content">
+                <p class="stat_info" id="drv-trips">0</p>
+                <p class="stat-item">Количество заказов</p>
+            </div>
+        </div>
+        <button class="update_my_location_btn">
+            <p>Обновить геолокацию</p>
+            <img src="/static/icons/gps-navigation.png" alt="">
+        </button>
+    </div>
+    <div id="order-modal" class="modal">
+        <div class="title_price">
+            <h3>Новый заказ /</h3>
+            <p id="order-price">100 сом</p>
+        </div>
+        <div class="distance_time">
+            <p id="time" class="time">5мин</p>
+            <p id="distance" class="distance">2.5км</p>
+        </div>
+        <div class="comment">
+            <p class="comment_title">Коментарий</p>
+            <p id="comment_text">
+                От двери до двери
+            </p>
+        </div>
+        <div class="pickup_address_container">
+            <div class="pickup_address_icon"></div>
+            <div class="pickup_address_content">
+                <p class="address_item">Откуда</p>
+                <p id="order-address">Кара-Куль, улица Сабирова, 115б</p>
+            </div>
+        </div>
+        <div class="destination_address_container">
+            <div class="destination_address_icon"></div>
+            <div class="destination_address_content">
+                <p class="address_item">Куда</p>
+                <p id="destination-address">Кара-Куль, улица Серого, 21</p>
+            </div>
+        </div>
+        <button id="accept-btn">
+            <p>Принять</p>
+        </button>
+        <!-- <button onclick="closeModalManually()">Пропустить</button> -->
+    </div>
+    <div class="taxi_accept_order">
+        <div class="status-panel">
+            <div class="status_content">
+                <p class="stat-item" id="role">Статус</p>
+                <p id="driver-status-label">Вы приняли заказ / 200сом</p>
+            </div>
+            <div class="status_icon"></div>
+        </div>
+        <div class="comment">
+            <p class="comment_title">Коментарий</p>
+            <p id="driver-comment_text">
+                От двери до двери
+            </p>
+        </div>
+        <div class="pickup_address_container">
+            <div class="pickup_address_icon"></div>
+            <div class="pickup_address_content">
+                <p class="address_item">Откуда</p>
+                <p id="driver-order-address">Кара-Куль, улица Сабирова, 115б</p>
+            </div>
+        </div>
+        <div class="destination_address_container">
+            <div class="destination_address_icon"></div>
+            <div class="destination_address_content">
+                <p class="address_item">Куда</p>
+                <p id="driver-destination-address">Кара-Куль, улица Серого, 21</p>
+            </div>
+        </div>
+        <div class="customer_content">
+            <p class="customer_title">Данные клиента</p>
+            <div class="customer_buttons">
+                <button class="customer_pickup_address">
+                    <div class="icon customer_pickup_icon"></div>
+                    <p class="text">До клиента</p>
+                </button>
+                <button class="customer_destination_address">
+                    <div class="icon customer_destination_icon"></div>
+                    <p class="text">До Точки Б</p>
+                </button>
+                <button class="customer_call">
+                    <div class="icon customer_call_icon"></div>
+                    <p class="text">Позвонить</p>
+                </button>
+                <button class="customer_whatsapp">
+                    <div class="icon customer_whatsapp_icon"></div>
+                    <p class="text">Написать</p>
+                </button>
+            </div>
+        </div>
+        <div class="basic_buttons">
+            <button id="btn-go-to-pickup" class="goto_pickup_address">
+                <p class="text">Маршрут до клиента</p>
             </button>
-            <button class="my_statistic">
-                <p>Инфо</p>
+            <button id="btn-on-site" class="on_site" style="display:none;">
+                <p class="text">На месте</p>
             </button>
-            <button class="options">
-                <p>Опции</p>
+            <button id="btn-start-trip" class="goto_customer_destination" style="display:none;">
+                <p class="text">Поехали</p>
             </button>
-            <button class="my_location">
-                <p>Обновить мое местоположение</p>
+            <button id="btn-complete-order" class="goto_customer_destination" style="display:none;">
+                <p class="text">Завершить</p>
+            </button>
+            <button id="btn-cancel-order" class="order_cancel">
+                <p class="text">Отмена</p>
             </button>
         </div>
-    </main>
-    <script src="https://mapgl.2gis.com/api/js/v1"></script>
-    <script src="/static/script/taxi_driver.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const userNameElement = document.querySelector(".user_name");
+    </div>
+</div>
 
-            if (userNameElement) {
-                const fullNumber = userNameElement.textContent.trim(); // Получаем полный номер
-                const lastFourDigits = fullNumber.slice(-4); // Извлекаем последние 4 цифры
-                userNameElement.textContent = lastFourDigits; // Заменяем текст в элементе
-            }
-        });
-    </script>
-</body>
+{% endblock %}
 
-</html>
+{% block scripttaxidriver %}
+
+<script src="https://mapgl.2gis.com/api/js/v1"></script>
+
+<script src="/static/script/taxi_driver.js"></script>
+
+{% endblock %}
