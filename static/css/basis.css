@@ -729,23 +729,16 @@ h6 {
 }
 .body-container .carts .form-container form .form__group #get-address-btn {
   position: absolute;
-  width: clamp(10px, 9.8vw, 60px);
-  height: clamp(10px, 9.8vw, 60px);
   top: 50%;
   left: 100%;
-  transform: translate(-110%, -50%);
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0);
-}
-.body-container .carts .form-container form .form__group #get-address-btn img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 60%;
-  height: 60%;
-  transform: translate(-50%, -50%);
-  -o-object-fit: cover;
-     object-fit: cover;
+  transform: translate(-100%, -50%);
+  border-radius: 5px;
+  background-color: #fafafa;
+  border: 1px solid #000;
+  padding: 5px 7px;
+  font-family: "Nunito";
+  font-size: clamp(10px, 3.5vw, 16px);
+  z-index: 508;
 }
 .body-container .carts .form-container form .form__group .user_name-icon,
 .body-container .carts .form-container form .form__group .user_adress-ico {
@@ -771,6 +764,7 @@ h6 {
 }
 .body-container .carts .form-container form .form__group #user-name,
 .body-container .carts .form-container form .form__group #address {
+  position: relative;
   padding: clamp(5px, 3.8vw, 30px) 0 clamp(5px, 3.8vw, 30px) clamp(10px, 7.8vw, 60px);
 }
 .body-container .carts .form-container form .form__field {
@@ -1267,7 +1261,7 @@ h6 {
   z-index: 512;
 }
 .body-container header .header-top .menu-btn .aside-btn-active {
-  background: url("/static/icons/close.png") center/cover no-repeat;
+  background: url("/static/icons/left-arrow.png") right/cover no-repeat;
 }
 .body-container header .header-top .user_name {
   font-family: "Nunito";
@@ -1318,47 +1312,124 @@ h6 {
   padding: 0 0px;
   background: #ffffff;
 }
+.body-container header .header-top .aside-menu .nanvigation_bts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 18%;
+  background-color: #1b1b1b;
+  z-index: 510;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: clamp(20px, 20vw, 100px);
+  gap: 15px;
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .line {
+  width: 40%;
+  height: 2px;
+  background-color: #cccccc;
+  margin: 0 auto;
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content, .body-container header .header-top .aside-menu .nanvigation_bts .social_media {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content button, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content button, .body-container header .header-top .aside-menu .nanvigation_bts .social_media button {
+  width: 100%;
+  height: clamp(20px, 13vw, 80px);
+  background-position: center;
+  background-size: 30%;
+  background-repeat: no-repeat;
+  background-color: #1b1b1b;
+  transition: all 0.3s ease 0s;
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .active, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .active, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .active {
+  opacity: 90%;
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .manager, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .manager, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .manager {
+  background-image: url("/static/icons/manager.png");
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .taxi_cs, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .taxi_cs, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .taxi_cs {
+  background-image: url("/static/icons/taxi-icon.png");
+  background-size: 32%;
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .fast-food, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .fast-food, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .fast-food {
+  background-image: url("/static/icons/fast-food.png");
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .vegetables, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .vegetables, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .vegetables {
+  background-image: url("/static/icons/broccoli-ico.png");
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .announcement, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .announcement, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .announcement {
+  background-image: url("/static/icons/megaphone.png");
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .shop, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .shop, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .shop {
+  background-image: url("/static/icons/shopping.png");
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .facebook, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .facebook, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .facebook {
+  background-image: url("/static/icons/facebook.png");
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .twitter, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .twitter, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .twitter {
+  background-image: url("/static/icons/twitter-white.png");
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .instagram, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .instagram, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .instagram {
+  background-image: url("/static/icons/instagram-ico.png");
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .youtube, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .youtube, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .youtube {
+  background-image: url("/static/icons/video.png");
+}
+.body-container header .header-top .aside-menu .nanvigation_bts .site_content .active, .body-container header .header-top .aside-menu .nanvigation_bts .admin_content .active, .body-container header .header-top .aside-menu .nanvigation_bts .social_media .active {
+  background-color: #ff6600;
+}
 .body-container header .header-top .aside-menu .administrator {
   width: 100%;
   height: clamp(20px, 20vw, 100px); /* Префикс для Safari */
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 15px;
   position: relative;
-  background-color: #fae207;
+  background-color: #ffffff;
   padding: 0 15px 0 0;
+  z-index: 509;
 }
 .body-container header .header-top .aside-menu .administrator .text-content {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: flex-end;
+  align-items: flex-start;
   font-family: "Noto Sans Georgian";
   gap: clamp(1px, 2vw, 35px);
 }
 .body-container header .header-top .aside-menu .administrator .text-content h2 {
   font-family: "Noto Sans Georgian";
-  font-size: clamp(12px, 4.2vw, 18px);
+  font-size: clamp(12px, 4vw, 18px);
   color: #0f0f0f;
-  font-weight: 500;
+  font-weight: 600;
 }
 .body-container header .header-top .aside-menu .administrator .text-content p {
   font-family: "Montserrat";
-  font-size: clamp(8px, 3.4vw, 15px);
-  color: #303030;
-  font-weight: 500;
+  font-size: clamp(8px, 3.3vw, 15px);
+  color: rgba(43, 43, 43, 0.5882352941);
+  font-weight: 600;
 }
 .body-container header .header-top .aside-menu .administrator .image-contaiener {
+  margin-left: 25%;
   position: relative;
-  width: clamp(20px, 14vw, 50px);
-  height: clamp(20px, 14vw, 50px);
+  width: clamp(20px, 12vw, 40px);
+  height: clamp(20px, 12vw, 40px);
   overflow: hidden;
-  border-radius: 5px;
+  border-radius: 50%;
+  border: 2px solid #292929;
 }
 .body-container header .header-top .aside-menu .administrator .image-contaiener img {
-  width: 130%;
-  height: 130%;
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0%;
   left: 50%;
@@ -1370,9 +1441,11 @@ h6 {
   width: 90%;
   margin-left: 10%;
   margin-top: 30px;
+  position: relative;
 }
 .body-container header .header-top .aside-menu .aside-content nav {
-  width: 100%;
+  width: 80%;
+  margin-left: 20%;
 }
 .body-container header .header-top .aside-menu .aside-content nav .content-ul {
   width: 100%;
@@ -1385,6 +1458,17 @@ h6 {
 .body-container header .header-top .aside-menu .aside-content nav .content-ul li {
   width: 100%;
   position: relative;
+}
+.body-container header .header-top .aside-menu .aside-content nav .content-ul li::after {
+  position: absolute;
+  top: 50%;
+  left: 40vw;
+  transform: translateY(-50%);
+  width: clamp(20px, 7vw, 50px);
+  height: clamp(20px, 7vw, 50px);
+  display: inline-block;
+  content: "";
+  background: url("/static/icons/right-arrow.png") center/35% no-repeat;
 }
 .body-container header .header-top .aside-menu .aside-content nav .content-ul li a {
   display: inline-block;
@@ -1399,24 +1483,25 @@ h6 {
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  width: clamp(9px, 4.3vw, 35px);
-  height: clamp(9px, 4.3vw, 35px);
+  width: clamp(20px, 7vw, 50px);
+  height: clamp(20px, 7vw, 50px);
   display: inline-block;
+  border-radius: 50%;
 }
 .body-container header .header-top .aside-menu .aside-content nav .content-ul .home span {
-  background: url("/static/icons/home-agreement.png") center/cover no-repeat;
+  background: #474747 url("/static/icons/home-agreement.png") center/50% no-repeat;
 }
 .body-container header .header-top .aside-menu .aside-content nav .content-ul .contact span {
-  background: url("/static/icons/phone-callblack.png") center/cover no-repeat;
+  background: #474747 url("/static/icons/phone-callblack.png") center/50% no-repeat;
 }
 .body-container header .header-top .aside-menu .aside-content nav .content-ul .services span {
-  background: url("/static/icons/services.png") center/cover no-repeat;
+  background: #474747 url("/static/icons/services.png") center/50% no-repeat;
 }
 .body-container header .header-top .aside-menu .aside-content nav .content-ul .help span {
-  background: url("/static/icons/first-aid-kit.png") center/cover no-repeat;
+  background: #474747 url("/static/icons/first-aid-kit.png") center/50% no-repeat;
 }
 .body-container header .header-top .aside-menu .aside-content nav .content-ul .about span {
-  background: url("/static/icons/about.png") center/cover no-repeat;
+  background: #474747 url("/static/icons/question.png") center/50% no-repeat;
 }
 .body-container header .header-top .aside-menu .aside-content nav .other-projects {
   display: flex;
@@ -1445,34 +1530,9 @@ h6 {
   transform: translateX(-50%);
   padding: 0 15px;
 }
-.body-container header .header-top .aside-menu .footer .soccial {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #d4d4d4;
-  padding: 0 0 20px 0;
-  justify-content: center;
-  gap: 30px;
-  width: 100%;
-}
-.body-container header .header-top .aside-menu .footer .soccial a {
-  display: inline-block;
-  width: clamp(9px, 5vw, 60px);
-  height: clamp(9px, 5vw, 60px);
-}
-.body-container header .header-top .aside-menu .footer .soccial .facebook {
-  background: url("/static/icons/facebook-white.png") center/cover no-repeat;
-}
-.body-container header .header-top .aside-menu .footer .soccial .instagram {
-  background: url("/static/icons/instagram-white.png") center/cover no-repeat;
-}
-.body-container header .header-top .aside-menu .footer .soccial .twitter {
-  background: url("/static/icons/twitter-white.png") center/cover no-repeat;
-}
-.body-container header .header-top .aside-menu .footer .soccial .youtube {
-  background: url("/static/icons/youtube-white.png") center/cover no-repeat;
-}
 .body-container header .header-top .aside-menu .footer .footer-text {
   margin-top: 30px;
+  margin-left: 20%;
   font-family: "Open Sans";
   font-size: clamp(6px, 2.8vw, 12px);
   color: #272727;

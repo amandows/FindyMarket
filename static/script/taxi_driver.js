@@ -1,18 +1,60 @@
-let defaultCenter = [72.746835, 41.654299];
-let userMarker = null;
-const apiKey = "1ce1a8b0-243c-4085-a6d7-e7a9a2769dd4";
 
 function reloadPage() {
     location.reload();
 }
 
+
 document.addEventListener("DOMContentLoaded", function () {
 
+    let defaultCenter = [72.746835, 41.654299];
+    const apiKey = "a58ba029-221e-4c0b-91b5-91296ba6286f";
+    
+    function requestGpsCheck() {
+        console.log("CHECK_GPS");
+    }
+
+    requestGpsCheck();
+    
     // 1. Объявляем переменные в области видимости DOMContentLoaded
+    syncActiveOrderState()
+
+    /////...... функция для вызова модального окна Ошибок ...///////
+
+    function showErrorModal(message, title = "Ошибка") {
+        const modal = document.getElementById("errorModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalMessage = document.getElementById("modalMessage");
+        const closeBtn = modal.querySelector(".close");
+
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+
+        modal.style.display = "block";
+        modal.classList.add("show");
+
+        // Закрытие при клике на крестик
+        closeBtn.onclick = function () {
+            modal.classList.remove("show");
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 300);
+        }
+
+        // Закрытие при клике вне модального окна
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.classList.remove("show");
+                setTimeout(() => {
+                    modal.style.display = "none";
+                }, 300);
+            }
+        }
+    }
+
     let userMarker = null;
 
     // Создаем карту и СРАЗУ записываем её в переменную map
-    const map = new mapgl.Map('map_container', {
+    const map = new mapgl.Map('map_container_driver', {
         key: apiKey,
         center: defaultCenter,
         style: 'cf079934-7e60-4cfe-ba4f-b7c8116baeb6',
@@ -91,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
             (error) => {
                 console.error("Ошибка GPS:", error);
                 if (showLoader) {
-                    alert("Ошибка GPS: убедитесь, что геолокация включена");
+                    showErrorModal("Ошибка GPS: убедитесь, что геолокация включена", "⚠️ Предупреждение");
                     modal.style.display = 'none';
                 }
             },
@@ -136,12 +178,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.reload();
             } else {
                 console.error("Сервер вернул ошибку при смене статуса");
-                alert("Не удалось сменить статус на сервере.");
+                showErrorModal("Не удалось сменить статус на сервере", "Предупреждение");
             }
 
         } catch (error) {
             console.error("Ошибка сети:", error);
-            alert("Проверьте интернет-соединение.");
+            showErrorModal("Проверьте интернет-соединение.", "Пожалуйста");
         }
     });
 
@@ -154,7 +196,8 @@ document.addEventListener("DOMContentLoaded", function () {
         closeModal();
 
         // Опционально: можно вывести уведомление водителю
-        alert("Заказ #" + e.detail.orderId + " был отменен клиентом.");
+        showErrorModal("Клиент отменил текущий заказ.", "Сообщение");
+        return; 
     });
 
 
@@ -239,48 +282,33 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // function startPolling() {
-    //     pollingInterval = setInterval(async () => {
-    //         if (window.showingOrder) return; // Если модалка уже висит, не опрашиваем
-
-    //         try {
-    //             let response = await fetch('/api/driver/check/');
-    //             let data = await response.json();
-
-    //             if (data.has_order) {
-    //                 // showOrderModal(data);
-    //             }
-    //         } catch (e) { console.error("Ошибка опроса:", e); }
-    //     }, 500000); // Опрос каждые 5 сек для быстродействия
-    // }
 
     let currentOrderId = null; // Глобальная переменная
 
     function showOrderModal(order) {
         currentOrderId = order.order_id;
         window.showingOrder = true;
+        let isAccepted = false; // 🔥 ФЛАГ-ПРЕДОХРАНИТЕЛЬ
 
         const totalSeconds = 10;
         let elapsedPercent = 0;
         const btn = document.getElementById('accept-btn');
 
-        // Сбрасываем заливку кнопки при открытии
         btn.style.setProperty('--progress', '0%');
 
-        // Интервал 100мс для плавной анимации (10 сек = 100 шагов по 100мс)
         let timer = setInterval(async () => {
-            elapsedPercent += (100 / (totalSeconds * 10)); // Увеличиваем прогресс
-
-            // Визуально обновляем заливку
+            elapsedPercent += (100 / (totalSeconds * 10));
             btn.style.setProperty('--progress', `${elapsedPercent}%`);
 
             if (elapsedPercent >= 100) {
                 clearInterval(timer);
-                if (currentOrderId) {
-                    await autoSkip(currentOrderId);
-                }
+
+                // ✅ ЕСЛИ УЖЕ ПРИНЯТ — НЕ SKIP
+                if (!window.showingOrder || !currentOrderId) return;
+
+                await autoSkip(currentOrderId);
             }
-        }, 100); // 100мс = очень плавно
+        }, 100);
 
         // Обновляем данные в модалке
         document.getElementById('order-address').innerText = order.pickup;
@@ -294,8 +322,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // Принятие заказа
         btn.onclick = async () => {
             clearInterval(timer);
+            window.showingOrder = false;
+
             if (currentOrderId) {
-                acceptOrder(currentOrderId);
+                // Желательно дождаться ответа, прежде чем что-то делать дальше
+                await acceptOrder(currentOrderId); 
             }
         };
     }
@@ -307,7 +338,10 @@ document.addEventListener("DOMContentLoaded", function () {
             closeModal();
             return;
         }
-
+        if (!window.showingOrder) {
+            console.log("Skip отменен — заказ уже принят");
+            return;
+        }
         try {
             const response = await fetch(`/api/order/${orderId}/skip/`, {
                 method: 'POST',
@@ -324,6 +358,11 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Ошибка при пропуске заказа:", e);
         }
         closeModal();
+        showErrorModal(
+            "Вы не приняли заказ. Ваша активность будет снижена.",
+            "⚠️ Предупреждение"
+        );
+        return; 
     }
 
     async function acceptOrder(orderId) {
@@ -352,12 +391,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     await fetchAndShowActiveOrder();
                 }
             } else {
-                alert(result.message || "Ошибка принятия заказа");
+                showErrorModal(`${result.message} Ошибка принятия заказа`, "Пожалуйста");
                 closeModal();
             }
         } catch (e) {
             console.error("Ошибка:", e);
-            alert("Сбой сети");
+            showErrorModal("Сбой сети", "⚠️ Предупреждение");
         }
     }
 
@@ -454,73 +493,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         } catch (e) {
-            alert("Не удалось изменить статус. Проверьте интернет.");
+            showErrorModal("Не удалось изменить статус. Проверьте интернет", "⚠️ Предупреждение");
         }
     });
 
 
-    //обновление геолокацию водителя
-    // document.querySelector(".update_my_location_btn").addEventListener("click", updateDriverLocation);
-
-    // async function updateDriverLocation() {
-    //     const modal = document.getElementById('geo-loader-modal');
-    //     const statusText = document.getElementById('geo-status-text');
-
-    //     // 1. Показываем модалку
-    //     modal.style.display = 'flex';
-    //     statusText.innerText = "Запрос к GPS...";
-
-    //     if (!navigator.geolocation) {
-    //         alert("Геолокация не поддерживается вашим браузером");
-    //         modal.style.display = 'none';
-    //         return;
-    //     }
-
-    //     // 2. Получаем координаты от браузера
-    //     navigator.geolocation.getCurrentPosition(
-    //         async (position) => {
-    //             const lat = position.coords.latitude;
-    //             const lon = position.coords.longitude;
-
-    //             statusText.innerText = "Отправка на сервер...";
-
-    //             try {
-    //                 // 3. Отправляем на бэкенд
-    //                 const response = await fetch('/api/driver/update-coordinates/', {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'Content-Type': 'application/json',
-    //                         'X-CSRFToken': csrftoken
-    //                     },
-    //                     body: JSON.stringify({
-    //                         latitude: lat,
-    //                         longitude: lon
-    //                     })
-    //                 });
-
-    //                 if (response.ok) {
-    //                     statusText.innerText = "Готово!";
-    //                     // Обновляем маркер на карте, если функция доступна
-    //                     if (typeof updateMapMarker === "function") {
-    //                         updateMapMarker(lat, lon);
-    //                     }
-
-    //                     // Закрываем через полсекунды, чтобы водитель увидел "Готово"
-    //                     setTimeout(() => { modal.style.display = 'none'; }, 600);
-    //                 }
-    //             } catch (e) {
-    //                 console.error(e);
-    //                 alert("Ошибка связи с сервером");
-    //                 modal.style.display = 'none';
-    //             }
-    //         },
-    //         (error) => {
-    //             alert("Не удалось получить доступ к GPS. Проверьте настройки разрешений.");
-    //             modal.style.display = 'none';
-    //         },
-    //         { enableHighAccuracy: true, timeout: 10000 }
-    //     );
-    // }
     // 1. Сначала константы
     const LS_DRIVER_ORDER_KEY = 'active_driver_order';
 
@@ -584,12 +561,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Кнопка позвонить
             document.querySelector(".customer_call").onclick = () => {
-                window.location.href = `tel:+${phone}`;
+                window.location.href = `tel:+996${phone}`;
             };
 
             // Кнопка WhatsApp
             document.querySelector(".customer_whatsapp").onclick = () => {
-                window.open(`https://wa.me/${phone}`, '_blank');
+                // В WebView лучше переходить напрямую, чтобы сработал перехват URL
+                window.location.href = `https://wa.me/${phone}`;
             };
         }
 
@@ -627,18 +605,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Кнопка: Завершить
         document.getElementById('btn-complete-order').onclick = (e) => handleButtonClick(e.currentTarget, async () => {
-            // 1. Завершаем заказ в базе
-            await updateStatusAndCleanup(order.order_id, 'completed');
-
-            // 2. 🔥 Автоматически включаем статус "Online"
-            await setDriverOnlineUI();
-
-            // 3. Закрываем модалку (если updateStatusAndCleanup этого не сделал)
-            if (typeof forceCloseOrderModal === 'function') {
-                forceCloseOrderModal();
+            // 1. Завершаем заказ, но запрещаем функции делать reload() автоматически
+            const success = await updateStatusAndCleanup(order.order_id, 'completed', false);
+                
+            if (success) {
+                // 2. Теперь спокойно включаем Online
+                await setDriverOnlineUI();
+                
+                // 3. Теперь можно либо обновить UI без перезагрузки, либо перезагрузить вручную
+                console.log("Заказ завершен, статус Online включен");
+                location.reload(); 
             }
         });
-
         // Кнопка: Отмена (тут конфирм сам по себе является защитой, но анимация не помешает)
         document.getElementById('btn-cancel-order').onclick = (e) => {
             if (confirm("Отменить заказ?")) {
@@ -681,7 +659,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 5. Работа с API
-    async function updateStatusAndCleanup(orderId, newStatus) {
+    async function updateStatusAndCleanup(orderId, newStatus, shouldReload = true) {
         try {
             const response = await fetch(`/api/orders/${orderId}/update_status/`, {
                 method: 'POST',
@@ -695,22 +673,20 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
                 if (['completed', 'canceled'].includes(newStatus)) {
                     localStorage.removeItem(LS_DRIVER_ORDER_KEY);
-                    location.reload();
-                } else {
-                    const savedOrder = JSON.parse(localStorage.getItem(LS_DRIVER_ORDER_KEY));
-                    if (savedOrder) {
-                        savedOrder.status = newStatus;
-                        localStorage.setItem(LS_DRIVER_ORDER_KEY, JSON.stringify(savedOrder));
+                    // Если нам НЕ нужно перезагружать страницу сразу (например, чтобы успеть обновить UI)
+                    if (shouldReload) {
+                        location.reload();
                     }
+                } else {
+                    // ... логика обновления без перезагрузки ...
                     refreshDriverUI(newStatus);
                 }
-            } else {
-                const err = await response.json();
-                alert(err.error || "Ошибка сервера");
+                return true; // Возвращаем успех
             }
         } catch (e) {
             console.error(e);
         }
+        return false;
     }
 
     async function setDriverOnlineUI() {

@@ -41,51 +41,52 @@ self.addEventListener('push', function(event) {
 
 // Обработка сообщений в фоновом режиме
 messaging.onBackgroundMessage((payload) => {
-    // Удаляем или комментируем console.log(payload)
-    
-    const bodyText = payload.notification?.body || payload.data?.body || "Обновление заказа";
-
-    // Передаем только строку body на страницу
-    self.clients.matchAll({type: 'window', includeUncontrolled: true}).then(clients => {
-        clients.forEach(client => {
-            client.postMessage({
-                type: 'PUSH_RECEIVED',
-                text: bodyText
-            });
-        });
-    });
-});
-
-messaging.onBackgroundMessage((payload) => {
-    console.log('SW: Received message', payload);
-
-    const bodyText = payload.data?.body || payload.notification?.body || "Обновление заказа";
-    
-    // 🔥 Извлекаем данные, чтобы передать их на страницу
     const orderId = payload.data?.order_id;
-    const pushType = payload.data?.order_type; 
+    const pushType = payload.data?.order_type;
+    const bodyText = payload.data?.body || "Обновление";
 
     self.clients.matchAll({type: 'window', includeUncontrolled: true}).then(clients => {
         clients.forEach(client => {
             client.postMessage({
                 type: 'PUSH_RECEIVED',
                 text: bodyText,
-                orderId: orderId,   // 🔥 Передаем ID
-                pushType: pushType, // 🔥 Передаем Тип
-                icon: '/static/icons/1024x500.png',
+                orderId: orderId,   // ОБЯЗАТЕЛЬНО
+                pushType: pushType  // ОБЯЗАТЕЛЬНО
             });
         });
     });
-
-    // Показ системного уведомления
-    const notificationTitle = payload.data?.title || "Findy Market";
-    const notificationOptions = {
-        body: bodyText,
-        icon: '/static/icons/1024x500.png',
-    };
-
-    return self.registration.showNotification(notificationTitle, notificationOptions);
 });
+
+// messaging.onBackgroundMessage((payload) => {
+//     console.log('SW: Received message', payload);
+
+//     const bodyText = payload.data?.body || payload.notification?.body || "Обновление заказа";
+    
+//     // 🔥 Извлекаем данные, чтобы передать их на страницу
+//     const orderId = payload.data?.order_id;
+//     const pushType = payload.data?.order_type; 
+
+//     self.clients.matchAll({type: 'window', includeUncontrolled: true}).then(clients => {
+//         clients.forEach(client => {
+//             client.postMessage({
+//                 type: 'PUSH_RECEIVED',
+//                 text: bodyText,
+//                 orderId: orderId,   // 🔥 Передаем ID
+//                 pushType: pushType, // 🔥 Передаем Тип
+//                 icon: '/static/icons/1024x500.png',
+//             });
+//         });
+//     });
+
+//     // Показ системного уведомления
+//     const notificationTitle = payload.data?.title || "Findy Market";
+//     const notificationOptions = {
+//         body: bodyText,
+//         icon: '/static/icons/1024x500.png',
+//     };
+
+//     return self.registration.showNotification(notificationTitle, notificationOptions);
+// });
 
 // Добавляем общий слушатель push событий (страховка для активного режима)
 self.addEventListener('push', function(event) {

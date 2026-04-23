@@ -20,7 +20,7 @@ from courier.views import courier_page, register_or_login, get_courier_orders, p
 from shop_list.views import user_list
 from dynamic_search.views import search_food_menu
 from taxi_del.views import taxi, CreateOrderView, OrderStatusView, CancelOrderView, check_for_new_order, skip_order_api
-from taxi_driver.views import taxi_driver, check_for_new_order, accept_order, skip_order, get_driver_init_data, toggle_driver_status, update_coordinates, UpdateOrderStatusView, get_active_order_details, check_specific_order_status
+from taxi_driver.views import taxi_driver, check_for_new_order, accept_order, get_driver_init_data, toggle_driver_status, update_coordinates, UpdateOrderStatusView, get_active_order_details, check_specific_order_status
 from my_orders.views import my_orders, update_order_result_ajax, my_orders_ajax
 from firebase_push.views import save_fcm_token
 from send_news.views import send_city_news
@@ -35,7 +35,7 @@ urlpatterns = [
     path('api/driver/init-data/', get_driver_init_data, name='driver_init_data'),
     path('api/driver/toggle-status/', toggle_driver_status, name='toggle_status'),
     path('api/order/<int:order_id>/accept/', accept_order, name='accept_order'),
-    path('api/order/<int:order_id>/skip/', skip_order, name='skip_order'),
+    # path('api/order/<int:order_id>/skip/', skip_order, name='skip_order'),
     path('api/driver/check/', check_for_new_order, name='check_order'),
     path('api/driver/check-order/<int:order_id>/', check_specific_order_status),
     path('api/order/<int:order_id>/skip/', skip_order_api, name='skip_order'),

@@ -1,0 +1,312 @@
+.start_marker,
+.finish_marker_map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -170%);
+    z-index: 5000;
+    .content {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        // gap: 8px;
+        justify-content: space-between;
+        background-color: #fff;
+        border-radius: 10px;
+        .img_container {
+            width: clamp(20px, 8vw, 100px);
+            height: clamp(20px, 8vw, 100px);
+            position: relative;
+            background-color: #ffc60a;
+            border-radius: 5px;
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 70%;
+                height: 70%;
+                object-fit: cover;
+                opacity: 100%;
+            }
+        }
+        .start_text_content {
+            visibility: hidden;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease; /* Плавное появление */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease; /* Плавное появление */
+            gap: 5px;
+            // padding: 0 5px 0px 5px;
+            p {
+                white-space: nowrap;
+                font-family: "Nunito";
+                color: rgb(31, 31, 31);
+            }
+            .text_price {
+                font-size: clamp(10px, 3.3vw, 22px);
+                font-weight: 600;
+            }
+            .start_price {
+                font-size: clamp(10px, 3.5vw, 22px);
+                font-weight: 700;
+            }
+        }
+        .active {
+            padding: 0 5px 0px 8px;
+            visibility: visible;
+            width: auto; /* Или конкретное значение, например width: 100%; */
+            height: auto; /* Или нужное значение */
+            overflow: visible;
+        }
+    }
+    .line {
+        position: absolute;
+        top: 100%;
+        transform: translateX(-50%);
+        left: 50%;
+        width: 4px;
+        height: 70%;
+        background-color: #fff;
+        border-radius: 0 0 2px 2px;
+    }
+}
+
+.my_order_address {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: aqua;
+    top: 0;
+    left: 0;
+    z-index: 600;
+    .maps {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 75%;
+        .marker {
+            width: clamp(35px, 8vw, 100px);
+            height: clamp(35px, 8vw, 100px);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 355;
+            .marker_animate {
+                // &::before {
+                //     animation: animShadow 0.4s ease-in-out infinite alternate;
+                // }
+                &::after {
+                    animation: animMarker 0.4s ease-in-out infinite alternate;
+                }
+            }
+            .location_marker {
+                width: 100%;
+                height: 100%;
+                display: block;
+                margin: 20px auto;
+                box-sizing: border-box;
+                position: relative;
+                top: -150%;
+                left: 0%;
+                transition: all 0.3s ease 0s;
+                &::after {
+                    content: "";
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    bottom: 0;
+                    position: absolute;
+                    border-radius: 50% 50% 0;
+                    border: 12px solid red;
+                    transform: rotate(45deg) translate(0, 0);
+                    box-sizing: border-box;
+                }
+
+                &::before {
+                    content: "";
+                    box-sizing: border-box;
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                    top: 150%;
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.842);
+                }
+            }
+        }
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+    }
+    .destination_container {
+        position: absolute;
+        bottom: 0%;
+        background-color: #fff;
+        width: 100%;
+        height: 30%;
+        border-radius: 30px 30px 0 0;
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+        padding: 15px 4% 25px 4%;
+
+        h2 {
+            font-family: "Raleway";
+            font-size: clamp(10px, 4.8vw, 22px);
+            font-weight: 700;
+            color: rgb(12, 12, 12);
+            padding: 15px 0px;
+        }
+
+        .line {
+            width: 100%;
+            margin: 0 auto;
+            border-top: 1px solid #a1a1a1;
+        }
+
+        .text_container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 15px 0px;
+            gap: 0px;
+
+            .img_container {
+                width: clamp(20px, 7.5vw, 100px);
+                height: clamp(20px, 7.5vw, 100px);
+                position: relative;
+
+                img {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 65%;
+                    object-fit: cover;
+                }
+
+                .right_arrow {
+                    width: 40%;
+                }
+            }
+
+            .destination_text {
+                font-family: "Nunito";
+                font-size: clamp(10px, 3.9vw, 22px);
+                font-weight: 600;
+                color: rgb(31, 31, 31);
+                margin-left: 10px;
+            }
+        }
+
+        .ok_destination {
+            width: 100%;
+            margin: 0 auto;
+            height: clamp(50px, 11vw, 120px);
+            font-family: "Nunito";
+            font-size: clamp(10px, 3.9vw, 22px);
+            font-weight: 700;
+            color: rgb(31, 31, 31);
+            background-color: #41c527;
+            border-radius: 15px;
+        }
+    }
+}
+
+
+.search_address_container {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    gap: 20px;
+    z-index: 508;
+    border-radius: 0 0 10px 10px;
+    background: #f3f3f3;
+    padding: 15px 10px;
+    .point_one,
+    .street-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+        background-color: #00000000;
+
+        .location_icon {
+            width: clamp(20px, 10vw, 80px);
+            height: clamp(20px, 10vw, 80px);
+            position: relative;
+            border: 1px solid #a1a1a1;
+            border-radius: 10px;
+
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 40%;
+                object-fit: cover;
+                opacity: 80%;
+            }
+        }
+
+        .text {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+
+            h3 {
+                font-family: "Nunito";
+                font-size: clamp(10px, 3.9vw, 22px);
+                font-weight: 700;
+                color: rgb(31, 31, 31);
+            }
+
+            p {
+                font-family: "Arial";
+                font-size: clamp(10px, 3.5vw, 22px);
+                font-weight: 400;
+                color: rgb(65, 65, 65);
+            }
+        }
+
+        .time_to_point {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            font-family: "Arial";
+            font-size: clamp(10px, 3.2vw, 22px);
+            font-weight: 400;
+            color: rgb(65, 65, 65);
+        }
+    }
+
+    .street-item {
+        .location_icon {
+            img {
+                width: 60%;
+            }
+        }
+    }
+}

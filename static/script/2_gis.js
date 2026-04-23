@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 window.addEventListener("load", function () {
+    function requestGpsCheck() {
+        console.log("CHECK_GPS");
+    }
+    requestGpsCheck()
+
     document.getElementById("preloader").style.display = "none";
 });
 document.addEventListener("DOMContentLoaded", function () {
@@ -20,8 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const orderTaxi = document.querySelector(".order_taxi");
     const myLocationBtn = document.querySelector('.my_location_btn')
     const minHeight = 40; // Минимальная высота в процентах
-    const maxHeight = 75; // Максимальная высота в процентах
-    const thresholdHeight = 60; // Порог высоты для переключения
+    const maxHeight = 55; // Максимальная высота в процентах
+    const thresholdHeight = 45; // Порог высоты для переключения
     const viewMapBtn1 = document.querySelector('.map_1');
     const viewMapBtn2 = document.querySelector('.map_2');
     const destination = document.querySelector('.destination')
@@ -42,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const locationTwoGo = document.querySelector('.location_two_go')
     const backBtn = document.querySelector('.back_btn')
     const backBtn2 = document.querySelector('.back_btn2')
-    const apiKey = "1ce1a8b0-243c-4085-a6d7-e7a9a2769dd4";
+    const apiKey = "a58ba029-221e-4c0b-91b5-91296ba6286f";
     const econom = document.getElementById('price_econom')
     const comfort = document.getElementById('price_comfort')
     const comfortPlus = document.getElementById('price_comfort_plus')
@@ -57,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let startMoveMarker = null; // Переменная для хранения текущего маркера
     let finishMoveMarker = null; // Переменная для хранения текущего маркера
     let searchWave = null;
-    let taxiDrivers = null;
+    let taxiDriver = null;
     let currentRoute = null;
 
     const taxiDriversCoor = [
@@ -109,6 +114,37 @@ document.addEventListener("DOMContentLoaded", function () {
         },
     };
 
+
+    function showErrorModal(message, title = "Ошибка") {
+        const modal = document.getElementById("errorModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalMessage = document.getElementById("modalMessage");
+        const closeBtn = modal.querySelector(".close");
+
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+
+        modal.style.display = "block";
+        modal.classList.add("show");
+
+        // Закрытие при клике на крестик
+        closeBtn.onclick = function () {
+            modal.classList.remove("show");
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 300);
+        }
+
+        // Закрытие при клике вне модального окна
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.classList.remove("show");
+                setTimeout(() => {
+                    modal.style.display = "none";
+                }, 300);
+            }
+        }
+    }
 
 
 
@@ -311,6 +347,8 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then((data) => {
                 console.log("Ответ API:", data); // Для отладки
+                destinationBtn.disabled = false;
+                destinationBtn.textContent = "Готово";
                 if (data.result && data.result.items.length > 0) {
                     // Извлечение full_name из первого объекта
                     const address = data.result.items[0].full_name || "Адрес не найден.";
@@ -331,6 +369,8 @@ document.addEventListener("DOMContentLoaded", function () {
     map.on('move', () => {
         destinationText.style.cssText = 'animation: pulseText 1.2s ease-in-out infinite;';
         destinationText.textContent = 'Подождите пожалуйста...'
+        destinationBtn.disabled = true;
+        destinationBtn.textContent = "Подождите..."
         if (destinationPoint.value === 'a') {
             startTextContent.classList.remove('active');
             if (startMoveMarker) {
@@ -450,10 +490,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function taxiDriverMarker(latitude, longitude, rotation) {
-        new mapgl.HtmlMarker(map, {
+        if (taxiDriver) {
+            taxiDriver.destroy();
+        }
+        
+        taxiDriver = new mapgl.HtmlMarker(map, {
             coordinates: [longitude, latitude],
             html: `<div class="taxi_drivers" >
-                        <img src="/static/icons/pngwing.png" alt=" "style="transform: rotate(${rotation}deg);">
+                        <img src="/static/icons/taximarker.png" alt="Taxi Marker">
+                        <p class="driver_title">Такси</p>
                     </div>`,
             anchor: [0.5, 0.5] // Центрирование метки
         });
@@ -734,6 +779,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    // Включаем управление историей
+    history.pushState({ page: 1 }, "", "");
+
+    window.addEventListener("popstate", (event) => {
+
+        const taxiGoDisplay = window.getComputedStyle(taxiGo).display;
+        const destinationDisplay = window.getComputedStyle(destination).display;
+
+        const currentHeight = parseFloat(orderTaxi.style.height) || 0;
+
+        console.log("BACK pressed");
+        console.log("taxi_go:", taxiGoDisplay);
+        console.log("destination:", destinationDisplay);
+        console.log("height:", currentHeight);
+
+        // 🔥 1. Если taxi_go открыт
+        if (taxiGoDisplay === "flex") {
+            contentUp();
+
+            history.pushState({ page: 1 }, "", "");
+            return;
+        }
+
+        // 🔥 2. Если destination открыт
+        if (destinationDisplay === "flex") {
+            contentUp();
+
+            history.pushState({ page: 1 }, "", "");
+            return;
+        }
+
+        // 🔥 3. Если панель поднята (height > 40%)
+        if (currentHeight > 40) {
+            contentDown();
+
+            history.pushState({ page: 1 }, "", "");
+            return;
+        }
+
+        // 🔙 4. Иначе — обычный выход
+        history.back();
+    });
+
 
 
     function contentUp() {
@@ -867,9 +955,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function handleLocationClick(event) {
         event.preventDefault(); // Предотвращаем действие по умолчанию
-        if (taxiDrivers) {
-            taxiDrivers.destroy();
-        }
         // Вызываем contentUp()
         contentUp();
         locationMarker.style.cssText = 'opacity: 0;';
@@ -922,9 +1007,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function taxiOrderGo() {
         taxiSetup.style.cssText = 'opacity: 0;';
-        searchTaxiDriver.style.cssText = 'opacity: 1;'
-        orderTaxiGoCancelBtn.style.cssText = 'display: block;'
-        orderTaxiGoBtn.style.cssText = 'display: none;'
+        searchTaxiDriver.style.cssText = 'opacity: 1;';
+        
+        // Показываем кнопку отмены
+        orderTaxiGoCancelBtn.style.cssText = 'display: block;';
+        orderTaxiGoBtn.style.cssText = 'display: none;';
+        
+        // --- Блокировка кнопки на 3 секунды ---
+        orderTaxiGoCancelBtn.disabled = true; // Делаем кнопку неактивной
+        orderTaxiGoCancelBtn.style.opacity = '0.5'; // Визуально приглушаем (по желанию)
+        orderTaxiGoCancelBtn.innerText = "Подождите... (5)"; // Опционально: текст с отсчетом
+        
+        let secondsLeft = 5;
+        const countdown = setInterval(() => {
+            secondsLeft--;
+            if (secondsLeft > 0) {
+                orderTaxiGoCancelBtn.innerText = `Подождите... (${secondsLeft})`;
+            } else {
+                clearInterval(countdown);
+            }
+        }, 1000);
+    
+        setTimeout(() => {
+            orderTaxiGoCancelBtn.disabled = false; // Разблокируем
+            orderTaxiGoCancelBtn.style.opacity = '1'; // Возвращаем яркость
+            orderTaxiGoCancelBtn.innerText = "Отменить заказ"; // Возвращаем текст
+        }, 5000); // 3000 миллисекунд = 3 секунды
     }
     function taxiOrderCancel() {
         taxiSetup.style.cssText = 'opacity: 1;';
@@ -946,7 +1054,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const pointB = JSON.parse(localStorage.getItem('point_b'));
 
         if (!pointA || !pointB) {
-            alert("Пожалуйста, выберите точку А и точку Б");
+            showErrorModal("Выберите точку А и точку Б", "⚠️ Пожалуйста");
             return;
         }
 
@@ -957,7 +1065,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const priceValue = parseFloat(priceText.replace(/[^0-9.]/g, '')); // Извлекаем только число
         const durationText = document.querySelector(".duration").innerText;
         const distanceText = document.querySelector(".distance").innerText;
-        
+
 
         // 2. Визуальные эффекты (твои функции)
         searchWaveMArker(pointA.lat, pointA.lon);
@@ -980,7 +1088,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".order_taxi_cancel").addEventListener("click", function () {
         if (searchWave) searchWave.destroy();
         stopPolling(); // Останавливаем пинг-понг
-
+        
+        if (taxiDriver) taxiDriver.destroy();
+        
         if (currentOrderId) {
             cancelOrderOnServer(currentOrderId);
         }
@@ -996,6 +1106,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (currentOrderId) {
             cancelOrderOnServer(currentOrderId);
         }
+        if (taxiDriver) taxiDriver.destroy();
+
 
         taxiOrderCancel();
         finishOrderUI()
@@ -1069,7 +1181,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const response = await fetch(`/api/orders/${orderId}/status/`);
                 const data = await response.json();
 
-                if (data.status === 'accepted') {
+                if (data.status === 'accepted' || data.status === 'on_way' || data.status === 'arrived') {
                     stopPolling();
 
                     // Собираем все данные для сохранения
@@ -1084,26 +1196,45 @@ document.addEventListener("DOMContentLoaded", function () {
                         vehicle_color: data.vehicle_color,
                         bank_link: data.bank_link,
                         phone: data.phone,
-                        status: data.status
+                        status: data.status,
+                        latitude: data.latitude,
+                        longitude: data.longitude,
                     };
+
+                    searchWave.destroy();
+                    taxiDriverMarker(data.latitude, data.longitude, 0);
+
+                    const pointA = JSON.parse(localStorage.getItem('point_a'));
+
+                    map.fitBounds(
+                        {
+                            northEast: [pointA.lon, pointA.lat],
+                            southWest: [data.longitude, data.latitude],
+                        },
+                        {
+                            padding: { top: 100, left: 60, bottom: 300, right: 60 },
+                        },
+                    );
+
 
                     // Сохраняем в LS
                     localStorage.setItem(LS_ORDER_KEY, JSON.stringify(orderData));
 
                     // Открываем модалку
                     openOrderStatusModal(orderData);
+                    myLocationBtn.style.cssText = "display: none;"
 
                     // Запускаем мониторинг (чтобы узнать, когда заказ завершится)
                     startActiveOrderPolling(orderId);
-                } 
+                }
                 if (data.status === 'canceled') {
-                    alert("К сожалению, свободных водителей не нашлось или никто не принял заказ.");
+                    alert("К сожалению, свободных водителей не нашлось или никто не принял заказ.")
                     location.href = '/taxi/'; // Возврат на главную
                 }
             } catch (e) {
                 console.error("Ошибка опроса поиска:", e);
             }
-        }, 5000);
+        }, 8000);
     }
 
     // --- 3. МОНИТОРИНГ УЖЕ ПРИНЯТОГО ЗАКАЗА ---
@@ -1118,6 +1249,73 @@ document.addEventListener("DOMContentLoaded", function () {
         "canceled": "Заказ отменен"
     };
 
+    // 1. Единая функция для обновления интерфейса в зависимости от данных заказа
+    function updateOrderUI(data) {
+        const modal = document.querySelector(".order_status");
+        const statusElement = document.querySelector("#modal_status");
+        const cancelBtn = document.querySelector(".cancell_order_btn");
+        const finishBtn = document.querySelector(".finish_order_btn");
+
+        if (!modal) return;
+
+        // Обновляем текст статуса
+        const statusText = statusTranslations[data.status] || data.status;
+        if (statusElement) statusElement.innerText = statusText;
+
+        // Основные данные (если они есть в data)
+        if (data.driver_photo) {
+            const photoImg = document.getElementById("modal_driver_photo");
+            if (photoImg) photoImg.src = data.driver_photo;
+        }
+
+        const fields = {
+            "#modal_order_number": data.order_number,
+            "#modal_driver_name": data.driver_name,
+            "#modal_vehicle": data.vehicle_color && data.vehicle_model ? `${data.vehicle_color} ${data.vehicle_model}` : null,
+            "#modal_number": data.vehicle_number,
+            "#modal_driver_rating": data.rating
+        };
+
+        for (let selector in fields) {
+            const el = document.querySelector(selector);
+            if (el && fields[selector]) el.innerText = fields[selector];
+        }
+
+        // Специфичные поля ввода
+        if (document.querySelector("#modal_phone")) document.querySelector("#modal_phone").value = data.phone || '';
+        if (document.querySelector("#modal_driver_bank")) document.querySelector("#modal_driver_bank").value = data.bank_link || '';
+
+        // Логика состояний кнопок и высоты модалки
+        const isFinalOrProgress = ['in_progress', 'completed', 'canceled'].includes(data.status);
+
+        if (isFinalOrProgress) {
+            if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
+            if (finishBtn) finishBtn.style.display = "block";
+            if (typeof loadBankLinksFromLocalStorage === "function") loadBankLinksFromLocalStorage();
+        } else {
+            modal.style.height = ''; // Сброс высоты
+            if (cancelBtn) cancelBtn.classList.add('cancell_order_btn_active');
+            if (finishBtn) finishBtn.style.display = "none";
+        }
+
+        // Сброс стилей индикаторов перед обновлением (опционально, зависит от верстки)
+        // Обновление цветовой индикации шагов (stat)
+        if (data.status === 'arrived') {
+            document.querySelector(".stat2")?.classList.add("arrived");
+        } else if (data.status === 'in_progress') {
+            document.querySelector(".stat2")?.classList.add("arrived");
+            document.querySelector(".stat3")?.classList.add("in_progress");
+        } else if (data.status === 'completed') {
+            document.querySelector(".stat2")?.classList.add("arrived");
+            document.querySelector(".stat3")?.classList.add("in_progress");
+            document.querySelector(".stat4")?.classList.add("completed");
+        } else if (data.status === 'canceled') {
+            document.querySelectorAll(".stat").forEach(el => el.style.backgroundColor = "#f71111");
+            if (statusElement) statusElement.style.color = "#dc3545";
+        }
+    }
+
+    // 2. Функция поллинга (теперь она короткая)
     function startActiveOrderPolling(orderId) {
         stopPolling();
 
@@ -1125,131 +1323,57 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
                 const response = await fetch(`/api/orders/${orderId}/status/`);
                 const data = await response.json();
-
                 let savedOrder = JSON.parse(localStorage.getItem(LS_ORDER_KEY));
 
-                // Находим элементы в DOM
-                const cancelBtn = document.querySelector(".cancell_order_btn");
-                const finishBtn = document.querySelector(".finish_order_btn");
-                const statusElement = document.querySelector("#modal_status");
-                const accordion = document.querySelector(".accordion");
-                const buttonsContainer = document.querySelector(".buttons_container");
-                const contentGrade = document.querySelector("#tab_content");
-                const modal = document.querySelector(".order_status");
+                const pointA = JSON.parse(localStorage.getItem('point_a'));
+                taxiDriverMarker(data.latitude, data.longitude, 0);
 
-                // 1. Проверяем изменение статуса
+                startMarkerHtml(pointA.lat, pointA.lon);
+
+                map.fitBounds(
+                    {
+                        northEast: [pointA.lon, pointA.lat],
+                        southWest: [data.longitude, data.latitude],
+                    },
+                    {
+                        padding: { top: 100, left: 60, bottom: 300, right: 60 },
+                    },
+                );
+
                 if (savedOrder && (savedOrder.status !== data.status)) {
-
-                    // --- НОВАЯ ЛОГИКА ДЛЯ WEBVIEW ---
+                    // Уведомление для Android WebView
                     const statusText = statusTranslations[data.status] || data.status;
-                    const notifyMessage = `FindyTaxi: ${statusText}`;
+                    console.log("PUSH_NOTIFY:FindyTaxi: " + statusText);
 
-                    // Отправляем в консоль для перехвата Android-мостом
-                    console.log("PUSH_NOTIFY:" + notifyMessage);
-                    // --------------------------------
-
-                    console.log(`Статус изменился: ${savedOrder.status} -> ${data.status}`);
-
+                    // Сохраняем новый статус
                     savedOrder.status = data.status;
                     localStorage.setItem(LS_ORDER_KEY, JSON.stringify(savedOrder));
 
-                    // Обновляем текст статуса в UI
-                    if (statusElement) {
-                        statusElement.innerText = statusText;
-                    }
 
-                    // --- ЛОГИКА ПЕРЕКЛЮЧЕНИЯ КНОПОК ---
-                    const isFinalOrProgress = ['in_progress', 'completed', 'canceled'].includes(data.status);
 
-                    if (isFinalOrProgress) {
-                        if (modal) modal.style.cssText = 'height: 85%;';
-                        if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
-                        if (finishBtn) finishBtn.style.display = "block";
-                        if (accordion) accordion.style.display = "block";
-                        if (buttonsContainer) buttonsContainer.style.display = "flex";
-                        if (contentGrade) contentGrade.classList.add('tab_content_active');
-                        loadBankLinksFromLocalStorage()
+                    // Обновляем UI через единую функцию
+                    updateOrderUI(data);
 
-                        // Цветовая индикация
-                        if (statusElement) {
-                            if (data.status === 'in_progress') statusElement.style.color = "#28a745";
-                            if (data.status === 'completed') statusElement.style.color = "#007bff";
-                            if (data.status === 'canceled') statusElement.style.color = "#dc3545";
-                        }
-
-                        if (data.status === 'completed' || data.status === 'canceled') {
-                            stopPolling();
-                        }
-                    } else if (data.status === 'arrived') {
-                        if (statusElement) statusElement.style.color = "#ffc107";
+                    // Остановка, если финиш
+                    if (['completed', 'canceled'].includes(data.status)) {
+                        stopPolling();
                     }
                 }
-
             } catch (e) {
-                console.error("Ошибка мониторинга активного заказа:", e);
+                console.error("Ошибка мониторинга:", e);
             }
         }, 5000);
     }
-
-    // --- 4. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
+    
+    // 3. Функция открытия модалки (тоже стала компактной)
     function openOrderStatusModal(data) {
+        updateOrderUI(data);
+
         const modal = document.querySelector(".order_status");
-        if (!modal) return;
-
-        // ... (ваш старый код заполнения данных: фото, имя, машина и т.д.)
-        const photoImg = document.getElementById("modal_driver_photo");
-        if (photoImg && data.driver_photo) photoImg.src = data.driver_photo;
-
-        const statusElement = document.querySelector("#modal_status");
-        if (statusElement) {
-            statusElement.innerText = statusTranslations[data.status] || data.status;
-        }
-
-        // Заполнение остальных полей
-        if (document.querySelector("#modal_order_number")) document.querySelector("#modal_order_number").innerText = data.order_number;
-        if (document.querySelector("#modal_driver_name")) document.querySelector("#modal_driver_name").innerText = data.driver_name;
-        if (document.querySelector("#modal_vehicle")) document.querySelector("#modal_vehicle").innerText = `${data.vehicle_color} ${data.vehicle_model}`;
-        if (document.querySelector("#modal_number")) document.querySelector("#modal_number").innerText = data.vehicle_number;
-        if (document.querySelector("#modal_phone")) document.querySelector("#modal_phone").value = data.phone;
-        if (document.querySelector("#modal_driver_rating")) document.querySelector("#modal_driver_rating").innerText = data.rating;
-        if (document.querySelector("#modal_driver_bank")) document.querySelector("#modal_driver_bank").value = data.bank_link;
-
-        // --- НОВАЯ ЛОГИКА ПРОВЕРКИ КНОПОК ПРИ ОТКРЫТИИ ---
-        const cancelBtn = document.querySelector(".cancell_order_btn");
-        const finishBtn = document.querySelector(".finish_order_btn");
-        const accordion = document.querySelector(".accordion");
-        const buttonsContainer = document.querySelector(".buttons_container");
-        const contentGrade = document.querySelector("#tab_content");
-
-        // Список статусов, при которых заказ нельзя отменить, но нужно завершить
-        const finalOrProgress = ['in_progress', 'completed', 'canceled'].includes(data.status);
-
-        if (finalOrProgress) {
-            modal.style.cssText = 'height: 85%;'
-            // Скрываем отмену, показываем завершение
-            if (cancelBtn) cancelBtn.classList.remove('cancell_order_btn_active');
-            if (finishBtn) finishBtn.style.display = "block";
-            if (accordion) accordion.style.display = "block";
-            if (buttonsContainer) buttonsContainer.style.display = "flex";
-            if (contentGrade) contentGrade.classList.add('tab_content_active');
-            loadBankLinksFromLocalStorage();
-
-            // Устанавливаем цвета для восстановленного состояния
-            if (statusElement) {
-                if (data.status === 'in_progress') statusElement.style.color = "#28a745";
-                if (data.status === 'completed') statusElement.style.color = "#007bff";
-                if (data.status === 'canceled') statusElement.style.color = "#dc3545";
-            }
-        } else {
-            // Статусы ожидания (pending, accepted, arrived)
-            if (cancelBtn) cancelBtn.classList.add('cancell_order_btn_active');
-            if (finishBtn) finishBtn.style.display = "none";
-            if (statusElement && data.status === 'arrived') statusElement.style.color = "#ffc107";
-        }
-
-        modal.classList.add("actives");
+        if (modal) modal.classList.add("actives");
 
         if (typeof taxiOrderCancel === "function") taxiOrderCancel();
+        myLocationBtn.style.cssText = "display: none;"
     }
 
     // Функция для кнопки "Завершить" (на стороне клиента)
@@ -1263,7 +1387,10 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.removeItem(LS_ORDER_KEY); // Очищаем LS
         currentOrderId = null;
         document.querySelector(".order_status").classList.remove("actives");
-        alert("Заказ завершен");
+        showErrorModal(
+            "Заказ успешно завершен.",
+            "Сообщение"
+        );
     }
 
     const savedOrder = JSON.parse(localStorage.getItem(LS_ORDER_KEY));
@@ -1418,24 +1545,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
-//////*******Этот скрипт будет переключать классы при нажатии. */
-document.querySelectorAll('.buttons_container button').forEach(button => {
-    button.addEventListener('click', function () {
-        // 1. Убираем active у всех кнопок в контейнере
-        document.querySelectorAll('.buttons_container button').forEach(btn => btn.classList.remove('button_active'));
-
-        // 2. Добавляем active нажатой кнопке
-        this.classList.add('button_active');
-
-        // 3. Скрываем все блоки контента
-        document.querySelectorAll('.tab_content').forEach(content => content.classList.remove('tab_content_active'));
-
-        // 4. Показываем нужный блок по ID из data-target
-        const targetId = this.getAttribute('data-target');
-        document.getElementById(targetId).classList.add('tab_content_active');
-    });
-});
 
 
 function loadBankLinksFromLocalStorage() {

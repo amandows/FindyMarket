@@ -23,7 +23,7 @@ def send_order_offer_push(user, order, timeout="10"):
 
         message = Message(
             notification=Notification(
-                title=f"Новая подача! {order.price} сом! {order.driver}",
+                title=f"Новая подача! {order.price} сом!",
                 body=body_text
             ),
             data=order_data  # <-- весь JSON заказа
@@ -37,15 +37,11 @@ def send_order_offer_push(user, order, timeout="10"):
 
 
 def find_drivers_for_order(order):
-    print(f"\n[DEBUG] === НАЧАЛО ПОИСКА ДЛЯ ЗАКАЗА #{order.id} ===")
+    print(f"\n[DEBUG] === ФОРМИРОВАНИЕ ОЧЕРЕДИ ДЛЯ ЗАКАЗА #{order.id} ===")
     customer_coords = (order.pickup_latitude, order.pickup_longitude)
     customer_city = order.customer.city
-
-    # radii = [0.3, 0.5, 1.0, 3.0, 5.0, 10.0]
-    radii = [5.0]
     two_hours_ago = timezone.now() - timedelta(hours=2)
 
-    # 1. Фильтруем базу водителей по городу и статусу
     base_drivers = Driver.objects.filter(
         user__city__iexact=customer_city,
         status='online',
@@ -53,44 +49,71 @@ def find_drivers_for_order(order):
         car_class=order.car_class
     )
 
-    print(f"[DEBUG] Город: {customer_city}. Найдено потенциальных водителей онлайн: {base_drivers.count()}")
-
-    if base_drivers.count() == 0:
-        print(f"[DEBUG] !!! Свободных водителей в городе {customer_city} нет совсем.")
+    if not base_drivers.exists():
+        print(f"[DEBUG] !!! Свободных водителей в {customer_city} нет.")
         order.status = 'canceled'
         order.save()
         return []
 
-    for radius in radii:
-        print(f"[DEBUG] Проверка радиуса {radius} км...")
-        candidates = []
+    zones = [
+        (0, 100, "100m"),
+        (100, 200, "200m"),
+        (200, 400, "400m"),
+        (400, 1000, "1000m")
+    ]
+
+    full_queue_ids = []
+
+    # Список для красивого итогового принта
+    all_candidates_details = []
+
+    for min_r, max_r, label in zones:
+        zone_candidates = []
 
         for d in base_drivers:
             if d.latitude and d.longitude:
-                driver_coords = (d.latitude, d.longitude)
-                dist = geodesic(customer_coords, driver_coords).km
+                dist = geodesic(customer_coords, (d.latitude, d.longitude)).meters
 
-                if dist <= radius:
+                if min_r < dist <= max_r:
                     order_count = OrderTaxi.objects.filter(
                         driver=d,
                         created_at__gte=two_hours_ago
                     ).count()
 
-                    candidates.append({
-                        'driver': d,
+                    zone_candidates.append({
+                        'id': d.id,
+                        'name': d.user.get_full_name() or f"ID:{d.id}",
                         'orders_2h': order_count,
-                        'rating': d.rating or 0
+                        'rating': float(d.rating or 0),
+                        'dist': round(dist, 1),
+                        'zone': label
                     })
 
-        if candidates:
-            # Сортировка: меньше заказов -> выше рейтинг
-            candidates.sort(key=lambda x: (x['orders_2h'], -x['rating']))
-            ids = [c['driver'].id for c in candidates]
-            print(f"[DEBUG] Найдено кандидатов в радиусе {radius}км: {len(ids)}. Очередь: {ids}")
-            return ids
+        if zone_candidates:
+            # Сортируем внутри зоны
+            zone_candidates.sort(key=lambda x: (x['orders_2h'], -x['rating'], x['dist']))
 
-    # Если цикл прошел все радиусы и никого не нашел
-    print(f"[DEBUG] --- В радиусе 10км никого не найдено. Отмена заказа #{order.id} ---")
+            for cand in zone_candidates:
+                if len(full_queue_ids) < 10:
+                    full_queue_ids.append(cand['id'])
+                    all_candidates_details.append(cand)
+                else:
+                    break
+
+        if len(full_queue_ids) >= 10:
+            break
+
+    # --- ПРИНТ ВСЕХ ПРЕТЕНДЕНТОВ ---
+    if all_candidates_details:
+        print(f"\n[DEBUG] === СПИСОК ПРЕТЕНДЕНТОВ (ТОП-10) ===")
+        for i, c in enumerate(all_candidates_details, 1):
+            print(
+                f"{i}. [{c['zone']}] {c['name']} | Заказов: {c['orders_2h']} | Рейтинг: {c['rating']} | Дист: {c['dist']}м")
+        print("-" * 45)
+
+        return full_queue_ids
+
+    print(f"[DEBUG] --- В радиусе 1км никого не найдено. Отмена заказа #{order.id} ---")
     order.status = 'canceled'
     order.save()
     return []

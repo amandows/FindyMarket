@@ -20,6 +20,7 @@
     <meta name="apple-mobile-web-app-title" content="FindyGo" />
     <link rel="manifest" href="/static/favicon/site.webmanifest" />
     <link rel="stylesheet" href="/static/css/basis.css">
+    <link rel="stylesheet" href="/static/css/my_orders_address.css">
     {% block linkcss %}
     {% endblock %}
     <title>{% block title %}{% endblock %}</title>
@@ -94,6 +95,47 @@
         </div>
     </div>
 
+
+    <div class="my_order_address" style="display: none;">
+        <div class="maps" id="map_container">
+            <div class="start_marker" style="opacity: 100%;">
+                <div class="content">
+                    <div class="img_container">
+                        <img class="start_marker_img" src="/static/icons/passenger3.png" alt="" style="display: none;">
+                        <img class="finish_marker_img" src="/static/icons/finish.png" alt="" style="display: flex;">
+                    </div>
+                    <div class="start_text_content">
+                        <p class="text_price">Цена от</p>
+                        <p class="start_price">180 сом</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+            </div>
+        </div>
+        <div class="destination_container">
+            <h2>Точка прибытия</h2>
+            <div class="line"></div>
+            <div class="text_container">
+                <div class="img_container">
+                    <img src="/static/icons/points.png" alt="">
+                </div>
+                <p class="destination_text">Выберите место</p>
+                <input type="number" class="destination_lat" style="display: none;">
+                <input type="number" class="destination_lon" style="display: none;">
+                <input type="text" class="destination_point" style="display: none;" value="b">
+                <div class="img_container">
+                    <img src="/static/icons/right-arrow.png" alt="" class="right_arrow">
+                </div>
+            </div>
+            <button class="ok_destination" disabled>Готово</button>
+        </div>
+    </div>
+
+    <!-- <div class="search_address_result">
+                            
+    </div> -->
+
+
     <div class="body-container">
         <header>
             <div class="header-top">
@@ -114,13 +156,33 @@
                 </a>
                 {% endif %}
                 <div class="aside-menu">
-                    <div class="administrator">
-                        <div class="text-content">
-                            <h2 class="name">Amantur Toktosunov</h2>
-                            <p class="info">Developer / Admin</p>
+                    <div class="nanvigation_bts">
+                        <div class="admin_content">
+                            <button class="manager active"></button>
                         </div>
+                        <div class="line"></div>
+                        <div class="site_content">
+                            <button class="taxi_cs"></button>
+                            <button class="fast-food"></button>
+                            <button class="vegetables"></button>
+                            <button class="announcement"></button>
+                            <button class="shop"></button>
+                        </div>
+                        <div class="line"></div>
+                        <div class="social_media">
+                            <button class="instagram"></button>
+                            <button class="facebook"></button>
+                            <button class="twitter"></button>
+                            <button class="youtube"></button>
+                        </div>
+                    </div>
+                    <div class="administrator">
                         <div class="image-contaiener">
-                            <img src="/static/icons/free-icon-man-avatar-17932535.png" alt="">
+                            <img src="/static/media/user/admin.jpg" alt="">
+                        </div>
+                        <div class="text-content">
+                            <h2 class="name">Amandows</h2>
+                            <p class="info">Developer</p>
                         </div>
                     </div>
 
@@ -142,14 +204,8 @@
                         </nav>
                     </div>
                     <div class="footer">
-                        <div class="soccial">
-                            <a href="" class="facebook"></a>
-                            <a href="" class="instagram"></a>
-                            <a href="" class="twitter"></a>
-                            <a href="" class="youtube"></a>
-                        </div>
                         <div class="footer-text">
-                            <p>ⓒ 2025 FindyMarket</p>
+                            <p>ⓒ 2026 FindyGo Кара-Куль</p>
                             <p>Все права защищены</p>
                         </div>
                     </div>
@@ -180,12 +236,15 @@
                         </div>
                     </div>
                     <div class="form__group field adress_input" id="adress_input">
-                        <input type="input" id="address" class="form__field" placeholder="Ваш адрес" name="name"
+                        <input type="input" id="address" class="form__field" placeholder="Ваш адрес" name="name" value="Ваш адрес"
                             required />
                         <button id="get-address-btn">
-                            <img src="/static/icons/navigation.png" alt="">
+                            Карта
                         </button>
                         <p class="user_adress-ico"><img src="/static/icons/marker.png" alt=""></p>
+                        <div class="search_address_container">
+                            
+                        </div>
                     </div>
 
                     <div class="form__group field">
@@ -232,7 +291,7 @@
                     <input type="text" id="payment" name="payment" style="display: none;" value="">
 
                     <div class="banks_link" style="display: flex;">
-                        <button class="mbank bank-btn" data-package="com.maanavan.mb_kyrgyzstan">
+                        <button type="button" class="mbank bank-btn" data-package="com.maanavan.mb_kyrgyzstan">
                             <div class="img_container">
                                 <img src="/static/icons/mbank24.png" alt="">
                             </div>
@@ -240,7 +299,7 @@
                             <p class="bank_name">Mbank</p>
                         </button>
                     
-                        <button class="odengi bank-btn" data-package="kg.o.nurtelecom">
+                        <button type="button" class="odengi bank-btn" data-package="kg.o.nurtelecom">
                             <div class="img_container">
                                 <img src="/static/icons/odengi.png" alt="">
                             </div>
@@ -248,7 +307,7 @@
                             <p class="bank_name">O! Bank</p>
                         </button>
                     
-                        <button class="rsk bank-btn" data-package="kg.rsk.mb">
+                        <button type="button" class="rsk bank-btn" data-package="kg.rsk.mb">
                             <div class="img_container">
                                 <img src="/static/icons/rsk24.png" alt="">
                             </div>
@@ -256,7 +315,7 @@
                             <p class="bank_name">RSK24</p>
                         </button>
                     
-                        <button class="aiyl bank-btn" data-package="app.ab.banking">
+                        <button type="button" class="aiyl bank-btn" data-package="app.ab.banking">
                             <div class="img_container">
                                 <img src="/static/icons/aiylbank.png" alt="">
                             </div>
@@ -431,7 +490,7 @@
             console.log("PUSH_NOTIFY:" + message);
         }
     };
-
+    
     window.simulateNativeClick = function(text) {
         const elem = document.getElementById('trigger-push-btn');
         if (elem) {
@@ -467,13 +526,16 @@
     // Слушаем Service Worker (Фоновый режим и мост для WebView)
     navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'PUSH_RECEIVED') {
-            console.log("Background push received via SW bridge");
+            console.log("SW Bridge Data:", event.data);
 
-            // 🔥 ДОБАВЛЯЕМ ЛОГИКУ ОБРАБОТКИ ЗАКАЗА ЗДЕСЬ
-            handleOrderPush(event.data.orderId, event.data.pushType);
+            // Используем window. чтобы исключить ошибки области видимости
+            if (typeof window.handleOrderPush === 'function') {
+                window.handleOrderPush(event.data.orderId, event.data.pushType);
+            }
 
-            // Вызов нативного клика (твой старый код)
-            window.simulateNativeClick(event.data.text);
+            if (typeof window.simulateNativeClick === 'function') {
+                window.simulateNativeClick(event.data.text);
+            }
         }
     });
 
@@ -482,67 +544,75 @@
         return match ? match[1] : null;
     };
 
-    window.saveToken = (token) => {
-        console.log("Сохранение токена, полученного из Java:", token);
-        
-        const getCSRF = () => {
-            const match = document.cookie.match(/csrftoken=([^;]+)/);
-            return match ? match[1] : null;
-        };
+    // Эта функция должна быть глобальной, чтобы Java смогла её вызвать
+    window.saveToken = function(token) {
+        console.log("Токен получен от Native/JS и отправляется на сервер:", token);
 
         fetch('/save-fcm-token/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRF(),
+                'X-CSRFToken': getCSRF(), // Убедись, что функция getCSRF определена
             },
-            credentials: 'include',
-            body: JSON.stringify({ token })
+            body: JSON.stringify({ 
+                token: token,
+                name: "Android Device " + new Date().toLocaleDateString() // Чтобы не было Unknown
+            })
         })
         .then(res => res.json())
-        .then(data => console.log('Токен успешно сохранен в БД:', data))
-        .catch(err => console.error('Ошибка сохранения токена:', err));
+        .then(data => console.log("Ответ сервера:", data))
+        .catch(err => console.error("Ошибка сохранения:", err));
     };
 
     // Функция-обработчик (чтобы не дублировать код)
-    function handleOrderPush(orderId, pushType) {
+    // С самого начала файла, вне всяких условий
+    window.handleOrderPush = function(orderId, pushType) {
+        console.log(`[OrderHandler] ID: ${orderId}, Type: ${pushType}`);
+        if (!orderId) return;
+
         if (pushType === 'ready_to_accept') {
             localStorage.setItem('my_active_order', orderId);
             const event = new CustomEvent('newOrderArrived', { detail: { orderId: orderId } });
             document.dispatchEvent(event);
-            console.log("Логика 'Новый заказ' сработала");
         } 
         else if (pushType === 'canceled') {
             localStorage.removeItem('my_active_order');
             const event = new CustomEvent('orderCancelledByClient', { detail: { orderId: orderId } });
             document.dispatchEvent(event);
-            console.log("Логика 'Отмена' сработала");
         }
-    }
+    };
 
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Проверяем, открыто ли это в нашем Android-приложении
+    // 1. Проверяем, открыто ли это в нашем Android-приложении
         const isAndroidApp = (window.AndroidBridge !== undefined) || (window.FCMBridge !== undefined);
-
-        if (!('Notification' in window) && !isAndroidApp) {
-            console.warn('Ваш браузер не поддерживает уведомления.');
-            return;
-        }
-
-        // 2. Если мы в приложении, сразу инициализируем FCM, не спрашивая браузер
+        
         if (isAndroidApp) {
-            console.log('Запущено в WebView: используем нативный мост.');
-            initializeFCM();
-            return;
+            console.log('Запущено в WebView: блокируем стандартные уведомления.');
+            
+            // ФЕЙКОВЫЙ ОБЪЕКТ Notification, чтобы скрипт не падал с ошибкой "Not defined"
+            if (!window.Notification) {
+                window.Notification = {
+                    permission: 'granted', // Делаем вид, что разрешено
+                    requestPermission: () => Promise.resolve('granted')
+                };
+            }
+        
+            // Запрашиваем токен у Android через мост
+            if (window.AndroidBridge && window.AndroidBridge.requestToken) {
+                window.AndroidBridge.requestToken();
+            }
+            return; // ВАЖНО: Выходим и НЕ запускаем инициализацию Firebase JS
         }
-
-        // 3. Логика для обычных браузеров (Chrome, Safari и т.д.)
-        if (Notification.permission === 'granted') {
-            initializeFCM();
-        } else if (Notification.permission !== 'denied') {
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') initializeFCM();
-            });
+    
+        // 2. Логика ТОЛЬКО для обычных браузеров (Chrome, Safari и т.д.)
+        if ('Notification' in window) {
+            if (Notification.permission === 'granted') {
+                initializeFCM();
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') initializeFCM();
+                });
+            }
         }
     });
 
@@ -561,8 +631,16 @@
             })
             .catch(err => console.error('Ошибка регистрации SW:', err));
     }
+
+    function requestGpsCheck() {
+        console.log("CHECK_GPS");
+    }
+    requestGpsCheck()
 </script>
     <script src="/static/script/script.js"></script>
+    <script src="https://mapgl.2gis.com/api/js/v1"></script>
+    <script src="https://unpkg.com/@2gis/mapgl-directions@^2/dist/directions.js"></script>
+    <script src="/static/script/my_order_address.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const userNameElement = document.querySelector(".user_name");

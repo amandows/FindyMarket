@@ -763,23 +763,16 @@ h6 {
                     width: 95%;
                     #get-address-btn {
                         position: absolute;
-                        width: clamp(10px, 9.8vw, 60px);
-                        height: clamp(10px, 9.8vw, 60px);
-                        // border: 1px solid #000000;
                         top: 50%;
                         left: 100%;
-                        transform: translate(-110%, -50%);
-                        border-radius: 50%;
-                        background-color: #ffffff00;
-                        img {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            width: 60%;
-                            height: 60%;
-                            transform: translate(-50%, -50%);
-                            object-fit: cover;
-                        }
+                        transform: translate(-100%, -50%);
+                        border-radius: 5px;
+                        background-color: #fafafa;
+                        border: 1px solid #000;
+                        padding: 5px 7px;
+                        font-family: "Nunito";
+                        font-size: clamp(10px, 3.5vw, 16px);
+                        z-index: 508;
                     }
                     .user_name-icon,
                     .user_adress-ico {
@@ -804,6 +797,7 @@ h6 {
                     }
                     #user-name,
                     #address {
+                        position: relative;
                         padding: clamp(5px, 3.8vw, 30px) 0 clamp(5px, 3.8vw, 30px) clamp(10px, 7.8vw, 60px);
                     }
                 }
@@ -1332,7 +1326,7 @@ h6 {
                     z-index: 512;
                 }
                 .aside-btn-active {
-                    background: url("/static/icons/close.png") center/cover no-repeat;
+                    background: url("/static/icons/left-arrow.png") right/cover no-repeat;
                 }
             }
             .user_name {
@@ -1389,47 +1383,135 @@ h6 {
                 transition: all 0.3s ease 0s;
                 padding: 0 0px;
                 background: #ffffff;
+                .nanvigation_bts {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 18%;
+                    background-color: #1b1b1b;
+                    z-index: 510;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-start;
+                    padding-top: clamp(20px, 20vw, 100px);
+                    gap: 15px;
+                    .line {
+                        width: 40%;
+                        height: 2px;
+                        background-color: #cccccc;
+                        margin: 0 auto;
+                    }
+                    .site_content, .admin_content, .social_media {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: flex-start;
+                        button {
+                            // border: 1px solid #ffffff;
+                            width: 100%;
+                            height: clamp(20px, 13vw, 80px);
+                            background-position: center;
+                            background-size: 30%;
+                            background-repeat: no-repeat;
+                            background-color: #1b1b1b;
+                            transition: all 0.3s ease 0s;
+                        }
+                        .active {
+                            opacity: 90%;
+                        }
+                        .manager {
+                            // background: url("/static/icons/taxi-icon.png") center/35% no-repeat;
+                            background-image: url("/static/icons/manager.png");
+                        }
+                        .taxi_cs {
+                            // background: url("/static/icons/taxi-icon.png") center/35% no-repeat;
+                            background-image: url("/static/icons/taxi-icon.png");
+                            background-size: 32%;
+                        }
+                        .fast-food {
+                            // background: url("/static/icons/fast-food.png") center/35% no-repeat;
+                            background-image: url("/static/icons/fast-food.png");
+                        }
+                        .vegetables {
+                            // background: url("/static/icons/fast-food.png") center/35% no-repeat;
+                            background-image: url("/static/icons/broccoli-ico.png");
+                        }
+                        .announcement {
+                            // background: url("/static/icons/fast-food.png") center/35% no-repeat;
+                            background-image: url("/static/icons/megaphone.png");
+                        }
+                        .shop {
+                            // background: url("/static/icons/fast-food.png") center/35% no-repeat;
+                            background-image: url("/static/icons/shopping.png");
+                        }
+                        .facebook {
+                            // background: url("/static/icons/fast-food.png") center/35% no-repeat;
+                            background-image: url("/static/icons/facebook.png");
+                        }
+                        .twitter {
+                            // background: url("/static/icons/fast-food.png") center/35% no-repeat;
+                            background-image: url("/static/icons/twitter-white.png");
+                        }
+                        .instagram {
+                            // background: url("/static/icons/fast-food.png") center/35% no-repeat;
+                            background-image: url("/static/icons/instagram-ico.png");
+                        }
+                        .youtube {
+                            // background: url("/static/icons/fast-food.png") center/35% no-repeat;
+                            background-image: url("/static/icons/video.png");
+                        }
+                        .active {
+                            background-color: #ff6600;
+                        }
+                    }
+                }
                 .administrator {
                     width: 100%;
                     height: clamp(20px, 20vw, 100px);
                     display: -webkit-box; /* Префикс для Safari */
                     display: flex;
                     align-items: center;
-                    -webkit-justify-content: flex-end;
-                    justify-content: flex-end;
+                    -webkit-justify-content: flex-start;
+                    justify-content: flex-start;
                     gap: 15px;
                     position: relative;
-                    background-color: #fae207;
+                    background-color: #ffffff;
                     padding: 0 15px 0 0;
+                    z-index: 509;
                     .text-content {
                         display: flex;
                         flex-direction: column;
                         justify-content: space-around;
-                        align-items: flex-end;
+                        align-items: flex-start;
                         font-family: "Noto Sans Georgian";
                         gap: clamp(1px, 2vw, 35px);
                         h2 {
                             font-family: "Noto Sans Georgian";
-                            font-size: clamp(12px, 4.2vw, 18px);
+                            font-size: clamp(12px, 4.0vw, 18px);
                             color: #0f0f0f;
-                            font-weight: 500;
+                            font-weight: 600;
                         }
                         p {
                             font-family: "Montserrat";
-                            font-size: clamp(8px, 3.4vw, 15px);
-                            color: #303030;
-                            font-weight: 500;
+                            font-size: clamp(8px, 3.3vw, 15px);
+                            color: #2b2b2b96;
+                            font-weight: 600;
                         }
                     }
                     .image-contaiener {
+                        margin-left: 25%;
                         position: relative;
-                        width: clamp(20px, 14vw, 50px);
-                        height: clamp(20px, 14vw, 50px);
+                        width: clamp(20px, 12vw, 40px);
+                        height: clamp(20px, 12vw, 40px);
                         overflow: hidden;
-                        border-radius: 5px;
+                        border-radius: 50%;
+                        border: 2px solid #292929;
                         img {
-                            width: 130%;
-                            height: 130%;
+                            width: 100%;
+                            height: 100%;
                             position: absolute;
                             top: 0%;
                             left: 50%;
@@ -1442,8 +1524,10 @@ h6 {
                     width: 90%;
                     margin-left: 10%;
                     margin-top: 30px;
+                    position: relative;
                     nav {
-                        width: 100%;
+                        width: 80%;
+                        margin-left: 20%;
                         .content-ul {
                             width: 100%;
                             display: flex;
@@ -1454,6 +1538,17 @@ h6 {
                             li {
                                 width: 100%;
                                 position: relative;
+                                &::after {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 40vw;
+                                    transform: translateY(-50%);
+                                    width: clamp(20px, 7vw, 50px);
+                                    height: clamp(20px, 7vw, 50px);
+                                    display: inline-block;
+                                    content: '';
+                                    background: url("/static/icons/right-arrow.png") center/35% no-repeat;
+                                }
                                 a {
                                     display: inline-block;
                                     font-family: "Roboto";
@@ -1467,34 +1562,35 @@ h6 {
                                     top: 50%;
                                     left: 0;
                                     transform: translateY(-50%);
-                                    width: clamp(9px, 4.3vw, 35px);
-                                    height: clamp(9px, 4.3vw, 35px);
+                                    width: clamp(20px, 7vw, 50px);
+                                    height: clamp(20px, 7vw, 50px);
                                     display: inline-block;
+                                    border-radius: 50%;
                                 }
                             }
                             .home {
                                 span {
-                                    background: url("/static/icons/home-agreement.png") center/cover no-repeat;
+                                    background: #474747 url("/static/icons/home-agreement.png") center/50% no-repeat;
                                 }
                             }
                             .contact {
                                 span {
-                                    background: url("/static/icons/phone-callblack.png") center/cover no-repeat;
+                                    background: #474747  url("/static/icons/phone-callblack.png") center/50% no-repeat;
                                 }
                             }
                             .services {
                                 span {
-                                    background: url("/static/icons/services.png") center/cover no-repeat;
+                                    background: #474747 url("/static/icons/services.png") center/50% no-repeat;
                                 }
                             }
                             .help {
                                 span {
-                                    background: url("/static/icons/first-aid-kit.png") center/cover no-repeat;
+                                    background: #474747 url("/static/icons/first-aid-kit.png") center/50% no-repeat;
                                 }
                             }
                             .about {
                                 span {
-                                    background: url("/static/icons/about.png") center/cover no-repeat;
+                                    background: #474747 url("/static/icons/question.png") center/50% no-repeat;
                                 }
                             }
                         }
@@ -1528,34 +1624,9 @@ h6 {
                     left: 50%;
                     transform: translateX(-50%);
                     padding: 0 15px;
-                    .soccial {
-                        display: flex;
-                        align-items: center;
-                        border-bottom: 1px solid #d4d4d4;
-                        padding: 0 0 20px 0;
-                        justify-content: center;
-                        gap: 30px;
-                        width: 100%;
-                        a {
-                            display: inline-block;
-                            width: clamp(9px, 5vw, 60px);
-                            height: clamp(9px, 5vw, 60px);
-                        }
-                        .facebook {
-                            background: url("/static/icons/facebook-white.png") center/cover no-repeat;
-                        }
-                        .instagram {
-                            background: url("/static/icons/instagram-white.png") center/cover no-repeat;
-                        }
-                        .twitter {
-                            background: url("/static/icons/twitter-white.png") center/cover no-repeat;
-                        }
-                        .youtube {
-                            background: url("/static/icons/youtube-white.png") center/cover no-repeat;
-                        }
-                    }
                     .footer-text {
                         margin-top: 30px;
+                        margin-left: 20%;
                         font-family: "Open Sans";
                         font-size: clamp(6px, 2.8vw, 12px);
                         color: #272727;

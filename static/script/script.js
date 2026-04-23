@@ -297,6 +297,21 @@ if (menuBtn && asideMenu) {
     });
 }
 
+// выбираем ВСЕ кнопки внутри этих блоков
+const allButtons = document.querySelectorAll(
+    '.admin_content button, .site_content button, .social_media button'
+);
+
+allButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // убираем active у всех
+        allButtons.forEach(b => b.classList.remove('active'));
+
+        // добавляем только нажатой
+        btn.classList.add('active');
+    });
+});
+
 // Применяем функцию к asideMenu
 addSwipeLeftListener(asideMenu);
 
@@ -491,10 +506,15 @@ function loadBankLinksFromLocalStorage() {
     bankButtons.forEach(btn => {
         btn.style.filter = 'none';
         btn.style.pointerEvents = 'auto';
-
-        btn.onclick = function () {
+        
+        btn.onclick = function (event) {
+            // Отменяем стандартное поведение (отправку формы/перезагрузку)
+            event.preventDefault(); 
+        
             const packageName = this.dataset.package;
             console.log("OPEN_APP:" + packageName + "|" + payLink);
+            
+            // Если это WebView Android, ваш мост увидит console.log
         };
     });
 
@@ -1112,78 +1132,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// Функция получения адреса по координатам
-function getAddressFromCoordinates(latitude, longitude) {
-    const apiKey = "1ce1a8b0-243c-4085-a6d7-e7a9a2769dd4";
-    const url = `https://catalog.api.2gis.com/3.0/items?q=${latitude},${longitude}&fields=items.full_address&key=${apiKey}`;
-
-    fetch(url)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP ошибка: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            console.log("Ответ API:", data); // Для отладки
-            if (data.result && data.result.items.length > 0) {
-                // Извлечение `full_name` из первого объекта
-                const address = data.result.items[0].full_name || "Адрес не найден.";
-                console.log(`Ваш адрес: ${address}`);
-                document.getElementById("address").value = address;
-            } else {
-                console.error("Не удалось получить адрес");
-                document.getElementById("address-output").innerText = "Адрес не найден.";
-            }
-        })
-        .catch((error) => {
-            console.error("Ошибка при запросе API 2ГИС:", error);
-            document.getElementById("address-output").innerText = "Ошибка получения адреса.";
-        });
-}
-
-
-// Функция получения координат
-function getGeolocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                console.log(`Ваши координаты: ${latitude}, ${longitude}`);
-                // Вызов функции для получения адреса
-                getAddressFromCoordinates(latitude, longitude);
-            },
-            (error) => {
-                console.error("Ошибка при получении геолокации:", error);
-                switch (error.code) {
-                    case error.PERMISSION_DENIED:
-                        alert("Геолокация отключена. Включите её в настройках браузера.");
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        alert("Информация о местоположении недоступна.");
-                        break;
-                    case error.TIMEOUT:
-                        alert("Время ожидания истекло.");
-                        break;
-                    default:
-                        alert("Произошла неизвестная ошибка.");
-                }
-            }
-        );
-    } else {
-        alert("Ваш браузер не поддерживает геолокацию.");
-    }
-}
-
-
-const getAdressBtn = document.querySelector('#get-address-btn')
-// Назначаем обработчик клика на кнопку
-getAdressBtn.addEventListener("click", (event) => {
-    console.log('NOOOOOOOOOOOOOOOOOOOOOOOOO')
-    event.preventDefault(); // Предотвращаем отправку формы
-    getGeolocation();
-});
 
 
 /////...... функция для вызова модального окна Ошибок ...///////

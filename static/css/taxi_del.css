@@ -153,6 +153,64 @@ h6 {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* Блок модального окна ошибки */
+.error-modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  transition: opacity 0.3s ease;
+}
+.error-modal .modal-content {
+  position: relative;
+  background-color: #fff;
+  margin: 80% auto;
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transform: scale(0.8);
+  opacity: 0;
+  transition: all 0.3s ease;
+  font-family: "Inter Tight", sans-serif;
+  text-align: center;
+}
+.error-modal .modal-content h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  color: #e74c3c;
+}
+.error-modal .modal-content p {
+  margin-top: 10px;
+  color: #333;
+  line-height: 1.4rem;
+  font-size: clamp(10px, 3.4vw, 16px);
+}
+.error-modal .modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #aaa;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.error-modal .modal-content .close:hover {
+  color: #000;
+}
+.error-modal.show .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
 .modal-content {
   background-color: #fff;
   margin: 15% auto;
@@ -175,7 +233,7 @@ h6 {
 
 .order_status {
   width: 100%;
-  height: 50%;
+  min-height: 45%;
   bottom: 0;
   left: 0;
   display: none;
@@ -187,26 +245,201 @@ h6 {
   transition: all 0.3s ease 0;
   -webkit-overflow-scrolling: touch;
 }
+.order_status .order_status_details {
+  padding: 10px 2.5% 10px 2.5%;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  background-color: #005dd1;
+  transition: all 0.3s ease 0s;
+}
+.order_status .order_status_details h3 {
+  font-family: "Nunito";
+  font-size: clamp(8px, 4vw, 20px);
+  color: #ffffff;
+  font-weight: 600;
+  margin: 0 auto;
+  margin-bottom: 3px;
+}
+.order_status .order_status_details .order_status_line {
+  width: 100%;
+  height: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.order_status .order_status_details .order_status_line .stat {
+  height: 100%;
+  background-color: #00aeff;
+  border-radius: 2px;
+}
+.order_status .order_status_details .order_status_line .stat1 {
+  width: 45%;
+}
+.order_status .order_status_details .order_status_line .stat2,
+.order_status .order_status_details .order_status_line .stat3,
+.order_status .order_status_details .order_status_line .stat4 {
+  width: 17%;
+}
+.order_status .order_status_details .order_status_line .on_way {
+  width: 45%;
+  background: #26b478;
+  background: linear-gradient(85deg, rgb(38, 180, 120) 0%, rgb(80, 186, 98) 50%, rgb(173, 209, 111) 100%);
+}
+.order_status .order_status_details .order_status_line .arrived {
+  width: 17%;
+  background: #add16f;
+  background: linear-gradient(85deg, rgb(173, 209, 111) 0%, rgb(187, 215, 3) 100%);
+}
+.order_status .order_status_details .order_status_line .in_progress {
+  width: 17%;
+  background: #bbd703;
+  background: linear-gradient(85deg, rgb(187, 215, 3) 0%, rgb(255, 247, 0) 100%);
+}
+.order_status .order_status_details .order_status_line .completed {
+  width: 17%;
+  background: #fff700;
+  background: linear-gradient(85deg, rgb(255, 247, 0) 0%, rgb(255, 166, 0) 100%);
+}
+.order_status .order_status_details .order_status_text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.order_status .order_status_details .order_status_text p {
+  font-family: "Nunito";
+  font-size: clamp(6px, 3.8vw, 16px);
+  color: #ffffff;
+  font-weight: 500;
+}
 .order_status .order_status_content {
   width: 95%;
-  height: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 20px 0px;
+  padding: 10px 0px 0px 0px;
   gap: 15px;
+  transition: all 0.3s ease 0s;
 }
 .order_status .order_status_content .driver_content {
   width: 100%;
-  height: 23vh;
   position: relative;
-  padding: 10px 5%;
-  background: url("/static/icons/car_wallpaper.jpg") top/cover no-repeat;
+  padding: 10px 0;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 15px;
+  transition: all 0.3s ease 0s;
+}
+.order_status .order_status_content .driver_content .driver_info {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  transition: all 0.3s ease 0s;
+}
+.order_status .order_status_content .driver_content .driver_info .driver_photo_container {
+  width: clamp(50px, 15vw, 60px);
+  height: clamp(50px, 15vw, 60px);
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid #383838;
+}
+.order_status .order_status_content .driver_content .driver_info .driver_photo_container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.order_status .order_status_content .driver_content .driver_info .driver_name_status_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  margin-left: 15px;
+}
+.order_status .order_status_content .driver_content .driver_info .driver_name_status_content .driver_name_text {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(12px, 3.5vw, 16px);
+  font-weight: 600;
+  color: rgba(43, 43, 43, 0.7411764706);
+}
+.order_status .order_status_content .driver_content .driver_info .driver_name_status_content #modal_driver_name {
+  font-family: "Nunito", sans-serif;
+  font-size: clamp(12px, 4.5vw, 20px);
+  font-weight: 700;
+  color: #141414;
+}
+.order_status .order_status_content .driver_content .driver_statistic {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 5px;
+  transition: all 0.3s ease 0s;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_full_orders, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting, .order_status .order_status_content .driver_content .driver_statistic .driver_activity {
+  width: 33%;
+  display: flex;
+  align-items: center;
+  height: clamp(20px, 11vw, 60px);
+  gap: 10px;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .ico, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .ico, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .ico {
+  width: clamp(20px, 9vw, 60px);
+  height: clamp(20px, 9vw, 60px);
+  border-radius: 50%;
+  overflow: hidden;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .full_orders_ico, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .full_orders_ico, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .full_orders_ico {
+  background: #161b22 url("/static/icons/road-trip.png") center/45% no-repeat;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .raiting_ico, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .raiting_ico, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .raiting_ico {
+  background: #161b22 url("/static/icons/star.png") center/45% no-repeat;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .activity_ico, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .activity_ico, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .activity_ico {
+  background: #161b22 url("/static/icons/activity.png") center/45% no-repeat;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .full_orders_content, .order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .raiting_content, .order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .activity_content, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .full_orders_content, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .raiting_content, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .activity_content, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .full_orders_content, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .raiting_content, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .activity_content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .full_orders_content .text, .order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .raiting_content .text, .order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .activity_content .text, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .full_orders_content .text, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .raiting_content .text, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .activity_content .text, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .full_orders_content .text, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .raiting_content .text, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .activity_content .text {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(12px, 3vw, 16px);
+  font-weight: 600;
+  color: rgba(43, 43, 43, 0.7411764706);
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .full_orders_content .info, .order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .raiting_content .info, .order_status .order_status_content .driver_content .driver_statistic .driver_full_orders .activity_content .info, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .full_orders_content .info, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .raiting_content .info, .order_status .order_status_content .driver_content .driver_statistic .driver_raiting .activity_content .info, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .full_orders_content .info, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .raiting_content .info, .order_status .order_status_content .driver_content .driver_statistic .driver_activity .activity_content .info {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(12px, 4vw, 17px);
+  font-weight: 600;
+  color: #141414;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_full_orders {
+  justify-content: flex-start;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_raiting {
+  justify-content: center;
+}
+.order_status .order_status_content .driver_content .driver_statistic .driver_activity {
+  justify-content: flex-end;
 }
 .order_status .order_status_content .driver_content #modal_order_number {
   text-align: left;
@@ -227,23 +460,6 @@ h6 {
   justify-content: flex-start;
   align-items: flex-start;
 }
-.order_status .order_status_content .driver_content .driver_photo_name .driver_photo_container {
-  width: clamp(50px, 15vw, 60px);
-  height: clamp(50px, 15vw, 60px);
-  position: relative;
-  overflow: hidden;
-  border-radius: 50%;
-  border: 2px solid #b3b3b3;
-}
-.order_status .order_status_content .driver_content .driver_photo_name .driver_photo_container img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
 .order_status .order_status_content .driver_content .driver_photo_name .driver_name_status_content {
   width: 60vw;
   height: clamp(50px, 15vw, 60px);
@@ -258,143 +474,117 @@ h6 {
   color: #fdfdfd;
   font-weight: 700;
 }
-.order_status .order_status_content .driver_content .driver_photo_name .driver_name_status_content #modal_driver_rating {
-  font-family: "Nunito";
-  font-size: clamp(6px, 4vw, 16px);
-  color: #ffffff;
-  font-weight: 500;
-  border-radius: 5px;
-}
-.order_status .order_status_content .driver_content .driver_photo_name .driver_name_status_content #modal_driver_rating::before {
-  content: "Рейтинг ";
-}
 .order_status .order_status_content .driver_content .driver_photo_name .driver_name_status_content #modal_status {
   font-family: "Nunito";
   font-size: clamp(6px, 4vw, 16px);
   color: #0ddb17;
   font-weight: 700;
 }
-.order_status .order_status_content .driver_content .car_content {
-  width: 100%;
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
-}
-.order_status .order_status_content .driver_content .car_content .car_info {
+.order_status .order_status_content .driver_content .driver_car {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
   gap: 10px;
+  margin-top: 10px;
 }
-.order_status .order_status_content .driver_content .car_content .car_info #modal_vehicle {
+.order_status .order_status_content .driver_content .driver_car .driver_car_content {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  background: #e7e7e7;
+  border-radius: 10px;
+}
+.order_status .order_status_content .driver_content .driver_car .driver_car_content .car_ico {
+  width: 35%;
+  padding: 0 0 20% 0;
+  background: url("/static/icons/driver_car.png") center/cover no-repeat;
+}
+.order_status .order_status_content .driver_content .driver_car .driver_car_content .car_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+.order_status .order_status_content .driver_content .driver_car .driver_car_content .car_info h3 {
+  font-family: "Nunito";
+  font-size: clamp(8px, 3.2vw, 16px);
+  color: #646464;
+  font-weight: 700;
+}
+.order_status .order_status_content .driver_content .driver_car .driver_car_content .car_info #modal_vehicle {
   white-space: nowrap;
   font-family: "Montserrat";
-  font-size: clamp(6px, 3.5vw, 16px);
-  color: #ffffff;
-  font-weight: 500;
+  font-size: clamp(6px, 3.4vw, 16px);
+  color: #030303;
+  font-weight: 600;
 }
-.order_status .order_status_content .driver_content .car_content .car_info #modal_number {
+.order_status .order_status_content .driver_content .driver_car .driver_car_content .car_info #modal_number {
   white-space: nowrap;
   font-family: "Nunito";
-  font-size: clamp(6px, 3.2vw, 16px);
-  color: #f7f7f7;
+  font-size: clamp(6px, 3vw, 16px);
+  color: #050505;
   font-weight: 600;
   padding: 5px 7px;
   border-radius: 5px;
-  border: 1px solid #fff;
+  border: 1px solid #080808;
 }
-.order_status .order_status_content .call_driver {
+.order_status .order_status_content .driver_content .customer_content {
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
 }
-.order_status .order_status_content .call_driver button {
-  width: 49%;
-  padding: 2em 2.7em 2em 2.7em;
-  position: relative;
-  font-family: "Nunito";
-  font-size: clamp(8px, 3.5vw, 16px);
-  border-radius: 12px;
-  background-color: #0e0e0e;
-  overflow: hidden;
-}
-.order_status .order_status_content .call_driver .tel_number::before {
-  content: "Позвонить";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  color: #ffffff;
-  font-family: "Nunito";
-  font-size: clamp(8px, 3.5vw, 16px);
-  z-index: 501;
-  transform: translate(-20%, -50%);
-}
-.order_status .order_status_content .call_driver .tel_number::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -25%;
-  width: 100%;
-  height: 100%;
-  background: #0e0e0e url("/static/icons/phone_driver.png") center/12% no-repeat;
-  z-index: 500;
-}
-.order_status .order_status_content .call_driver .whatsapp_number::after {
-  content: "";
-  position: absolute;
-  top: 0%;
-  left: -25%;
-  width: 100%;
-  height: 100%;
-  background: url("/static/icons/whatsapp_driver.png") center/15% no-repeat;
-}
-.order_status .order_status_content .call_driver .whatsapp_number::before {
-  content: "Whatsapp";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  color: #ffffff;
-  font-family: "Nunito";
-  font-size: clamp(8px, 3.5vw, 16px);
-  z-index: 501;
-  transform: translate(-20%, -50%);
-}
-.order_status .order_status_content .buttons_container {
-  width: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-.order_status .order_status_content .buttons_container button {
-  width: 33.3%;
-  padding: 1.2em 1.5em 1.2em 1.5em;
-  background-color: #0e0e0e;
-  font-family: "Nunito";
-  font-size: clamp(8px, 3.5vw, 16px);
+.order_status .order_status_content .driver_content .customer_content .customer_title {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(12px, 3vw, 16px);
   font-weight: 600;
-  color: #fff;
-  border: 1px solid transparent;
-  transition: all 0.3s ease;
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
+  color: rgba(43, 43, 43, 0.7411764706);
+  text-align: right;
 }
-.order_status .order_status_content .buttons_container button.button_active {
-  background-color: #ffc107;
-  color: #000;
+.order_status .order_status_content .driver_content .customer_content .customer_buttons {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
-.order_status .order_status_content .buttons_container .grade {
-  border-radius: 12px 0 0 12px;
+.order_status .order_status_content .driver_content .customer_content .customer_buttons button {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+  background-color: rgba(255, 255, 255, 0);
 }
-.order_status .order_status_content .buttons_container .complaint {
-  border-radius: 0 12px 12px 0;
+.order_status .order_status_content .driver_content .customer_content .customer_buttons button .icon {
+  width: 60%;
+  padding: 0 0 60% 0;
+  border-radius: 50%;
 }
-.order_status .order_status_content .tab_content {
-  display: none;
-  padding: 20px 0;
+.order_status .order_status_content .driver_content .customer_content .customer_buttons button .customer_pickup_icon {
+  background: #d4d4d4 url("/static/icons/starss.png") center/45% no-repeat;
 }
-.order_status .order_status_content .tab_content.tab_content_active {
-  display: block;
+.order_status .order_status_content .driver_content .customer_content .customer_buttons button .customer_destination_icon {
+  background: #d4d4d4 url("/static/icons/complain.png") center/45% no-repeat;
+}
+.order_status .order_status_content .driver_content .customer_content .customer_buttons button .customer_call_icon {
+  background: #d4d4d4 url("/static/icons/telephone-call.png") center/45% no-repeat;
+}
+.order_status .order_status_content .driver_content .customer_content .customer_buttons button .customer_whatsapp_icon {
+  background: #d4d4d4 url("/static/icons/whatsapp-1.png") center/45% no-repeat;
+}
+.order_status .order_status_content .driver_content .customer_content .customer_buttons button .text {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(12px, 3vw, 16px);
+  font-weight: 600;
+  color: rgba(20, 20, 20, 0.9098039216);
 }
 .order_status .order_status_content .finish_order_btn,
 .order_status .order_status_content .cancell_order_btn {
@@ -408,25 +598,31 @@ h6 {
   justify-content: center;
   border-radius: 15px;
   margin: 0 auto;
+  margin-top: 15px;
+  transition: all 0.3s ease 0s;
 }
 .order_status .order_status_content .finish_order_btn {
   background-color: #1dac1d;
   height: clamp(25px, 13vw, 60px);
+  margin-top: -15px;
+  margin-bottom: 20px;
 }
 .order_status .order_status_content .cancell_order_btn_active {
   background-color: #be1d1d;
   display: flex;
   height: clamp(25px, 13vw, 60px);
+  margin-top: -15px;
+  margin-bottom: 20px;
 }
 .order_status .order_status_content .accordion {
-  display: none;
   width: 100%;
   border-radius: 12px;
   overflow: hidden;
-  background: #0e0e0e;
+  background: #ffffff;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
   -webkit-tap-highlight-color: transparent;
   outline: none;
+  transition: all 0.3s ease 0s;
 }
 .order_status .order_status_content .accordion .accordion-item {
   border-bottom: 1px solid #eee;
@@ -443,14 +639,14 @@ h6 {
   align-items: center;
   padding: 1.2em 1.5em 1.2em 1.5em;
   cursor: pointer;
-  background: #0e0e0e;
+  background: #f5f5f5;
   transition: background 0.3s ease;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
 }
 .order_status .order_status_content .accordion .accordion-item .accordion-header:hover {
-  background: #0e0e0e;
+  background: #f5f5f5;
 }
 .order_status .order_status_content .accordion .accordion-item .accordion-header h3 {
   font-family: "Nunito";
@@ -458,7 +654,7 @@ h6 {
   font-weight: 600;
   text-align: left;
   margin: 0;
-  color: #f8f8f8;
+  color: #0e0e0e;
   font-weight: 500;
 }
 .order_status .order_status_content .accordion .accordion-item .accordion-header .arrow {
@@ -471,7 +667,7 @@ h6 {
   width: 100%;
   max-height: 0;
   overflow: hidden;
-  background: #0e0e0e;
+  background: #f5f5f5;
   transition: max-height 0.4s ease, padding 0.3s ease;
   padding: 0 0;
 }
@@ -505,7 +701,7 @@ h6 {
   background-color: #0e0e0e;
 }
 .order_status .order_status_content .accordion .accordion-item .accordion-content .payment_buttons p {
-  color: #f8f8f8;
+  color: #0c0c0c;
   font-family: "Inter Tight", sans-serif;
   font-size: clamp(10px, 3.6vw, 20px);
 }
@@ -605,26 +801,43 @@ h6 {
   display: flex;
   flex-direction: column;
   position: fixed;
-  justify-content: center;
+  justify-content: flex-start;
   z-index: 9998;
 }
 
 .taxi_drivers {
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  transform: translate(-50%, -50%) rotate(0deg);
   z-index: 356;
-  width: 30px;
+  width: 45px;
+  height: 45px;
+  background: #000;
+  padding: 5px;
+  position: relative;
+  border-radius: 10px;
+  border: 3px solid #fff;
 }
 .taxi_drivers img {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
+  width: 80%;
+  height: 80%;
   -o-object-fit: cover;
      object-fit: cover;
+  z-index: 357;
+}
+.taxi_drivers .driver_title {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -170%);
+  white-space: nowrap;
+  font-family: "Nunito";
+  font-weight: 600;
+  color: rgb(31, 31, 31);
+  background-color: #fff;
+  padding: 5px 7px;
+  border-radius: 5px;
 }
 
 .start_marker,

@@ -37,48 +37,96 @@
     <div id="preloader">
         <div class="loader"></div>
     </div>
+    <!-- Модальное окно ошибки -->
+    <div id="errorModal" class="error-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Ошибка</h2>
+            <p id="modalMessage">Текст ошибки или предупреждения</p>
+        </div>
+    </div>
     <div class="order_status">
         <input style="display: none;" id="modal_driver_bank" type="text" value="">
         <input style="display: none;" id="modal_phone" type="text" value="">
+        <div class="order_status_details">
+            <h3 id="status_tite">Текущий заказ.</h3>
+            <div class="order_status_line">
+                <div class="stat stat1 on_way"></div>
+                <div class="stat stat2"></div>
+                <div class="stat stat3 "></div>
+                <div class="stat stat4"></div>
+            </div>
+            <div class="order_status_text">
+                <p id="modal_status">Машина еде к вам</p>
+                <p class="time">3 мин</p>
+            </div>
+        </div>
         <div class="order_status_content">
             <div class="driver_content">
-                <p id="modal_order_number"></p>
-                <div class="driver_photo_name">
+                <div class="driver_info" style="display: none;">
                     <div class="driver_photo_container">
                         <img src="" id="modal_driver_photo" alt="Фото водителя">
                     </div>
                     <div class="driver_name_status_content">
                         <p id="modal_driver_name"></p>
-                        <p class="" id="modal_driver_rating"></p>
-                        <p id="modal_status"></p>
+                        <!-- <p class="driver_name_text">Ваш водитель</p> -->
                     </div>
                 </div>
-                <div class="car_content">
-                    <div class="car_info">
-                        <p id="modal_vehicle"></p>
-                        <p id="modal_number"></p>
+                <div class="driver_statistic" style="display: none;">
+                    <div class="driver_full_orders">
+                        <div class="ico full_orders_ico"></div>
+                        <div class="full_orders_content">
+                            <p class="text">Заказы</p>
+                            <p class="info">112</p>
+                        </div>
+                    </div>
+                    <div class="driver_raiting">
+                        <div class="ico raiting_ico"></div>
+                        <div class="raiting_content">
+                            <p class="text">Рейтинг</p>
+                            <p class="info" id="modal_driver_rating"></p>
+                        </div>
+                    </div>
+                    <div class="driver_activity">
+                        <div class="ico activity_ico"></div>
+                        <div class="activity_content">
+                            <p class="text">Реакция</p>
+                            <p class="info">90</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="driver_car">
+                    <div class="driver_car_content">
+                        <div class="car_ico"></div>
+                        <div class="car_info">
+                            <!-- <h3>Машина:</h3> -->
+                            <p id="modal_vehicle"></p>
+                            <p id="modal_number"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="customer_content">
+                    <div class="customer_buttons">
+                        <button class="customer_call tel_number">
+                            <div class="icon customer_call_icon"></div>
+                            <p class="text">Позвонить</p>
+                        </button>
+                        <button class="customer_whatsapp whatsapp_number">
+                            <div class="icon customer_whatsapp_icon"></div>
+                            <p class="text">Написать</p>
+                        </button>
+                        <button class="customer_pickup_address">
+                            <div class="icon customer_pickup_icon"></div>
+                            <p class="text">Оценка</p>
+                        </button>
+                        <button class="customer_destination_address">
+                            <div class="icon customer_destination_icon"></div>
+                            <p class="text">Жалоба</p>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="buttons_container">
-                <button class="grade button_active" data-target="content_grade">Оценка</button>
-                <button class="review" data-target="content_review">Отзыв</button>
-                <button class="complaint" data-target="content_complaint">Жалоба</button>
-            </div>
-
-            <div id="content_grade" class="tab_content">
-                <p>Поставьте оценку водителю</p>
-            </div>
-
-            <div id="content_review" class="tab_content">
-                <textarea placeholder="Напишите ваш отзыв..."></textarea>
-            </div>
-
-            <div id="content_complaint" class="tab_content">
-                <p>Выберите причину жалобы</p>
-            </div>
-
-            <div class="accordion">
+            <div class="accordion" style="display: none;">
                 <div class="accordion-item">
                     <input type="checkbox" id="acc1">
                     <label class="accordion-header" for="acc1">
@@ -134,11 +182,7 @@
                     <p class="bank_name">Abank</p>
                 </button>
             </div>
-            <div class="call_driver">
-                <button class="tel_number"></button>
-                <button class="whatsapp_number"></button>
-            </div>
-            <button class="finish_order_btn" style="display: none;">Закрыть заказ.</button>
+            <button class="finish_order_btn" style="display: none;">Завершить заказ.</button>
             <button class="cancell_order_btn cancell_order_btn_active">Отменить заказ.</button>
         </div>
     </div>
@@ -157,10 +201,6 @@
                 </div>
                 <div class="line"></div>
             </div>
-            <!-- <div class="marker">
-                <div class="location_marker" style="opacity: 0%;"></div>
-            </div> -->
-            <!-- <div class="search-wave"></div> -->
         </div>
         <div class="destination">
             <button class="back_btn2" id="back_btn2"  type="button">
@@ -181,7 +221,7 @@
                         <img src="/static/icons/right-arrow.png" alt="" class="right_arrow">
                     </div>
                 </div>
-                <button class="ok_destination">Готово</button>
+                <button class="ok_destination" disabled>Готово</button>
             </div>
         </div>
         <div class="order_taxi">
@@ -335,7 +375,7 @@
                 </div>
             </div>
             <button class="order_taxi_go">Заказать</button>
-            <button class="order_taxi_cancel" style="display: none;">Отменить</button>
+            <button class="order_taxi_cancel" style="display: none;" disabled>Отменить</button>
             <!-- <button id="open2GisButton">Открыть маршрут в 2ГИС</button> -->
         </div>
     </div>
@@ -376,7 +416,123 @@
         // });
     </script>
     <script src="/static/script/taxi.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
 
+    let startY = 0;
+    let currentHeight = 45;
+
+    const container = document.querySelector(".order_status");
+
+    const driverInfo = document.querySelector(".driver_info");
+    const driverStats = document.querySelector(".driver_statistic");
+    const accordion = document.querySelector(".accordion");
+    const banksLinks = document.querySelector('.banks_link')
+
+    const minHeight = 45;
+    const maxHeight = 90;
+
+    function updateContent(height) {
+        if (height >= 50) {
+            driverInfo.style.display = "flex";
+            driverStats.style.display = "flex";
+            accordion.style.display = "block";
+        } else {
+            driverInfo.style.display = "none";
+            driverStats.style.display = "none";
+            accordion.style.display = "none";
+            banksLinks.classList.remove("active")
+        }
+    }
+
+    // 📱 START
+    container.addEventListener("touchstart", function (e) {
+        startY = e.touches[0].clientY;
+    });
+
+    // 📱 MOVE
+    container.addEventListener("touchmove", function (e) {
+        const currentY = e.touches[0].clientY;
+        const diffY = startY - currentY;
+
+        let newHeight = currentHeight + diffY * 0.1;
+        newHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+
+        container.style.height = newHeight + "vh";
+        updateContent(newHeight);
+    });
+
+    // 📱 END (логика открытия/закрытия)
+    container.addEventListener("touchend", function () {
+        let height = parseFloat(container.style.height);
+
+        // 🔥 если сейчас закрыто (45) → открываем при >50
+        if (currentHeight === minHeight) {
+            if (height > 50) {
+                currentHeight = maxHeight;
+            } else {
+                currentHeight = minHeight;
+            }
+        }
+        // 🔥 если сейчас открыто (90) → закрываем если <80
+        else {
+            if (height < 80) {
+                currentHeight = minHeight;
+            } else {
+                currentHeight = maxHeight;
+            }
+        }
+
+        container.style.height = currentHeight + "vh";
+        updateContent(currentHeight);
+    });
+
+    // 🖱️ МЫШКА
+    let isDragging = false;
+
+    container.addEventListener("mousedown", function (e) {
+        isDragging = true;
+        startY = e.clientY;
+    });
+
+    container.addEventListener("mousemove", function (e) {
+        if (!isDragging) return;
+
+        const diffY = startY - e.clientY;
+
+        let newHeight = currentHeight + diffY * 0.1;
+        newHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+
+        container.style.height = newHeight + "vh";
+        updateContent(newHeight);
+    });
+
+    container.addEventListener("mouseup", function () {
+        if (!isDragging) return;
+        isDragging = false;
+
+        let height = parseFloat(container.style.height);
+
+        if (currentHeight === minHeight) {
+            if (height > 50) {
+                currentHeight = maxHeight;
+            } else {
+                currentHeight = minHeight;
+            }
+        } else {
+            if (height < 80) {
+                currentHeight = minHeight;
+            } else {
+                currentHeight = maxHeight;
+            }
+        }
+
+        container.style.height = currentHeight + "vh";
+        updateContent(currentHeight);
+    });
+
+});
+</script>
 </body>
 
 </html>

@@ -197,6 +197,7 @@ class OrderStatusView(APIView):
             if order.driver:
                 driver_profile = order.driver
                 driver_user = driver_profile.user
+                print(driver_user.user_name)
 
                 # Обработка фото
                 if driver_user.user_logo:
@@ -207,13 +208,15 @@ class OrderStatusView(APIView):
                 # Обновляем словарь данными водителя
                 response_data.update({
                     "bank_link": driver_profile.bank_link,  # Теперь это безопасно
-                    "driver_name": driver_user.get_full_name() or driver_user.username,
+                    "driver_name": driver_user.get_full_name() or driver_user.user_name,
                     "driver_photo": photo_url,
                     "rating": str(driver_profile.rating),
                     "vehicle_model": driver_profile.vehicle_model,
                     "vehicle_number": driver_profile.vehicle_number,
                     "vehicle_color": driver_profile.vehicle_color,
                     "phone": driver_profile.phone,
+                    "latitude": driver_profile.latitude,
+                    "longitude": driver_profile.longitude,
                 })
 
             return Response(response_data)
